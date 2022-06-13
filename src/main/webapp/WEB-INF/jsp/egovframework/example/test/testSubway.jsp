@@ -13,11 +13,52 @@
 <h1>보령관광 json Data 실험</h1>
 <hr/>
 <script>
-var selectbox = document.frm.selectThema;
-console.log(selectbo.value);
+var searchValue="";
+
+function search(form){
+	console.log(form.selectThema.value);
+	searchValue = form.selectThema.value;
+	
+	let obj = {
+			searchValue: searchValue
+	};
+	
+	$.ajax({ 
+		url :'infoUrl.do',
+	    dataType:"json",
+	    data : obj,
+	    success: function(data){ 
+	    	console.log("s"); 
+	    },
+	    error: function(data) {
+	    	console.log("e"); 
+	    }
+	});
+}
+
+function testfun() {
+	let obj = {
+			name: "ss",
+			ggg:"aa"
+	};
+	
+	$.ajax({ 
+		url :'testcall.do',
+	    dataType:"json",
+	    data : obj,
+	    success: function(data){ 
+	    	console.log("s"); 
+	    },
+	    error: function(data) {
+	    	console.log("e"); 
+	    }
+	});
+}
+
 
 </script>
-<form name="frm" style="margin-top:50px; margin-left:70%; margin-bottom:50px;">
+<button id="testbtn" onclick="testfun()">btn</button>
+<form name="frm" style="margin-top:50px; margin-left:70%; margin-bottom:50px;"  onchange="return search(this)">
 	테마에 따른 관광지 검색
 	<select name="selectThema" id ="selectThema">	
 		<option value = "">선택</option>	

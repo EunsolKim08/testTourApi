@@ -3,15 +3,26 @@ package egovframework.example.sample.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -28,16 +39,53 @@ public class testController {
 		return mv;
 	}
 	
-	public void getTourService() throws Exception {
-		/*api 불러오기 설정*/
-		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/4510000/GetTourService/getTourInfo"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") 
-        + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("pageIndex","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
-        urlBuilder.append("&" + URLEncoder.encode("firstIndex","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
-        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default : XML*/
-        urlBuilder.append("&" + URLEncoder.encode("themecode","UTF-8") + "=" + URLEncoder.encode("1064", "UTF-8")); /*1064 : 섬 1065 : 해수욕장 1066 : 항구 1067 : 산/계곡 1068 : 호수 1069 : 축제 1070 : 체험/마을 1071 : 휴양/공원 1072 : 박물관 1073 : 보물/사적 1074 : 천연기념물 1075 : 유/무형문화재 1076 : 기념물/민속자료 1077 : 문화재자료*/
-     
+	@RequestMapping("/infoUrl.do")
+	@ResponseBody
+	public String searchTourInfo(String searchValue) {
+		
+		System.out.println("infoUrl.do");
+		System.out.println(searchValue);
+		String info="";
+		try {
+			info = getInfoService();
+			System.out.println("\n****************");
+			System.out.println("string info: "+info);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return info;
+	}
+	
+	@RequestMapping("/testcall.do")
+	@ResponseBody
+	public String testcall(String name, String ggg) {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		HashMap<String, String> hmap = new HashMap<String, String>();
+		hmap.put("id", "edsk");
+		hmap.put("company", "korea");
+		
+		String json = null;
+		try {
+			json = mapper.writeValueAsString(hmap);
+		} catch (JsonProcessingException e) {
+			System.out.println(">> JsonProcessingException" + e.getLocalizedMessage());
+		}
+		
+		return json;
+	}
+	
+	public String getInfoService() throws Exception {
+	  
+	    StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("desc_kor","UTF-8") + "=" + URLEncoder.encode("라면", "UTF-8")); /*식품이름*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("3", "UTF-8")); /*한 페이지 결과 수*/
+        urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
+         
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -57,8 +105,13 @@ public class testController {
         rd.close();
         conn.disconnect();
         System.out.println(sb.toString());
-		
-	}
+        
+        String result = sb.toString();       
+        
+        return result;
+    }
+	
+	
 	
 	
 
