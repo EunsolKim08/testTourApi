@@ -6,6 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+<script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
 <meta charset="UTF-8">
 <title>식품_영양성분_DB서비스</title>
 </head>
@@ -68,15 +69,21 @@
 		});
 	}
 	
-	
+	function onKeyUp(e){
+	    if (e.keyCode == 13){
+	    	// e.preventDefault();
+	    	return document.frm.foodName.focus();
+	    }
+	}
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
 	<div>
-		<form name="frm" id="frm" style="margin-top:50px; margin-left:60%; margin-bottom:50px;">
+		<form name="frm" id="frm" style="margin-top:50px; margin-left:60%; margin-bottom:50px;" onsubmit="return false">
 			<div id ="foodBox" style="font-size:20px;">
 			식품명
-			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"/>
-			<button type="button" id="testbtn" onclick="search()" 
+			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"
+			onkeydown="onKeyUp(e)"/>
+			<button type="button" id="searchNutirent" name="searchNutirent" onclick="search()" 
 				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">검색하기</button>
 			</div>
 		</form>
@@ -86,10 +93,12 @@
 	<br/>
 	
 	<br>
+	
 	<div id="grid"></div>
 	<script>
 	 var grid = new tui.Grid({
  		  el: document.getElementById('grid'),
+ 		  pagination:true,
  		  columns: [
  		    {
  		      header: '식품이름',
@@ -116,8 +125,34 @@
  			      name: 'NUTR_CONT4'
  			 }
  			]
- 	})
+
+ 	});
+	 var pagination = grid.getPagination();
+	 const currentPage = pagination.getCurrentPage();
+	 
+	 const appendBtn = document.getElementById('appendBtn');
+	 const prependBtn = document.getElementById('prependBtn');
+
+	    const appendedData = {
+	      name: 'Music',
+	      artist: 'Lee',
+	      type: 'Deluxe',
+	      release: '2019.09.09',
+	      genre: 'Pop'
+	    };
+
+	    appendBtn.addEventListener('click', () => {
+	      grid.appendRow(appendedData);
+	    });
+
+	    prependBtn.addEventListener('click', () => {
+	      grid.prependRow(appendedData);
+	    });
 	</script>
 </div>
+	<div class="btn-wrapper">
+        <button id="appendBtn">appendBtn</button>
+        <button id="prependBtn">prependBtn</button>
+      </div>
 </body>
 </html>
