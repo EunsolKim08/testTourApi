@@ -29,12 +29,12 @@ import java.io.IOException;
 @Controller
 public class testController {
 	
-	@RequestMapping(value = "/testSubway.do")
-	public ModelAndView testSubway() {
+	@RequestMapping(value = "/testNutrient.do")
+	public ModelAndView testNutrient() {
 		
 		/*페이지 설정*/
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("test/testSubway");
+		mv.setViewName("test/testNutrient");
 		
 		return mv;
 	}
