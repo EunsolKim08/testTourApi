@@ -75,8 +75,26 @@
 	    	return document.frm.foodName.focus();
 	    }
 	}
+	
+	function apiTest2(){
+		$.ajax({ 
+			url :'jsonParsing.do',
+		    dataType:"json",
+		    success: function(data){ 
+		    	//item = data.body.items;
+		    	//console.log(data.body.items);
+		        //console.log(item);
+		        //grid.resetData(item);
+		    	console.log("parsingS");    
+		    },
+		    error: function(data) {
+		    	console.log("parsingE"); 
+		    }
+		});
+	}
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
+	 <button type="button" id="testBtn2" onclick="apiTest2()">apiTest2</button>
 	<div>
 		<form name="frm" id="frm" style="margin-top:50px; margin-left:60%; margin-bottom:50px;" onsubmit="return false">
 			<div id ="foodBox" style="font-size:20px;">

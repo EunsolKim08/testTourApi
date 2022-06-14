@@ -3,6 +3,7 @@ package egovframework.example.sample.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -110,26 +112,52 @@ public class testController {
         
         return result;
     }
+	
 	/*java로 json Parsing 도전해보기*/
-	public String jsonParsing(String parseLine) {
-		String result="";
+	@RequestMapping("/jsonParsing.do")
+	@ResponseBody
+	public JSONObject jsonParsing() throws UnsupportedEncodingException, IOException, ParseException {
+		String result="1";
+		String foodName ="초콜릿";
+		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
+	    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
+	    urlBuilder.append("&" + URLEncoder.encode("desc_kor","UTF-8") + "=" + URLEncoder.encode("초콜릿", "UTF-8")); /*식품이름*/
+	    urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+	    // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
+	    urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
+	         
+	     URL url = new URL(urlBuilder.toString());
+	     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	     conn.setRequestMethod("GET");
+	     conn.setRequestProperty("Content-type", "application/json");
+	     System.out.println("Response code: " + conn.getResponseCode());
+	     BufferedReader rd;
+	      if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	          rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	      } else {
+	          rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+	      }
+	      StringBuilder sb = new StringBuilder();
+	      String line;
+	      while ((line = rd.readLine()) != null) {
+	          sb.append(line);
+	      }
 		
-		System.out.println("parse 메소드 출력1");
-		JSONParser parser = new JSONParser();
-		System.out.println("parse 메소드 출력2");
-		JSONObject obj = null;
+		result = sb.toString();
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
+		JSONObject body = (JSONObject)jsonObject.get("body");
+		JSONArray items = (JSONArray)body.get("items");
 		
-		try {
-			obj = (JSONObject)parser.parse(parseLine);
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("parse obj 변환중 에러");
+		JSONObject jsonObj=null ;
+	
+		for(int i = 0; i<items.size();i++) {
+			jsonObj = (JSONObject)items.get(i);
+			System.out.println((String)jsonObj.get("DESC_KOR"));
 		}
+		//JSONObject items = (JSONObject)body.get("items");
 		
-		System.out.println(obj);
-		System.out.println(obj.get("body"));
-		
-		return result;
+		return jsonObj;
 	}
 	
 	
