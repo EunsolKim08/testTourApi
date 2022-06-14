@@ -2,10 +2,9 @@ package egovframework.example.sample.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -111,6 +111,26 @@ public class testController {
         return result;
     }
 	
+	public String jsonParsing(String parseLine) {
+		String result="";
+		
+		System.out.println("parse 메소드 출력1");
+		JSONParser parser = new JSONParser();
+		System.out.println("parse 메소드 출력2");
+		JSONObject obj = null;
+		
+		try {
+			obj = (JSONObject)parser.parse(parseLine);
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("parse obj 변환중 에러");
+		}
+		
+		System.out.println(obj);
+		System.out.println(obj.get("body"));
+		
+		return result;
+	}
 	
 	
 	

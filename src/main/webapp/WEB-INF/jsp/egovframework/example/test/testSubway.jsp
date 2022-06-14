@@ -14,7 +14,7 @@
 <hr/>
 <script>
 var searchValue="";
-
+var item = "";
 function search(form){
 	console.log(form.selectThema.value);
 	searchValue = form.selectThema.value;
@@ -28,10 +28,42 @@ function search(form){
 	    dataType:"json",
 	    data : obj,
 	    success: function(data){ 
-	    	console.log("s"); 
+	    	console.log("infoS"); 
+	    	console.log(data);
+	    	console.log(data.body);
+	    	console.log(data.body.items);
+	    	item = data.body.items;
+	    	
+	        console.log(item);
+	        const grid2 = new tui.Grid({
+	  		  el: document.getElementById('grid2'),
+	  		  data: item,
+	  		  columns: [
+	  		    {
+	  		      header: 'DESC_KOR',
+	  		      name: 'DESC_KOR'
+	  		    },
+	  		    {
+	  			      header: 'SERVING_WT',
+	  			      name: 'SERVING_WT'
+	  			},
+	  			 {
+	  			      header: 'NUTR_CONT1',
+	  			      name: 'NUTR_CONT1'
+	  			 },
+	  			 {
+	  			      header: 'NUTR_CONT2',
+	  			      name: 'NUTR_CONT2'
+	  			 },
+	  			 {
+	  			      header: 'NUTR_CON3',
+	  			      name: 'NUTR_CONT3'
+	  			 }
+	  			]
+	  	})
 	    },
 	    error: function(data) {
-	    	console.log("e"); 
+	    	console.log("infoE"); 
 	    }
 	});
 }
@@ -116,5 +148,6 @@ function testfun() {
 
 		grid.resetData(arrData);
 	</script>
+<div id="grid2"></div>
 </body>
 </html>
