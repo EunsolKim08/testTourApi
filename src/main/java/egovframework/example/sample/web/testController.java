@@ -43,13 +43,13 @@ public class testController {
 	@ResponseBody
 	public String searchTourInfo(String searchValue) {
 		
-		System.out.println("infoUrl.do");
-		System.out.println(searchValue);
+		//System.out.println("infoUrl.do");
+		//System.out.println(searchValue);
 		String info="";
 		try {
 			info = getInfoService(searchValue);
-			System.out.println("\n****************");
-			System.out.println("string info: "+info);
+			//System.out.println("\n****************");
+			//System.out.println("string info: "+info);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,7 +110,7 @@ public class testController {
         
         return result;
     }
-	
+	/*java로 json Parsing 도전해보기*/
 	public String jsonParsing(String parseLine) {
 		String result="";
 		

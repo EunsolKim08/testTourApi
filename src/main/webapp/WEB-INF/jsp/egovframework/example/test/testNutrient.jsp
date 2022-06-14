@@ -21,7 +21,13 @@
 		formName = document.frm.foodName.value;
 		console.log(formName);
 		
-		searchValue=formName;
+		searchValue = formName;
+		
+		if(searchValue ==  ""){
+			alert("영양정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
+			return document.frm.foodName.focus();
+		}
+		
 		let obj = {
 				searchValue: searchValue
 		};
@@ -31,13 +37,9 @@
 		    dataType:"json",
 		    data : obj,
 		    success: function(data){ 
-		    	console.log("infoS"); 
-		    	console.log(data);
-		    	console.log(data.body);
-		    	console.log(data.body.items);
 		    	item = data.body.items;
-		    	
-		        console.log(item);
+		    	//console.log(data.body.items);
+		        //console.log(item);
 		        grid.resetData(item);
 			       
 		    },
@@ -69,11 +71,16 @@
 	
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
-	<form name="frm" id="frm" style="margin-top:50px; margin-left:50%; margin-bottom:50px;">
-		식품명으로 검색하기
-		<input type="text" name="foodName" id="foodName"/>
-		<button type="button" id="testbtn" onclick="search()">검색하기 버튼</button>
-	</form>
+	<div>
+		<form name="frm" id="frm" style="margin-top:50px; margin-left:60%; margin-bottom:50px;">
+			<div id ="foodBox" style="font-size:20px;">
+			식품명
+			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"/>
+			<button type="button" id="testbtn" onclick="search()" 
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">검색하기</button>
+			</div>
+		</form>
+	</div>
 	<br/><hr/>
 	<br/>
 	<br/>
