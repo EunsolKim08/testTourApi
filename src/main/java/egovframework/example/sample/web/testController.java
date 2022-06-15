@@ -116,7 +116,8 @@ public class testController {
 	/*java로 json Parsing 도전해보기*/
 	@RequestMapping("/jsonParsing.do")
 	@ResponseBody
-	public JSONObject jsonParsing() throws UnsupportedEncodingException, IOException, ParseException {
+	public String jsonParsing() throws UnsupportedEncodingException, IOException, ParseException {
+		ObjectMapper mapper = new ObjectMapper();
 		String result="1";
 		String foodName ="초콜릿";
 		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
@@ -138,26 +139,28 @@ public class testController {
 	          rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
 	      }
 	      StringBuilder sb = new StringBuilder();
+	  	System.out.println("1");
 	      String line;
 	      while ((line = rd.readLine()) != null) {
 	          sb.append(line);
 	      }
-		
+		System.out.println("2");
 		result = sb.toString();
+		System.out.println(result);
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
 		JSONObject body = (JSONObject)jsonObject.get("body");
 		JSONArray items = (JSONArray)body.get("items");
-		
 		JSONObject jsonObj=null ;
-	
+		
 		for(int i = 0; i<items.size();i++) {
 			jsonObj = (JSONObject)items.get(i);
 			System.out.println((String)jsonObj.get("DESC_KOR"));
 		}
-		//JSONObject items = (JSONObject)body.get("items");
+		System.out.println(body);
 		
-		return jsonObj;
+		//그냥 jsonArray값인 return itmes라고하면 error가 뜸과함께 정상적인 items의 값이 return되지 않는다.
+		return items.toJSONString();
 	}
 	
 	

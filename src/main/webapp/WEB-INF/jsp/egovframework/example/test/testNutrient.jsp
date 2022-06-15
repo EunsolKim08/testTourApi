@@ -75,32 +75,30 @@
 	    	return document.frm.foodName.focus();
 	    }
 	}
-	
-	function apiTest2(){
+	function apiTest2() {
 		$.ajax({ 
 			url :'jsonParsing.do',
 		    dataType:"json",
 		    success: function(data){ 
-		    	//item = data.body.items;
-		    	//console.log(data.body.items);
-		        //console.log(item);
-		        //grid.resetData(item);
-		    	console.log("parsingS");    
+		    	console.log("s"); 
+		    	console.log(data);
 		    },
 		    error: function(data) {
-		    	console.log("parsingE"); 
+		    	console.log("e"); 
+		    	//console.log(data.items);
 		    }
 		});
 	}
+	
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
 	 <button type="button" id="testBtn2" onclick="apiTest2()">apiTest2</button>
 	<div>
-		<form name="frm" id="frm" style="margin-top:50px; margin-left:60%; margin-bottom:50px;" onsubmit="return false">
+		<form name="frm" id="frm" style="margin-top:50px; margin-left:60%; margin-bottom:50px;">
 			<div id ="foodBox" style="font-size:20px;">
 			식품명
 			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"
-			onkeydown="onKeyUp(e)"/>
+			/>
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="search()" 
 				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">검색하기</button>
 			</div>
@@ -145,32 +143,9 @@
  			]
 
  	});
-	 var pagination = grid.getPagination();
-	 const currentPage = pagination.getCurrentPage();
-	 
-	 const appendBtn = document.getElementById('appendBtn');
-	 const prependBtn = document.getElementById('prependBtn');
-
-	    const appendedData = {
-	      name: 'Music',
-	      artist: 'Lee',
-	      type: 'Deluxe',
-	      release: '2019.09.09',
-	      genre: 'Pop'
-	    };
-
-	    appendBtn.addEventListener('click', () => {
-	      grid.appendRow(appendedData);
-	    });
-
-	    prependBtn.addEventListener('click', () => {
-	      grid.prependRow(appendedData);
-	    });
+	
 	</script>
 </div>
-	<div class="btn-wrapper">
-        <button id="appendBtn">appendBtn</button>
-        <button id="prependBtn">prependBtn</button>
-      </div>
+	
 </body>
 </html>
