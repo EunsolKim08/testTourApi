@@ -118,27 +118,35 @@
  		  columns: [
  		    {
  		      header: '식품이름',
- 		      name: 'DESC_KOR'
+ 		      name: 'DESC_KOR' 		      
  		    },
  		    {
  			      header: '1회제공량 (g)',
- 			      name: 'SERVING_WT'
+ 			      name: 'SERVING_WT',
  			},
  			 {
  			      header: '열량 (kcal)',
- 			      name: 'NUTR_CONT1'
+ 			      name: 'NUTR_CONT1',
+ 			      sortable: true,
+ 			      sortingType: 'asc'
  			 },
  			 {
  			      header: '탄수화물 (g)',
- 			      name: 'NUTR_CONT2'
+ 			      name: 'NUTR_CONT2',
+ 			     sortable: true,
+ 			      sortingType: 'asc'
  			 },
  			 {
  			      header: '단백질 (g)',
- 			      name: 'NUTR_CONT3'
+ 			      name: 'NUTR_CONT3',
+ 			     sortable: true,
+ 			      sortingType: 'asc'
  			 },
  			 {
  			      header: '지방 (g)',
- 			      name: 'NUTR_CONT4'
+ 			      name: 'NUTR_CONT4',
+ 			     sortable: true,
+ 			      sortingType: 'asc'
  			 }
  			]
 
