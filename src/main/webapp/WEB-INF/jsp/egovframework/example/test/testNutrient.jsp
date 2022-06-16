@@ -89,10 +89,25 @@
 		    }
 		});
 	}
+	function apiTest3() {
+		$.ajax({ 
+			url :'mapJsonParsing3.do',
+		    dataType:"json",
+		    success: function(data){ 
+		    	console.log("ms"); 
+		    	console.log(data);
+		    },
+		    error: function(data) {
+		    	console.log("me"); 
+		    	//console.log(data.items);
+		    }
+		});
+	}
 	
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
 	 <button type="button" id="testBtn2" onclick="apiTest2()">apiTest2</button>
+	 <button type="button" id="testBtn2" onclick="apiTest3()">apiTest3</button>
 	<div>
 		<form name="frm" id="frm" style="margin-top:50px; margin-left:60%; margin-bottom:50px;">
 			<div id ="foodBox" style="font-size:20px;">
