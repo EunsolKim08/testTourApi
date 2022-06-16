@@ -28,21 +28,16 @@
 			alert("영양정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
 			return document.frm.foodName.focus();
 		}
-		
 		let obj = {
 				searchValue: searchValue
 		};
-		
 		$.ajax({ 
 			url :'infoUrl.do',
 		    dataType:"json",
 		    data : obj,
 		    success: function(data){ 
 		    	item = data.body.items;
-		    	//console.log(data.body.items);
-		        //console.log(item);
 		        grid.resetData(item);
-			       
 		    },
 		    error: function(data) {
 		    	console.log("infoE"); 
@@ -71,35 +66,64 @@
 	
 	function onKeyUp(e){
 	    if (e.keyCode == 13){
-	    	// e.preventDefault();
 	    	return document.frm.foodName.focus();
 	    }
 	}
 	function apiTest2() {
+		formName = document.frm.foodName.value;
+		console.log(formName);
+		
+		searchValue = formName;
+		
+		if(searchValue ==  ""){
+			alert("영양정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
+			return document.frm.foodName.focus();
+		}
+		
+		let obj = {
+				searchValue : searchValue
+		}
 		$.ajax({ 
 			url :'jsonParsing.do',
 		    dataType:"json",
+		    data: obj,
 		    success: function(data){ 
 		    	console.log("s"); 
 		    	console.log(data);
+		    	item = data;
+		        grid.resetData(item);
 		    },
 		    error: function(data) {
 		    	console.log("e"); 
-		    	//console.log(data.items);
 		    }
 		});
 	}
 	function apiTest3() {
+		formName = document.frm.foodName.value;
+		console.log(formName);
+		
+		searchValue = formName;
+		
+		if(searchValue ==  ""){
+			alert("영양정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
+			return document.frm.foodName.focus();
+		}
+		
+		let obj = {
+				searchValue : searchValue
+		}
 		$.ajax({ 
 			url :'mapJsonParsing3.do',
 		    dataType:"json",
+		    data: obj,
 		    success: function(data){ 
 		    	console.log("ms"); 
 		    	console.log(data);
+		    	item = data.body.items;
+		        grid.resetData(item);
 		    },
 		    error: function(data) {
 		    	console.log("me"); 
-		    	//console.log(data.items);
 		    }
 		});
 	}
@@ -109,13 +133,17 @@
 	 <button type="button" id="testBtn2" onclick="apiTest2()">apiTest2</button>
 	 <button type="button" id="testBtn2" onclick="apiTest3()">apiTest3</button>
 	<div>
-		<form name="frm" id="frm" style="margin-top:50px; margin-left:60%; margin-bottom:50px;">
+		<form name="frm" id="frm" style="margin-top:50px; margin-left:40%; margin-bottom:50px;">
 			<div id ="foodBox" style="font-size:20px;">
 			식품명
 			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"
 			/>
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="search()" 
-				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">검색하기</button>
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api1 검색하기</button>
+			<button type="button" id="searchNutirent" name="searchNutirent" onclick="apiTest2()" 
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api2 검색하기</button>
+			<button type="button" id="searchNutirent" name="searchNutirent" onclick="apiTest3()" 
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api3 검색하기</button>
 			</div>
 		</form>
 	</div>
@@ -164,7 +192,6 @@
  			      sortingType: 'asc'
  			 }
  			]
-
  	});
 	
 	</script>
