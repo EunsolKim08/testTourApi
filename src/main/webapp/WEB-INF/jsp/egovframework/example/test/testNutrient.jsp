@@ -130,11 +130,19 @@
 	
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
-	 <button type="button" id="testBtn2" onclick="apiTest2()">apiTest2</button>
-	 <button type="button" id="testBtn2" onclick="apiTest3()">apiTest3</button>
 	<div>
 		<form name="frm" id="frm" style="margin-top:50px; margin-left:40%; margin-bottom:50px;">
 			<div id ="foodBox" style="font-size:20px;">
+			<span style="margin-right:40px;">
+				회사명 선택
+				<select id="company" style="font-size:20px;">
+					<option value=''>--선택--</option>
+					<option value='농심'>--농심--</option>
+					<option value='빙그레'>--빙그레--</option>
+					<option value='삼양식품'>--삼양식품--</option>
+					<option value=''>--삼양식품--</option>
+				</select>
+			</span>
 			식품명
 			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"
 			/>
