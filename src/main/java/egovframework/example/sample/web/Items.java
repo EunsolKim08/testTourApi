@@ -14,10 +14,8 @@ public class Items {
 	
 	String DESC_KOR;
 	String SERVING_WT; //1회제공량
-	//String nutr_cont1; //열랑
-	//String nutr_cont2; //탄수
-	//String nutr_cont3;//단백질
-	//String nutr_cont4;//지방
-	
-
+	String NUTR_CONT1; //열량
+	String NUTR_CONT2; //탄수
+	String NUTR_CONT3;//단백질
+	String NUTR_CONT4;//지방
 }

@@ -18,18 +18,24 @@
 	var searchValue="";
 	var item = "";
 	var formName="";
+	var companyName="";
 	function search(){
 		formName = document.frm.foodName.value;
+		company = document.frm.company.value;
+		
 		console.log(formName);
+		console.log(company);
 		
 		searchValue = formName;
+		companyName = company;
 		
 		if(searchValue ==  ""){
 			alert("영양정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
 			return document.frm.foodName.focus();
 		}
 		let obj = {
-				searchValue: searchValue
+				searchValue: searchValue,
+				companyName: companyName
 		};
 		$.ajax({ 
 			url :'infoUrl.do',
@@ -71,9 +77,13 @@
 	}
 	function apiTest2() {
 		formName = document.frm.foodName.value;
+		company = document.frm.company.value;
+		
 		console.log(formName);
+		console.log(company);
 		
 		searchValue = formName;
+		companyName = company;
 		
 		if(searchValue ==  ""){
 			alert("영양정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
@@ -81,7 +91,8 @@
 		}
 		
 		let obj = {
-				searchValue : searchValue
+				searchValue : searchValue,
+				companyName : companyName
 		}
 		$.ajax({ 
 			url :'jsonParsing.do',
@@ -100,9 +111,12 @@
 	}
 	function apiTest3() {
 		formName = document.frm.foodName.value;
+		company = document.frm.company.value;
+		
 		console.log(formName);
 		
 		searchValue = formName;
+		companyName = company;
 		
 		if(searchValue ==  ""){
 			alert("영양정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
@@ -110,7 +124,8 @@
 		}
 		
 		let obj = {
-				searchValue : searchValue
+				searchValue : searchValue,
+				companyName : companyName
 		}
 		$.ajax({ 
 			url :'mapJsonParsing3.do',
@@ -135,12 +150,11 @@
 			<div id ="foodBox" style="font-size:20px;">
 			<span style="margin-right:40px;">
 				회사명 선택
-				<select id="company" style="font-size:20px;">
+				<select id="company" name="company" style="font-size:20px;">
 					<option value=''>--선택--</option>
 					<option value='농심'>--농심--</option>
 					<option value='빙그레'>--빙그레--</option>
 					<option value='삼양식품'>--삼양식품--</option>
-					<option value=''>--삼양식품--</option>
 				</select>
 			</span>
 			식품명
@@ -171,6 +185,10 @@
  		      header: '식품이름',
  		      name: 'DESC_KOR' 		      
  		    },
+ 		   {
+ 	 		      header: '제조사',
+ 	 		      name: 'ANIMAL_PLANT' 		      
+ 	 		    },
  		    {
  			      header: '1회제공량 (g)',
  			      name: 'SERVING_WT',

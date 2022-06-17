@@ -46,13 +46,14 @@ public class testController {
 	
 	@RequestMapping("/infoUrl.do")
 	@ResponseBody
-	public String searchTourInfo(String searchValue) {
+	public String searchTourInfo(String searchValue,  String companyName) {
 		
 		//System.out.println("infoUrl.do");
 		//System.out.println(searchValue);
 		String info="";
+		System.out.println(companyName);
 		try {
-			info = getInfoService(searchValue);
+			info = getInfoService(searchValue,companyName);
 			//System.out.println("\n****************");
 			//System.out.println("string info: "+info);
 		} catch (Exception e) {
@@ -82,7 +83,7 @@ public class testController {
 		return json;
 	}
 	
-	public String getInfoService(String searchValue) throws Exception {
+	public String getInfoService(String searchValue, String company) throws Exception {
 	  
 	    StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
@@ -91,6 +92,10 @@ public class testController {
        // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
          
+        if(company != "") {
+	    	urlBuilder.append("&" + URLEncoder.encode("animal_plant","UTF-8") + "=" + URLEncoder.encode(company, "UTF-8"));
+	    }
+        
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -119,8 +124,9 @@ public class testController {
 	/*java로 json Parsing 도전해보기*/
 	@RequestMapping("/jsonParsing.do")
 	@ResponseBody
-	public String jsonParsing(String searchValue) throws UnsupportedEncodingException, IOException, ParseException {
+	public String jsonParsing(String searchValue, String companyName) throws UnsupportedEncodingException, IOException, ParseException {
 		ObjectMapper mapper = new ObjectMapper();
+		System.out.println(companyName);
 		String result="1";
 		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
 	    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
@@ -129,6 +135,9 @@ public class testController {
 	    // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
 	    urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
 	         
+	    if(companyName != "") {
+	    	urlBuilder.append("&" + URLEncoder.encode("animal_plant","UTF-8") + "=" + URLEncoder.encode(companyName, "UTF-8"));
+	    }
 	     URL url = new URL(urlBuilder.toString());
 	     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	     conn.setRequestMethod("GET");
@@ -183,7 +192,8 @@ public class testController {
 	    urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
 	    // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
 	    urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
-	         
+	    
+	    
 	     URL url = new URL(urlBuilder.toString());
 	     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	     conn.setRequestMethod("GET");
@@ -222,7 +232,7 @@ public class testController {
 	 */
 	@RequestMapping("/mapJsonParsing3.do")
 	@ResponseBody
-	public String mapJsonParsing3(String searchValue) throws IOException {
+	public String mapJsonParsing3(String searchValue, String companyName) throws IOException {
 		
 		String result="";
 		ObjectMapper mapper = new ObjectMapper();
@@ -232,8 +242,12 @@ public class testController {
 	    urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
 	    // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
 	    urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
-	         
-	     URL url = new URL(urlBuilder.toString());
+	    
+	    if(companyName != "") {
+	    	urlBuilder.append("&" + URLEncoder.encode("animal_plant","UTF-8") + "=" + URLEncoder.encode(companyName, "UTF-8"));
+	    }
+	     
+	    URL url = new URL(urlBuilder.toString());
 	     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	     conn.setRequestMethod("GET");
 	     conn.setRequestProperty("Content-type", "application/json");
