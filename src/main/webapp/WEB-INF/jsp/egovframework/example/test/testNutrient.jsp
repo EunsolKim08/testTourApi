@@ -173,8 +173,8 @@
 		    success: function(data){ 
 		    	console.log("ds"); 
 		    	console.log(data);
-		    	//item = data.body.items;
-		        //grid.resetData(item);
+		    	item = data.body.items;
+		        grid.resetData(item);
 		    },
 		    error: function(data) {
 		    	console.log("de"); 

@@ -278,8 +278,8 @@ public class testController {
 		NutrientDTO nutrientDto = null;
 	
 		String fResult="";
-		HashMap<String, Object> hmap = new HashMap<String, Object>();
-		hmap.put("sb", sb);
+		//HashMap<String, Object> hmap = new HashMap<String, Object>();
+		//hmap.put("sb", sb);
 		try {
 			NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
 			//System.out.println("직렬화: "+deserializeNu.toString());
@@ -298,24 +298,88 @@ public class testController {
 	@ResponseBody
 	public String dataSearch(String searchValue, String companyName) throws IOException {
 		String result="1";
+		String concat="";
+		int insertFlag=0;
 		
 		ArrayList<Items> selectItem = null;
 		Items items = new Items();
 		
 		items.setDESC_KOR(searchValue);
 		System.out.println(items.getDESC_KOR());
+		
 		selectItem = dataMapper.selectData(items);
 		System.out.println("조회완료");
 		
 		if(selectItem.size()<1) {
 			System.out.println("데이터 조회결과 X.");
+			insertFlag = 0;
 		}else {
 			System.out.println("데이터 조회결과 O.");
 			System.out.println(selectItem);
+			insertFlag = 1;
 		}
 		
+		ObjectMapper mapper = new ObjectMapper();
+		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
+	    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
+	    urlBuilder.append("&" + URLEncoder.encode("desc_kor","UTF-8") + "=" + URLEncoder.encode(searchValue, "UTF-8")); /*식품이름*/
+	    urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+	    // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
+	    urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
+	    
+	    if(companyName != "") {
+	    	urlBuilder.append("&" + URLEncoder.encode("animal_plant","UTF-8") + "=" + URLEncoder.encode(companyName, "UTF-8"));
+	    }
+	     
+	    URL url = new URL(urlBuilder.toString());
+	     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	     conn.setRequestMethod("GET");
+	     conn.setRequestProperty("Content-type", "application/json");
+	     System.out.println("Response code: " + conn.getResponseCode());
+	     BufferedReader rd;
+	      if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	          rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	      } else {
+	          rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+	      }
+	     StringBuilder sb = new StringBuilder();
+	     String line;
+	      while ((line = rd.readLine()) != null) {
+	          sb.append(line);
+	      }
+	    //System.out.println("sb: "+ sb); // 이거 자체가 파싱하는 객체인듯..
+		result = sb.toString();	
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
-		return result;
+		NutrientDTO nutrientDto = null;
+		List<NutrientDTO> insertList =  new ArrayList<>();
+		String fResult="";
+	
+		try {
+			NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
+			//System.out.println("직렬화: "+deserializeNu.toString());
+			fResult = mapper.writeValueAsString(deserializeNu);
+			
+			System.out.println(deserializeNu);
+			if(insertFlag == 0) {
+				//dataMapper.insertData((List<NutrientDTO>) deserializeNu);
+				System.out.println("데이터 삽입 실행 시작");
+				insertList.add(deserializeNu);
+				System.out.println("데이터 삽입 중간");
+				System.out.println(insertList);
+				dataMapper.insertData(insertList);
+				System.out.println("데이터 삽입 실행 완료");
+			}
+			//System.out.println("fResult: "+ fResult);
+			NutrientDTO innerClassPersonDto = objectMapper.readValue(result, NutrientDTO.class);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	
+		
+		return fResult;
+		//return result;
 	}
 		
 	

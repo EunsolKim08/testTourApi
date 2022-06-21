@@ -10,8 +10,30 @@
     	*
     	FROM
     	Nutrient
-    WHERE DESC_KOR =  #{DESC_KOR}
-     
+    WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')
     </select>
- 
+    
+    <insert id="insertData" parameterType="java.util.List">
+    INSERT INTO Nutrient
+    (
+      DESC_KOR
+      , SERVING_WT
+      , NUTR_CONT1
+      , NUTR_CONT2
+      , NUTR_CONT3
+      , NUTR_CONT4
+    )
+    VALUES
+    (
+    <foreach collection="list" item="item" separator=",">
+        #{item.DESC_KOR}
+        , #{item.SERVING_WT}
+        , #{item.NUTR_CONT1}
+        , #{item.NUTR_CONT2}
+        , #{item.3NUTR_CONT3}
+        , #{item.3NUTR_CONT4}
+    </foreach>
+    )
+</insert>
+
  </mapper>
