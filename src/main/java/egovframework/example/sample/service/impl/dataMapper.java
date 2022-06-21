@@ -14,5 +14,7 @@ public interface dataMapper {
 	public ArrayList<Items> selectData(Items items);
 	
 	public void insertData(List<NutrientDTO> list);
+	
+	
 
 }

@@ -355,19 +355,22 @@ public class testController {
 		NutrientDTO nutrientDto = null;
 		List<NutrientDTO> insertList =  new ArrayList<>();
 		String fResult="";
+		
 	
 		try {
 			NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
+			insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
+			//deserializeNu.getBody().getItems();
 			//System.out.println("직렬화: "+deserializeNu.toString());
+			System.out.println("********LIST  확인*******");
+			for(int i = 0;i<insertList.size();i++) {
+				System.out.println(insertList.get(i));
+			}
 			fResult = mapper.writeValueAsString(deserializeNu);
-			
-			System.out.println(deserializeNu);
+		
 			if(insertFlag == 0) {
 				//dataMapper.insertData((List<NutrientDTO>) deserializeNu);
 				System.out.println("데이터 삽입 실행 시작");
-				insertList.add(deserializeNu);
-				System.out.println("데이터 삽입 중간");
-				System.out.println(insertList);
 				dataMapper.insertData(insertList);
 				System.out.println("데이터 삽입 실행 완료");
 			}
