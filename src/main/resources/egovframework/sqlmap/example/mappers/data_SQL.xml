@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="egovframework.example.sample.service.impl.dataMapper">
+   <select id="selectData" resultType="hashMap" parameterType="egovframework.example.sample.web.Items">
+    SELECT
+    	*
+    	FROM
+    	Nutrient
+    WHERE DESC_KOR =  #{DESC_KOR}
+     
+    </select>
+ 
+ </mapper>

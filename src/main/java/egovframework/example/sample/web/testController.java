@@ -1,5 +1,6 @@
 package egovframework.example.sample.web;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.parser.JSONParser;
@@ -18,6 +19,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import egovframework.example.sample.service.impl.dataMapper;
+
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -25,6 +29,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +38,8 @@ import java.io.IOException;
 
 @Controller
 public class testController {
+	@Resource(name = "dataMapper")
+	dataMapper dataMapper;
 	
 	@RequestMapping(value = "/testNutrient.do")
 	public ModelAndView testNutrient() {
@@ -287,5 +294,29 @@ public class testController {
 		return fResult;
 	 
 	}
+	@RequestMapping("/dataSearch.do")
+	@ResponseBody
+	public String dataSearch(String searchValue, String companyName) throws IOException {
+		String result="1";
+		
+		ArrayList<Items> selectItem = null;
+		Items items = new Items();
+		
+		items.setDESC_KOR(searchValue);
+		System.out.println(items.getDESC_KOR());
+		selectItem = dataMapper.selectData(items);
+		System.out.println("조회완료");
+		
+		if(selectItem.size()<1) {
+			System.out.println("데이터 조회결과 X.");
+		}else {
+			System.out.println("데이터 조회결과 O.");
+			System.out.println(selectItem);
+		}
+		
+		
+		return result;
+	}
+		
 	
 }

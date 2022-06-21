@@ -14,22 +14,11 @@
 <div style="margin:100px;">
 	<h1>식품_영양성분_DB서비스</h1>
 	<br/><br/>
+	데이터 출력: 
 	<form name="frm2">
-		데이터 출력:
-			<input type="radio" name="dataPrint" value="sta" onchange="changePrint()"checked/>표
-			<input type="radio" name="dataPrint" value="cha" onchange="changePrint()"/>차트
+		<input type="radio" name="dataPrint" value="sta" checked/>표
+		<input type="radio" name="dataPrint" value="cha"/>차트
 	</form>
-	<script>
-	var formName2 = document.frm2.dataPrint.value;
-	function changePrint(){
-		formName2 = document.frm2.dataPrint.value;
-		console.log(formName2);
-		if(formName2 == 'sta'){
-			
-		}
-	}
-		
-	</script>
 	<script>
 	var searchValue="";
 	var item = "";
@@ -159,6 +148,39 @@
 		});
 	}
 	
+	function dataSearch(){
+		formName = document.frm.foodName.value;
+		company = document.frm.company.value;
+		
+		console.log(formName);
+		
+		searchValue = formName;
+		companyName = company;
+		
+		if(searchValue ==  ""){
+			alert("영양정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
+			return document.frm.foodName.focus();
+		}
+		
+		let obj = {
+				searchValue : searchValue,
+				companyName : companyName
+		}
+		$.ajax({ 
+			url :'dataSearch.do',
+		    dataType:"json",
+		    data: obj,
+		    success: function(data){ 
+		    	console.log("ds"); 
+		    	console.log(data);
+		    	//item = data.body.items;
+		        //grid.resetData(item);
+		    },
+		    error: function(data) {
+		    	console.log("de"); 
+		    }
+		});
+	}
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
 	<div>
@@ -173,7 +195,7 @@
 					<option value='삼양식품'>--삼양식품--</option>
 				</select>
 			</span>
-			식품명&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+			식품명
 			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"
 			/>
 		<!-- 	<button type="button" id="searchNutirent" name="searchNutirent" onclick="search()" 
@@ -181,7 +203,9 @@
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="apiTest2()" 
 				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api2 검색하기</button> -->
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="apiTest3()" 
-				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api3 조회</button>
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api3 </button>
+			<button type="button" id="searchNutirent" name="searchNutirent" onclick="dataSearch()" 
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">데이터검색 </button>
 			</div>
 		</form>
 	</div>
