@@ -18,6 +18,7 @@ public class Items {
 	String NUTR_CONT2; //탄수
 	String NUTR_CONT3;//단백질
 	String NUTR_CONT4;//지방
+	String ANIMAL_PLANT; //회사명
 	
 	
 }

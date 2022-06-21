@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />
+<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
+
 <meta charset="UTF-8">
 <title>식품_영양성분_DB서비스</title>
 </head>
@@ -181,6 +184,9 @@
 		    }
 		});
 	}
+	function dataEdit(){
+		console.log("데이터 수정");
+	}
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
 	<div>
@@ -210,6 +216,11 @@
 		</form>
 	</div>
 	<br/><hr/>
+	<div style="margin-top:50px; margin-left:80%">
+		<button type="button" id="searchNutirent" name="searchNutirent" onclick="dataEdit()" 
+				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF;">수정하기</button>
+	</div>
+	
 	<br/>
 	<br/>
 	
@@ -227,41 +238,48 @@
  		    },
  		   {
  	 		      header: '제조사',
- 	 		      name: 'ANIMAL_PLANT' 		      
+ 	 		      name: 'ANIMAL_PLANT'
  	 		    },
  		    {
  			      header: '1회제공량 (g)',
  			      name: 'SERVING_WT',
+ 			      editor: 'text'
  			},
  			 {
  			      header: '열량 (kcal)',
  			      name: 'NUTR_CONT1',
  			      sortable: true,
- 			      sortingType: 'asc'
+ 			      sortingType: 'asc',
+ 			      editor: 'text'
  			 },
  			 {
  			      header: '탄수화물 (g)',
  			      name: 'NUTR_CONT2',
- 			     sortable: true,
- 			      sortingType: 'asc'
+ 			      sortable: true,
+ 			      sortingType: 'asc',
+ 			      editor: 'text'
  			 },
  			 {
  			      header: '단백질 (g)',
  			      name: 'NUTR_CONT3',
- 			     sortable: true,
- 			      sortingType: 'asc'
+ 			      sortable: true,
+ 			      sortingType: 'asc',
+ 			      editor: 'text'
  			 },
  			 {
  			      header: '지방 (g)',
  			      name: 'NUTR_CONT4',
- 			     sortable: true,
- 			      sortingType: 'asc'
+ 			      sortable: true,
+ 			      sortingType: 'asc',
+ 			      editor: 'text'
  			 }
  			]
  	});
 	
 	</script>
 </div>
+
+
 	
 </body>
 </html>
