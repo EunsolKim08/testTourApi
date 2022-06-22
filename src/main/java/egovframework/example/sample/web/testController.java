@@ -382,7 +382,6 @@ public class testController {
 			System.out.println("데이터 조회결과 O.");
 			
 			insertFlag = 1;
-			String x;
 			JSONObject obj = new JSONObject();                
 			//System.out.println(selectItem);
 			
@@ -399,36 +398,47 @@ public class testController {
 	
 	@RequestMapping("/getChartData.do")
 	@ResponseBody
-	public String getChartData() {
+	public String getChartData(String searchValue, String companyName) throws IOException{
 		
-		String result="";
+		String result="1";
 		
-		result = "{"
-				+ "		 categories: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],"
-				+ "		 series: ["
-				+ "		 {"
-				+ "			  name: '탄수화물 (g)',\r\n"
-				+ "		      data: [5000, 3000, 5000, 7000, 6000, 4000, 1000],"
-				+ "		 },"
-				+ "		 {"
-				+ "		      name: '단백질 (g)',\r\n"
-				+ "		      data: [8000, 4000, 7000, 2000, 6000, 3000, 5000],"
-				+ "		    },"
-				+ "		{"
-				+ "		      name: '지방 (g)',\r\n"
-				+ "		      data: [8000, 4000, 7000, 2000, 6000, 3000, 5000],"
-				+ "		 },"
-				+ "		    "
-				+ "		 ],"
-				+ "}";
+		ArrayList<Items> selectItem = null;
+		Items items = new Items();
+		
+		items.setDESC_KOR(searchValue);
+		System.out.println(items.getDESC_KOR());
+		
+		selectItem = dataMapper.selectData(items);
+		System.out.println("조회완료");
+		JSONObject obj = new JSONObject();  
+		JSONObject obj2 = new JSONObject(); 
+		//System.out.println(selectItem);
+		
+		//System.out.println(selectItem.get(0));
+		obj.put("items", selectItem);
+		System.out.println("json obj: "+obj);
+		//obj.put("array0", selectItem.get(0).getDESC_KOR());
+		//System.out.println(obj.get("array0"));
+		//result= obj.toJSONString();
+		obj2.put("categories", "[\r\n"
+				+ "  \"1월\",\r\n"
+				+ "  \"2월\",\r\n"
+				+ "  \"3월\",\r\n"
+				+ "  \"4월\"\r\n"
+				+ "]");
+		result= obj2.toJSONString();
+		
 		return result;
 	}
 	
 	@RequestMapping("/dataEdit.do")
 	@ResponseBody
 	public String dataEdit() {
-		String result="";
+		String result="1";
 		
+		
+	
+				
 		
 		return result;
 	}

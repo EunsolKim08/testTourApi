@@ -19,8 +19,8 @@
 	<br/><br/>
 	데이터 출력: 
 	<form name="frm2">
-		<input type="radio" name="dataPrint" value="sta" checked/>표
-		<input type="radio" name="dataPrint" value="cha"/>차트
+		<input type="radio" name="dataPrint" value="sta" onchange="changeVa()" checked/>표
+		<input type="radio" name="dataPrint" value="cha" onchange="changeVa()"/>차트
 	</form>
 	<script>
 	var searchValue="";
@@ -281,29 +281,90 @@
 </div>
 
 <div id="chart"></div>
-<script>
-/* namespace */
-const Chart = toastui.Chart;
-const el = document.getElementById('chart');
-var datCa = ['1월', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var dataSe =  [
-    {
-        name: 'Budget',
-        data: [5000, 3000, 5000, 7000, 6000, 4000, 1000],
-      },
-      {
-        name: 'Income',
-        data: [8000, 4000, 7000, 2000, 6000, 3000, 5000],
-      }];
-const data = {
-  categories: datCa,
-  series: dataSe,
-};
-const options = {
-  chart: { width: 700, height: 400 },
-};
-const chart = Chart.barChart({ el, data, options });
+<script type="text/javascript">
+var dataCh="";
+function changeVa(){
+	dataCh = document.frm2.dataPrint.value;
+	
+	console.log(dataCh);
+	formName = document.frm.foodName.value;
+	company = document.frm.company.value;
+	
+	console.log(formName);
+	
+	searchValue = formName;
+	companyName = company;
+	
+	if(searchValue ==  ""){
+		alert("차트정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
+		return document.frm.foodName.focus();
+	}
+	
+	let obj = {
+			searchValue : searchValue,
+			companyName : companyName
+	}
+	var chaData= "";
+	if(dataCh == 'cha'){
+		console.log("차트설정");
+		/* namespace */
+		let obj = {
+				searchValue : searchValue,
+				companyName : companyName
+		}
+		$.ajax({ 
+			url :'getChartData.do',
+		    dataType:"json",
+		    data: obj,
+		    success: function(data){ 
+			    console.log(data);
+			    console.log(data.categories);
+			    chaData = data.categories;
+			    //console.log(data.array2.categories);
+			    console.log("chaData: "+chaData);
+		    },
+		    error: function(data) {
+		    	console.log("de"); 
+		    }
+		});
+		
+		
+		 $.when($.ajax("getChartData.do")).done(function(){
+			 console.log("chaData2: "+JSON.parse(chaData));
+			 const Chart = toastui.Chart;
+			 const el = document.getElementById('chart');
+				
+			 var datCa = JSON.parse(chaData);
+			 //var datCa = JSON.parse('["1월", "2월", "3월"]');
+			var dataSe =  [
+			   {
+			       name: '탄수화물(g)',
+			       data: [5000, 3000, 5000],
+			    },
+			    {
+			      name: '단백질(g)',
+			       data: [8000, 4000, 7000],
+			     },
+			     {
+				    name: '지방(g)',
+				    data: [5000, 3000, 5000],
+					 }
+				];
+				const data = {
+				  categories: datCa,
+				  series: dataSe,
+				};
+				const options = {
+				  chart: { width: 700, height: 400 },
+				};
+				const chart = Chart.barChart({ el, data, options });
+	         alert("제발");
+	     });
+		
+	}
+}
 </script>
+
 
 </body>
 </html>
