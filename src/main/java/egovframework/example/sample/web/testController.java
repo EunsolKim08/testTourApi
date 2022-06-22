@@ -387,10 +387,8 @@ public class testController {
 			//System.out.println(selectItem);
 			
 			//System.out.println(selectItem.get(0));
-			JSONArray arr = new JSONArray();
 			obj.put("items", selectItem);
 			System.out.println("json obj: "+obj);
-			arr.add(obj);
 			
 			fResult= obj.toJSONString();
 		}
