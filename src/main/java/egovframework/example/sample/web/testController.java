@@ -416,6 +416,9 @@ public class testController {
 		
 		//System.out.println(selectItem.get(0));
 		obj.put("items", selectItem);
+		
+		
+		
 		System.out.println("json obj: "+obj);
 		//obj.put("array0", selectItem.get(0).getDESC_KOR());
 		//System.out.println(obj.get("array0"));
@@ -426,6 +429,9 @@ public class testController {
 				+ "  \"3월\",\r\n"
 				+ "  \"4월\"\r\n"
 				+ "]");
+		obj2.put("nuDa1", "[5000, 3000, 5000]");
+		obj2.put("nuDa2", "[8000, 4000, 7000]");
+		obj2.put("nuDa3", "[2000, 3000, 4000]");
 		result= obj2.toJSONString();
 		
 		return result;
