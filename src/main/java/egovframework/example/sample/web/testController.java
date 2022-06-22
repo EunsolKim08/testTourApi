@@ -1,12 +1,16 @@
 package egovframework.example.sample.web;
 
 import javax.annotation.Resource;
+import javax.json.JsonException;
+import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.google.gson.Gson; 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -300,6 +304,7 @@ public class testController {
 		String result="1";
 		String concat="";
 		int insertFlag=0;
+		String fResult="1";
 		
 		ArrayList<Items> selectItem = null;
 		Items items = new Items();
@@ -309,80 +314,125 @@ public class testController {
 		
 		selectItem = dataMapper.selectData(items);
 		System.out.println("조회완료");
-		
+
 		if(selectItem.size()<1) {
 			System.out.println("데이터 조회결과 X.");
 			insertFlag = 0;
+			
+			ObjectMapper mapper = new ObjectMapper();
+			StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
+		    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
+		    urlBuilder.append("&" + URLEncoder.encode("desc_kor","UTF-8") + "=" + URLEncoder.encode(searchValue, "UTF-8")); /*식품이름*/
+		    urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+		    // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
+		    urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
+		    
+		    if(companyName != "") {
+		    	urlBuilder.append("&" + URLEncoder.encode("animal_plant","UTF-8") + "=" + URLEncoder.encode(companyName, "UTF-8"));
+		    }
+		     
+		    URL url = new URL(urlBuilder.toString());
+		     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		     conn.setRequestMethod("GET");
+		     conn.setRequestProperty("Content-type", "application/json");
+		     System.out.println("Response code: " + conn.getResponseCode());
+		     BufferedReader rd;
+		      if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+		          rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		      } else {
+		          rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		      }
+		     StringBuilder sb = new StringBuilder();
+		     String line;
+		      while ((line = rd.readLine()) != null) {
+		          sb.append(line);
+		      }
+		    //System.out.println("sb: "+ sb); // 이거 자체가 파싱하는 객체인듯..
+			result = sb.toString();	
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			
+			NutrientDTO nutrientDto = null;
+			List<NutrientDTO> insertList =  new ArrayList<>();
+		
+			
+			try {
+				NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
+				insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
+				//deserializeNu.getBody().getItems();
+				//System.out.println("직렬화: "+deserializeNu.toString());
+				System.out.println("********LIST  확인*******");
+				for(int i = 0;i<insertList.size();i++) {
+					System.out.println(insertList.get(i));
+				}
+				fResult = mapper.writeValueAsString(deserializeNu);
+				System.out.println("조회 x시 fResult: "+ fResult);
+				if(insertFlag == 0) {
+					//dataMapper.insertData((List<NutrientDTO>) deserializeNu);
+					System.out.println("데이터 삽입 실행 시작");
+					dataMapper.insertData(insertList);
+					System.out.println("데이터 삽입 실행 완료");
+				}
+				//System.out.println("fResult: "+ fResult);
+				NutrientDTO innerClassPersonDto = objectMapper.readValue(result, NutrientDTO.class);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		}else {
 			System.out.println("데이터 조회결과 O.");
-			System.out.println(selectItem);
+			
 			insertFlag = 1;
+			String x;
+			JSONObject obj = new JSONObject();                
+			//System.out.println(selectItem);
+			
+			//System.out.println(selectItem.get(0));
+			JSONArray arr = new JSONArray();
+			obj.put("items", selectItem);
+			System.out.println("json obj: "+obj);
+			arr.add(obj);
+			
+			fResult= obj.toJSONString();
 		}
-		
-		ObjectMapper mapper = new ObjectMapper();
-		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
-	    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
-	    urlBuilder.append("&" + URLEncoder.encode("desc_kor","UTF-8") + "=" + URLEncoder.encode(searchValue, "UTF-8")); /*식품이름*/
-	    urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-	    // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
-	    urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
-	    
-	    if(companyName != "") {
-	    	urlBuilder.append("&" + URLEncoder.encode("animal_plant","UTF-8") + "=" + URLEncoder.encode(companyName, "UTF-8"));
-	    }
-	     
-	    URL url = new URL(urlBuilder.toString());
-	     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	     conn.setRequestMethod("GET");
-	     conn.setRequestProperty("Content-type", "application/json");
-	     System.out.println("Response code: " + conn.getResponseCode());
-	     BufferedReader rd;
-	      if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-	          rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	      } else {
-	          rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-	      }
-	     StringBuilder sb = new StringBuilder();
-	     String line;
-	      while ((line = rd.readLine()) != null) {
-	          sb.append(line);
-	      }
-	    //System.out.println("sb: "+ sb); // 이거 자체가 파싱하는 객체인듯..
-		result = sb.toString();	
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		
-		NutrientDTO nutrientDto = null;
-		List<NutrientDTO> insertList =  new ArrayList<>();
-		String fResult="";
-		
-	
-		try {
-			NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
-			insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
-			//deserializeNu.getBody().getItems();
-			//System.out.println("직렬화: "+deserializeNu.toString());
-			System.out.println("********LIST  확인*******");
-			for(int i = 0;i<insertList.size();i++) {
-				System.out.println(insertList.get(i));
-			}
-			fResult = mapper.writeValueAsString(deserializeNu);
-		
-			if(insertFlag == 0) {
-				//dataMapper.insertData((List<NutrientDTO>) deserializeNu);
-				System.out.println("데이터 삽입 실행 시작");
-				dataMapper.insertData(insertList);
-				System.out.println("데이터 삽입 실행 완료");
-			}
-			//System.out.println("fResult: "+ fResult);
-			NutrientDTO innerClassPersonDto = objectMapper.readValue(result, NutrientDTO.class);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-	
 		
 		return fResult;
 		//return result;
+	}
+	
+	@RequestMapping("/getChartData.do")
+	@ResponseBody
+	public String getChartData() {
+		
+		String result="";
+		
+		result = "{"
+				+ "		 categories: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],"
+				+ "		 series: ["
+				+ "		 {"
+				+ "			  name: '탄수화물 (g)',\r\n"
+				+ "		      data: [5000, 3000, 5000, 7000, 6000, 4000, 1000],"
+				+ "		 },"
+				+ "		 {"
+				+ "		      name: '단백질 (g)',\r\n"
+				+ "		      data: [8000, 4000, 7000, 2000, 6000, 3000, 5000],"
+				+ "		    },"
+				+ "		{"
+				+ "		      name: '지방 (g)',\r\n"
+				+ "		      data: [8000, 4000, 7000, 2000, 6000, 3000, 5000],"
+				+ "		 },"
+				+ "		    "
+				+ "		 ],"
+				+ "}";
+		return result;
+	}
+	
+	@RequestMapping("/dataEdit.do")
+	@ResponseBody
+	public String dataEdit() {
+		String result="";
+		
+		
+		return result;
 	}
 		
 	

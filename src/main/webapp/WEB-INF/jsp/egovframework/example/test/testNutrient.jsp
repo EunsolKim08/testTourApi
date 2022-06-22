@@ -176,7 +176,8 @@
 		    success: function(data){ 
 		    	console.log("ds"); 
 		    	console.log(data);
-		    	item = data.body.items;
+		    	console.log(data.items);
+		    	item = data.items;
 		        grid.resetData(item);
 		    },
 		    error: function(data) {
@@ -300,7 +301,6 @@ const data = {
 const options = {
   chart: { width: 700, height: 400 },
 };
-
 const chart = Chart.barChart({ el, data, options });
 </script>
 

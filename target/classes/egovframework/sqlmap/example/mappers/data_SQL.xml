@@ -5,6 +5,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="egovframework.example.sample.service.impl.dataMapper">
+	<resultMap id="testMap" type="egovframework.example.sample.web.Items">
+  		<result column="DESC_KOR" property="DESC_KOR" />
+  		<result column="NUTR_CONT1" property="NUTR_CONT1" />
+  		<result column="NUTR_CONT2" property="NUTR_CONT2" />
+	</resultMap>
    <select id="selectData" resultType="hashMap" parameterType="egovframework.example.sample.web.Items">
     SELECT
     	*
