@@ -322,7 +322,7 @@ function changeVa(){
 		    success: function(data){ 
 			    console.log(data);
 			    console.log(data.categories);
-			    //chaData = data.categories;
+			    chaData = data.categories;
 			    nuDa2 = data.nuDa2;
 			    nuDa3 = data.nuDa3;
 			    nuDa4 = data.nuDa4;
@@ -345,11 +345,25 @@ function changeVa(){
 			 var cNuDa3 =  JSON.parse(nuDa3);
 			 var cNuDa4 =  JSON.parse(nuDa4);
 			 //var datCa = JSON.parse('['+"1월", "2월", "3월"+']');
+			 var i = 0;
+			 var jsonRe="[";
+			const arr=chaData.split(",");
+			while(i < arr.length){
+				if( i != arr.length-1){
+					jsonRe +='"' +arr[i]+'",';
+				}else{
+					jsonRe +='"' +arr[i]+'"]';
+				}
+				i++;
+			}
+			
+			 
+			 console.log("파싱 준비: " + jsonRe);
 			 var x = '["1월", "2월", "3월"]';
 			 console.log("x는 "+ x);
 			 var y = '['+ '"4월","5월","6월"' +']'; 
 			 console.log("y는 "+ y);
-			 var datCa = JSON.parse(y);
+			var datCa = JSON.parse(jsonRe);
 			var dataSe =  [
 			   {
 			       name: '탄수화물(g)',
