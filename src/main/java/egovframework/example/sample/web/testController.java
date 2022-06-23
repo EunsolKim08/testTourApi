@@ -493,12 +493,12 @@ public class testController {
 	
 	@RequestMapping("/dataEdit.do")
 	@ResponseBody
-	public String dataEdit(String obj, String[] xData) {
+	public String dataEdit(HttpServletRequest req) {
 		
-		
+		String jsonObj = req.getParameter("jsonObj");
 		String result="1";
 		System.out.println("dataEdit 실행");
-		System.out.println( "수정 데이터: "+ obj);
+		System.out.println( "수정 데이터: "+ jsonObj);
 	
 				
 		

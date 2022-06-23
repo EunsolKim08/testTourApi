@@ -191,13 +191,16 @@
 		
 		var obj = grid.getModifiedRows().updatedRows;
 	
-		console.log(obj);
-		
+		console.log("확인: "+obj.constructor);// function Array() { [native code] }
+		//console.log(obj[0]);
+	//	console.log("json형식"+JSON.stringify(obj));
+		var jsonObj= JSON.stringify(obj);
+		console.log("json 변환: "+jsonObj );
 		$.ajax({ 
 			url :'dataEdit.do',
 		    dataType:"json",
-		    data: obj,
-		    contentType : 'application/json; charset=UTF-8',
+		    data: jsonObj,
+		   // contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
 		    console.log("edit 완료");
 		    	//grid.readData(item);
