@@ -10,7 +10,9 @@ import org.json.simple.parser.ParseException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.google.gson.Gson; 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -402,6 +404,10 @@ public class testController {
 		
 		String result="1";
 		String json="";
+		String categories="[\r\n";
+		String nuDa2="[";
+		String nuDa3="[";
+		String nuDa4="[";
 		
 		ArrayList<Items> selectItem = null;
 		Items items = new Items();
@@ -418,10 +424,41 @@ public class testController {
 		//map = dataMapper.selectData(items);
 			
 		ObjectMapper objectMapper = new ObjectMapper();
-		//objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		
+		JSONArray jsonArr = new JSONArray();
+		JSONParser jsonParser = new JSONParser();
 	
 		try {
 			json = objectMapper.writeValueAsString(selectItem);
+			
+			System.out.println("json: "+json);
+			
+			jsonArr = (JSONArray)jsonParser.parse(json);
+			
+			JSONObject jsonObj=null ;
+			
+			for(int i = 0; i<jsonArr.size();i++) {
+				jsonObj = (JSONObject)jsonArr.get(i);
+				System.out.println((String)jsonObj.get("DESC_KOR"));
+			
+				categories +=",\r\n";
+				nuDa2 += (String)jsonObj.get("NUTR_CONT2");
+				nuDa3 += (String)jsonObj.get("NUTR_CONT3");
+				nuDa4 += (String)jsonObj.get("NUTR_CONT4");
+				
+				if(i < jsonArr.size()-1) {
+					nuDa2+=",";
+					nuDa3+=",";
+					nuDa4+=",";
+				}
+			}
+			categories +="]";
+			nuDa2 +="]";
+			nuDa3 +="]";
+			nuDa4 +="]";
+			
 		}catch(Exception e) {
 			System.out.println("ArrayList직력화중 에러 발생");
 		}
@@ -430,15 +467,19 @@ public class testController {
 		
 		JSONObject obj = new JSONObject(); 
 		
+		System.out.println("nuDa2: "+ nuDa2);
+		System.out.println("nuDa3: "+ nuDa3);
+		System.out.println("nuDa4: "+ nuDa4);
+		
 		obj.put("categories", "[\r\n"
 				+ "  \"1월\",\r\n"
 				+ "  \"2월\",\r\n"
 				+ "  \"3월\",\r\n"
 				+ "  \"4월\"\r\n"
 				+ "]");
-		obj.put("nuDa1", "[5000, 3000, 5000]");
-		obj.put("nuDa2", "[8000, 4000, 7000]");
-		obj.put("nuDa3", "[2000, 1000, 7000]");
+		obj.put("nuDa2", nuDa2);
+		obj.put("nuDa3", nuDa3);
+		obj.put("nuDa4", "[30, 10, 4]");
 		result= obj.toJSONString();
 		
 		return result;
@@ -449,7 +490,7 @@ public class testController {
 	public String dataEdit() {
 		String result="1";
 		
-		
+
 	
 				
 		

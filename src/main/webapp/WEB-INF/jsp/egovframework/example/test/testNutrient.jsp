@@ -305,9 +305,9 @@ function changeVa(){
 			companyName : companyName
 	}
 	var chaData= "";
-	var nuDa1="";
 	var nuDa2="";
 	var nuDa3="";
+	var nuDa4="";
 	if(dataCh == 'cha'){
 		console.log("차트설정");
 		/* namespace */
@@ -323,9 +323,9 @@ function changeVa(){
 			    console.log(data);
 			    console.log(data.categories);
 			    chaData = data.categories;
-			    nuDa1 = data.nuDa1;
 			    nuDa2 = data.nuDa2;
 			    nuDa3 = data.nuDa3;
+			    nuDa4 = data.nuDa4;
 			    //console.log(data.array2.categories);
 			    console.log("chaData: "+chaData);
 		    },
@@ -341,22 +341,22 @@ function changeVa(){
 			 const el = document.getElementById('chart');
 				
 			 var datCa = JSON.parse(chaData);
-			 var cNuDa1 =  JSON.parse(nuDa1);
 			 var cNuDa2 =  JSON.parse(nuDa2);
 			 var cNuDa3 =  JSON.parse(nuDa3);
+			 var cNuDa4 =  JSON.parse(nuDa4);
 			 //var datCa = JSON.parse('["1월", "2월", "3월"]');
 			var dataSe =  [
 			   {
 			       name: '탄수화물(g)',
-			       data: cNuDa1,
+			       data: cNuDa2,
 			    },
 			    {
 			      name: '단백질(g)',
-			       data: cNuDa2,
+			       data: cNuDa3,
 			     },
 			     {
 				    name: '지방(g)',
-				    data: cNuDa3,
+				    data: cNuDa4,
 					 }
 				];
 				const data = {
