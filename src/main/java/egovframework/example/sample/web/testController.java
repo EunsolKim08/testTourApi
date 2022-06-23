@@ -404,7 +404,7 @@ public class testController {
 		
 		String result="1";
 		String json="";
-		String categories="[\r\n";
+		String categories="";
 		String nuDa2="[";
 		String nuDa3="[";
 		String nuDa4="[";
@@ -443,18 +443,22 @@ public class testController {
 				jsonObj = (JSONObject)jsonArr.get(i);
 				System.out.println((String)jsonObj.get("DESC_KOR"));
 			
-				categories +=",\r\n";
+				String desc = (String)jsonObj.get("DESC_KOR");
+				//categories += " \"\r" + desc +"\"\r" ;
+				categories += (String)jsonObj.get("DESC_KOR");
 				nuDa2 += (String)jsonObj.get("NUTR_CONT2");
 				nuDa3 += (String)jsonObj.get("NUTR_CONT3");
 				nuDa4 += (String)jsonObj.get("NUTR_CONT4");
+				
 				
 				if(i < jsonArr.size()-1) {
 					nuDa2+=",";
 					nuDa3+=",";
 					nuDa4+=",";
+					categories +=",";
 				}
 			}
-			categories +="]";
+			categories +="";
 			nuDa2 +="]";
 			nuDa3 +="]";
 			nuDa4 +="]";
@@ -470,13 +474,11 @@ public class testController {
 		System.out.println("nuDa2: "+ nuDa2);
 		System.out.println("nuDa3: "+ nuDa3);
 		System.out.println("nuDa4: "+ nuDa4);
+		System.out.println("cate:" + categories);
 		
-		obj.put("categories", "[\r\n"
-				+ "  \"1월\",\r\n"
-				+ "  \"2월\",\r\n"
-				+ "  \"3월\",\r\n"
-				+ "  \"4월\"\r\n"
-				+ "]");
+		//obj.put("categories", "[\r\n" + "  \"1월\",\r\n" + "  \"2월\",\r\n" + "  \"3월\",\r\n"+ "  \"4월\"\r\n"+ "]");
+		
+		obj.put("categories", categories);
 		obj.put("nuDa2", nuDa2);
 		obj.put("nuDa3", nuDa3);
 		obj.put("nuDa4", "[30, 10, 4]");
