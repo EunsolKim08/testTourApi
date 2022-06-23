@@ -15,6 +15,7 @@ import com.google.gson.JsonArray;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -129,6 +131,7 @@ public class testController {
         conn.disconnect();
         System.out.println(sb.toString());
         
+        System.out.println("");
         String result = sb.toString();       
         
         return result;
@@ -392,6 +395,7 @@ public class testController {
 			System.out.println("json obj: "+obj);
 			
 			fResult= obj.toJSONString();
+			
 		}
 		
 		return fResult;
@@ -489,10 +493,12 @@ public class testController {
 	
 	@RequestMapping("/dataEdit.do")
 	@ResponseBody
-	public String dataEdit() {
-		String result="1";
+	public String dataEdit(String obj, String[] xData) {
 		
-
+		
+		String result="1";
+		System.out.println("dataEdit 실행");
+		System.out.println( "수정 데이터: "+ obj);
 	
 				
 		

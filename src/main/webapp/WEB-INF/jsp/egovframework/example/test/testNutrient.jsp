@@ -178,7 +178,8 @@
 		    	console.log(data);
 		    	console.log(data.items);
 		    	item = data.items;
-		        grid.resetData(item);
+		     grid.resetData(item);
+		    	//grid.readData(item);
 		    },
 		    error: function(data) {
 		    	console.log("de"); 
@@ -187,6 +188,24 @@
 	}
 	function dataEdit(){
 		console.log("데이터 수정");
+		
+		var obj = grid.getModifiedRows().updatedRows;
+	
+		console.log(obj);
+		
+		$.ajax({ 
+			url :'dataEdit.do',
+		    dataType:"json",
+		    data: obj,
+		    contentType : 'application/json; charset=UTF-8',
+		    success: function(data){ 
+		    console.log("edit 완료");
+		    	//grid.readData(item);
+		    },
+		    error: function(data) {
+		    console.log("edit 실패");
+		    }
+		});
 	}
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
@@ -244,21 +263,26 @@
  		    {
  			      header: '1회제공량 (g)',
  			      name: 'SERVING_WT',
- 			      editor: 'text'
+ 			      editor: 'text',
+ 			      
  			},
  			 {
  			      header: '열량 (kcal)',
  			      name: 'NUTR_CONT1',
  			      sortable: true,
  			      sortingType: 'asc',
- 			      editor: 'text'
+ 			      editor: 'text',
+ 			 
  			 },
  			 {
  			      header: '탄수화물 (g)',
  			      name: 'NUTR_CONT2',
  			      sortable: true,
  			      sortingType: 'asc',
- 			      editor: 'text'
+ 			      editor: 'text',
+ 			      afterChange(ev) {
+ 			         console.log('After change:' + ev);
+ 			       },
  			 },
  			 {
  			      header: '단백질 (g)',
@@ -273,7 +297,8 @@
  			      sortable: true,
  			      sortingType: 'asc',
  			      editor: 'text'
- 			 }
+ 			 },
+ 			 
  			]
  	});
 	
@@ -387,9 +412,17 @@ function changeVa(){
 				};
 				const chart = Chart.barChart({ el, data, options });
 	     });
+	} //차트 선택시
+	if(dataCh == 'sta'){
 		
 	}
 }
+
+grid.on('editingFinish', ev => {
+    console.log('editing key: ' + ev.rowKey);
+    console.log('editing 컬럼명: ' + ev.columnName);
+  });
+
 </script>
 
 
