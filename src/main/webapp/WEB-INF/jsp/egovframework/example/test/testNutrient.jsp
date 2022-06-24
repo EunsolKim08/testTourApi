@@ -420,7 +420,8 @@ function changeVa(){
 				const chart = Chart.barChart({ el, data, options });
 	     });
 	} //차트 선택시
-	if(dataCh == 'sta'){
+	else if(dataCh == 'sta'){
+		$('#chart').empty();
 		
 	}
 }

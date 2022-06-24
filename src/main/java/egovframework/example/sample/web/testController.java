@@ -560,10 +560,14 @@ public class testController {
 		for(int i = 0; i<items.size();i++) {
 			jsonObj2 = (JSONObject)items.get(i);
 			System.out.println((String)jsonObj2.get("DESC_KOR"));
-			System.out.println(jsonObj2.get("IDX_NU"));
+			System.out.println((String)jsonObj2.get("DESC_KOR").getClass().getName());
+			System.out.println(jsonObj2.get("IDX_NU").getClass().getName() );
+			 
 			Items items2 = new Items();
+			//String IDX_NU = jsonObj.get("IDX_NU").toString();
+			//int rowidx = Integer.parseInt(IDX_NU);
 			
-			items2.setIDX_NU(51);
+			items2.setIDX_NU(1);
 			items2.setNUTR_CONT1((String)jsonObj2.get("NUTR_CONT1"));
 			items2.setNUTR_CONT2((String)jsonObj2.get("NUTR_CONT2"));
 			items2.setNUTR_CONT3((String)jsonObj2.get("NUTR_CONT3"));
