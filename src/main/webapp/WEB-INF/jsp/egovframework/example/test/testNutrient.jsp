@@ -344,6 +344,7 @@ function changeVa(){
 	if(dataCh == 'cha'){
 		//$('#grid').empty();
 		console.log("차트설정");
+		$("#grid").hide();
 		/* namespace */
 		let obj = {
 				searchValue : searchValue,
@@ -424,7 +425,7 @@ function changeVa(){
 	} //차트 선택시
 	else if(dataCh == 'sta'){
 		$('#chart').empty();
-		
+		$("#grid").show();
 		
 	}
 }
