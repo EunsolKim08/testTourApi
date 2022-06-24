@@ -15,6 +15,6 @@ public interface dataMapper {
 	
 	public void insertData(List<NutrientDTO> list);
 	
-	
+	public void updateData(Items items);
 
 }

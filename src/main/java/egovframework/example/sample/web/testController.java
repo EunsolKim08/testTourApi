@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.example.sample.service.impl.dataMapper;
@@ -292,7 +293,9 @@ public class testController {
 		//HashMap<String, Object> hmap = new HashMap<String, Object>();
 		//hmap.put("sb", sb);
 		try {
+			System.out.println("result: "+ result);
 			NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
+			
 			//System.out.println("직렬화: "+deserializeNu.toString());
 			fResult = mapper.writeValueAsString(deserializeNu);
 			System.out.println("fResult: "+ fResult);
@@ -361,9 +364,9 @@ public class testController {
 			
 			NutrientDTO nutrientDto = null;
 			List<NutrientDTO> insertList =  new ArrayList<>();
-		
 			
 			try {
+				
 				NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
 				insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
 				//deserializeNu.getBody().getItems();
@@ -387,7 +390,7 @@ public class testController {
 			}
 		}else {
 			System.out.println("데이터 조회결과 O.");
-			
+			System.out.println("result: "+ result);
 			insertFlag = 1;
 			JSONObject obj = new JSONObject();                
 			//System.out.println(selectItem);
@@ -495,7 +498,7 @@ public class testController {
 	
 	@RequestMapping("/dataEdit.do")
 	@ResponseBody
-	public String dataEdit(@RequestBody String jsonData)  {
+	public String dataEdit(@RequestBody String jsonData) throws JsonMappingException, JsonProcessingException  {
 		
 		 
 		String result="1";
@@ -518,7 +521,7 @@ public class testController {
 		System.out.println("치환후 decodeVal: "+ decodeVal);
 		
 		
-		
+		String orgCode  = decodeVal;
 		System.out.println("1");
 		JSONParser parser = new JSONParser();
 		System.out.println("2");
@@ -537,11 +540,37 @@ public class testController {
 		
 		System.out.println("3");
 		JSONObject jsonObj = (JSONObject) obj;
-		System.out.println("4");
+		JSONArray jarray = new JSONArray();
 		
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	
+		System.out.println("확인"+jsonObj.get("items").toString());
+		List<Items> itemList =  new ArrayList<>();
 		
-		
-		
+		JSONArray items = (JSONArray)jsonObj.get("items");
+		JSONObject jsonObj2=null ;
+
+		for(int i = 0; i<items.size();i++) {
+			jsonObj2 = (JSONObject)items.get(i);
+			System.out.println((String)jsonObj2.get("DESC_KOR"));
+			System.out.println(jsonObj2.get("IDX_NU"));
+			Items items2 = new Items();
+			items2.setIDX_NU(51);
+			items2.setNUTR_CONT1((String)jsonObj2.get("NUTR_CONT1"));
+			items2.setNUTR_CONT2((String)jsonObj2.get("NUTR_CONT2"));
+			items2.setNUTR_CONT3((String)jsonObj2.get("NUTR_CONT3"));
+			items2.setNUTR_CONT4((String)jsonObj2.get("NUTR_CONT4"));
+			items2.setSERVING_WT((String)jsonObj2.get("SERVING_WT"));
+			System.out.println(items2.getNUTR_CONT1());
+			System.out.println(items2.getNUTR_CONT2());
+			System.out.println(items2.getNUTR_CONT3());
+			System.out.println(items2.getNUTR_CONT4());
+			System.out.println(items2.getSERVING_WT());
+			dataMapper.updateData(items2);
+		}
+	
+		System.out.println("수정완료");
 		return result;
 	}
 		

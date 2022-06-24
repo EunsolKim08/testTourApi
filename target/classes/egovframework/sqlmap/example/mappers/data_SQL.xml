@@ -43,6 +43,17 @@
 	    </foreach>   
 	    
 	</insert>
+	<update id="updateData"  parameterType="egovframework.example.sample.web.Items">
+    UPDATE Nutrient
+    
+		SET 
+		
+	SERVING_WT=#{SERVING_WT}, NUTR_CONT1=#{NUTR_CONT1}, 
+	NUTR_CONT2=#{NUTR_CONT2}, NUTR_CONT3=#{NUTR_CONT3}, 
+	NUTR_CONT4=#{NUTR_CONT4}
+	WHERE IDX_NU=#{IDX_NU}
+    </update>
+	
 	
 
  </mapper>
