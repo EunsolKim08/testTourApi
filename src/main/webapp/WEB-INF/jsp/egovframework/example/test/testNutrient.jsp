@@ -22,6 +22,7 @@
 		<input type="radio" name="dataPrint" value="sta" onchange="changeVa()" checked/>표
 		<input type="radio" name="dataPrint" value="cha" onchange="changeVa()"/>차트
 	</form>
+	
 	<script>
 	var searchValue="";
 	var item = "";
@@ -245,15 +246,15 @@
 	<br/><hr/>
 	<div style="margin-top:50px; margin-left:80%">
 		<button type="button" id="searchNutirent" name="searchNutirent" onclick="dataEdit()" 
-				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF;">수정하기</button>
+				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:100px;">수정하기</button>
 	</div>
-	
+	<div id="grid"></div>
 	<br/>
 	<br/>
 	
 	<br>
 	
-	<div id="grid"></div>
+
 	<script>
 	 var grid = new tui.Grid({
  		  el: document.getElementById('grid'),
@@ -312,7 +313,7 @@
 	</script>
 </div>
 
-<div id="chart"></div>
+<div id="chart" style="margin:100px;"></div>
 <script type="text/javascript">
 var dataCh="";
 function changeVa(){
@@ -341,6 +342,7 @@ function changeVa(){
 	var nuDa3="";
 	var nuDa4="";
 	if(dataCh == 'cha'){
+		//$('#grid').empty();
 		console.log("차트설정");
 		/* namespace */
 		let obj = {
@@ -422,6 +424,7 @@ function changeVa(){
 	} //차트 선택시
 	else if(dataCh == 'sta'){
 		$('#chart').empty();
+		
 		
 	}
 }

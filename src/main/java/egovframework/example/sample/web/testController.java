@@ -561,13 +561,14 @@ public class testController {
 			jsonObj2 = (JSONObject)items.get(i);
 			System.out.println((String)jsonObj2.get("DESC_KOR"));
 			System.out.println((String)jsonObj2.get("DESC_KOR").getClass().getName());
-			System.out.println(jsonObj2.get("IDX_NU").getClass().getName() );
-			 
-			Items items2 = new Items();
-			//String IDX_NU = jsonObj.get("IDX_NU").toString();
-			//int rowidx = Integer.parseInt(IDX_NU);
+			System.out.println("index1: "+ jsonObj2.get("IDX_NU"));
+			long index2 = (long) jsonObj2.get("IDX_NU");
+			int index3 =(int)index2;
+			System.out.println("index3: "+index3);
 			
-			items2.setIDX_NU(1);
+			Items items2 = new Items();
+			
+			items2.setIDX_NU(index3);
 			items2.setNUTR_CONT1((String)jsonObj2.get("NUTR_CONT1"));
 			items2.setNUTR_CONT2((String)jsonObj2.get("NUTR_CONT2"));
 			items2.setNUTR_CONT3((String)jsonObj2.get("NUTR_CONT3"));
