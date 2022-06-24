@@ -27,6 +27,7 @@
 	      , NUTR_CONT2
 	      , NUTR_CONT3
 	      , NUTR_CONT4
+	      , ANIMAL_PLANT
 	    )
 	    VALUES
 	    
@@ -39,6 +40,7 @@
 	        , #{item.NUTR_CONT2}
 	        , #{item.NUTR_CONT3}
 	        , #{item.NUTR_CONT4}
+	        , #{item.ANIMAL_PLANT}
 	        )
 	    </foreach>   
 	    

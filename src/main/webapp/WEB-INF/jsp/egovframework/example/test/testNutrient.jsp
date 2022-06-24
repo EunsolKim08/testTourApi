@@ -191,7 +191,8 @@
 		console.log("데이터 수정");
 		
 		var obj = grid.getModifiedRows().updatedRows;
-		
+		var see = grid.getModifiedRows();
+		console.log(see);
 		console.log("수정된 부분: " + obj);
 		var jsonObj= JSON.stringify(obj);
 		console.log("json 변환: "+jsonObj );
