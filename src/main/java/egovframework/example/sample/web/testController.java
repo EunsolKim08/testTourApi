@@ -36,6 +36,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -494,14 +495,46 @@ public class testController {
 	
 	@RequestMapping("/dataEdit.do")
 	@ResponseBody
-	public String dataEdit(@RequestParam HashMap<String, Object> jsonObj) {
+	public String dataEdit(@RequestBody String jsonData)  {
 		
 		 
 		String result="1";
+		String json="";
+		String decodeVal="";
 		System.out.println("dataEdit 실행");
-		System.out.println( "수정 데이터: "+ jsonObj);
-	
-				
+		
+		System.out.println( "수정 데이터: "+jsonData);
+		try {
+			decodeVal = URLDecoder.decode(jsonData, "utf-8");
+			System.out.println("디코딩 문자: "+decodeVal);
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("디코딩중 에러발생");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		decodeVal=decodeVal.replace("jsonData=[{", "[{");
+		System.out.println("치환후 decodeVal: "+ decodeVal);
+		
+		
+		
+		System.out.println("1");
+		JSONParser parser = new JSONParser();
+		System.out.println("2");
+		try {
+			Object obj = parser.parse( decodeVal );
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			System.out.println("parser.pare 실행중 오류");
+			e.printStackTrace();
+		}
+		
+		System.out.println("3");
+		//JSONObject jsonObj = (JSONObject) obj;
+		System.out.println("4");
+		
+		
+		
 		
 		return result;
 	}

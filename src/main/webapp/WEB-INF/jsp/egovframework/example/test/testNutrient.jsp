@@ -190,18 +190,21 @@
 		console.log("데이터 수정");
 		
 		var obj = grid.getModifiedRows().updatedRows;
-	
-		console.log("확인: "+obj.constructor);// function Array() { [native code] }
-		//console.log(obj[0]);
-	//	console.log("json형식"+JSON.stringify(obj));
+		
+		console.log("수정된 부분: " + obj);
 		var jsonObj= JSON.stringify(obj);
 		console.log("json 변환: "+jsonObj );
+		var x= jsonObj.toString();
+		console.log(x);
+		
 		$.ajax({ 
 			url :'dataEdit.do',
 			type: 'POST', 
 		    dataType:"json",
-		    data: jsonObj,
-		    //contentType : 'application/json; charset=UTF-8',
+		    data: { 
+		    	jsonData: jsonObj,
+		    },
+		    contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
 		    console.log("edit 완료");
 		    	//grid.readData(item);
