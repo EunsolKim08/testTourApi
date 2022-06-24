@@ -470,7 +470,7 @@ public class testController {
 					nuDa2+=",";
 					nuDa3+=",";
 					nuDa4+=",";
-					categories +=",";
+					categories +="/";
 				}
 			}
 			categories +="";

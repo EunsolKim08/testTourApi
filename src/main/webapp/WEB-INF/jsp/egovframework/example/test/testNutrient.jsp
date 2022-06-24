@@ -381,7 +381,7 @@ function changeVa(){
 			 //var datCa = JSON.parse('['+"1월", "2월", "3월"+']');
 			 var i = 0;
 			 var jsonRe="[";
-			const arr=chaData.split(",");
+			const arr=chaData.split("/");
 			while(i < arr.length){
 				if( i != arr.length-1){
 					jsonRe +='"' +arr[i]+'",';
