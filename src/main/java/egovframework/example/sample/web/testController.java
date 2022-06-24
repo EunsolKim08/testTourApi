@@ -388,6 +388,12 @@ public class testController {
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
+			JSONObject obj = new JSONObject();    
+			selectItem = dataMapper.selectData(items);
+			obj.put("items", selectItem);
+			System.out.println("json obj: "+obj);
+			
+			fResult= obj.toJSONString();
 		}else {
 			System.out.println("데이터 조회결과 O.");
 			System.out.println("result: "+ result);
@@ -556,6 +562,7 @@ public class testController {
 			System.out.println((String)jsonObj2.get("DESC_KOR"));
 			System.out.println(jsonObj2.get("IDX_NU"));
 			Items items2 = new Items();
+			
 			items2.setIDX_NU(51);
 			items2.setNUTR_CONT1((String)jsonObj2.get("NUTR_CONT1"));
 			items2.setNUTR_CONT2((String)jsonObj2.get("NUTR_CONT2"));

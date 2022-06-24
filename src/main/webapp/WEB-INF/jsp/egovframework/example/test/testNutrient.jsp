@@ -207,7 +207,7 @@
 		    contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
 		    console.log("edit 완료");
-		    	//grid.readData(item);
+		    	alert('수정이 완료되었습니다.');
 		    },
 		    error: function(data) {
 		    console.log("edit 실패");
