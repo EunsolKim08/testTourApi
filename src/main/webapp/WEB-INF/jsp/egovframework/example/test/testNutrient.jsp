@@ -231,10 +231,10 @@
 			식품명
 			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"
 			/>
-		<!-- 	<button type="button" id="searchNutirent" name="searchNutirent" onclick="search()" 
+			<button type="button" id="searchNutirent" name="searchNutirent" onclick="search()" 
 				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api1 검색하기</button>
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="apiTest2()" 
-				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api2 검색하기</button> -->
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api2 검색하기</button> 
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="apiTest3()" 
 				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api3 </button>
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="dataSearch()" 

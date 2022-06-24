@@ -295,7 +295,7 @@ public class testController {
 			NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
 			//System.out.println("직렬화: "+deserializeNu.toString());
 			fResult = mapper.writeValueAsString(deserializeNu);
-			//System.out.println("fResult: "+ fResult);
+			System.out.println("fResult: "+ fResult);
 			NutrientDTO innerClassPersonDto = objectMapper.readValue(result, NutrientDTO.class);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -500,12 +500,12 @@ public class testController {
 		 
 		String result="1";
 		String json="";
-		String decodeVal="";
+		String decodeVal = "{\"items\":\r\n";
 		System.out.println("dataEdit 실행");
 		
 		System.out.println( "수정 데이터: "+jsonData);
 		try {
-			decodeVal = URLDecoder.decode(jsonData, "utf-8");
+			decodeVal += URLDecoder.decode(jsonData, "utf-8");
 			System.out.println("디코딩 문자: "+decodeVal);
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("디코딩중 에러발생");
@@ -514,6 +514,7 @@ public class testController {
 		}
 		
 		decodeVal=decodeVal.replace("jsonData=[{", "[{");
+		decodeVal +=",\"pageNo\":\"1\",\"totalCount\":\"94\",\"numOfRows\":\"10\"}";
 		System.out.println("치환후 decodeVal: "+ decodeVal);
 		
 		
@@ -521,8 +522,13 @@ public class testController {
 		System.out.println("1");
 		JSONParser parser = new JSONParser();
 		System.out.println("2");
+		Object obj = null;
+		
 		try {
-			Object obj = parser.parse( decodeVal );
+			//obj = parser.parse( strJson );
+			obj = parser.parse( decodeVal );
+			//JSONParser jsonParser = new JSONParser();
+			//JSONObject jsonObject = (JSONObject)jsonParser.parse(decodeVal);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			System.out.println("parser.pare 실행중 오류");
@@ -530,7 +536,7 @@ public class testController {
 		}
 		
 		System.out.println("3");
-		//JSONObject jsonObj = (JSONObject) obj;
+		JSONObject jsonObj = (JSONObject) obj;
 		System.out.println("4");
 		
 		
