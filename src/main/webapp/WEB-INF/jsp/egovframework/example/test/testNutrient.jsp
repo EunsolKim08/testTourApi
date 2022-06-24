@@ -14,7 +14,7 @@
 <title>식품_영양성분_DB서비스</title>
 </head>
 <body>
-<div style="margin:100px;">
+<div style="margin-left:100px; margin-top:100px">
 	<h1>식품_영양성분_DB서비스</h1>
 	<br/><br/>
 	데이터 출력: 
@@ -313,7 +313,7 @@
 	</script>
 </div>
 
-<div id="chart" style="margin:100px;"></div>
+<div id="chart" style="margin-left:100px;" ></div>
 <script type="text/javascript">
 var dataCh="";
 function changeVa(){
@@ -328,10 +328,7 @@ function changeVa(){
 	searchValue = formName;
 	companyName = company;
 	
-	if(searchValue ==  ""){
-		alert("차트정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
-		return document.frm.foodName.focus();
-	}
+	
 	
 	let obj = {
 			searchValue : searchValue,
@@ -344,7 +341,14 @@ function changeVa(){
 	if(dataCh == 'cha'){
 		//$('#grid').empty();
 		console.log("차트설정");
+		
+		
 		$("#grid").hide();
+		if(searchValue ==  ""){
+			alert("정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
+			document.getelementsbyclassname("dataPrint").checked=false;
+			return document.frm.foodName.focus();
+		}
 		/* namespace */
 		let obj = {
 				searchValue : searchValue,
