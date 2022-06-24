@@ -245,7 +245,7 @@
 	</div>
 	<br/><hr/>
 	<div style="margin-top:50px; margin-left:80%">
-		<button type="button" id="searchNutirent" name="searchNutirent" onclick="dataEdit()" 
+		<button type="button" id="editNutirent" name="searchNutirent" onclick="dataEdit()" 
 				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:100px;">수정하기</button>
 	</div>
 	<div id="grid"></div>
@@ -344,6 +344,7 @@ function changeVa(){
 		
 		
 		$("#grid").hide();
+		$("#editNutirent").hide();
 		if(searchValue ==  ""){
 			alert("정보 검색을 위해서는 반드시 식품명을 검색해야합니다.");
 			document.getelementsbyclassname("dataPrint").checked=false;
@@ -430,6 +431,8 @@ function changeVa(){
 	else if(dataCh == 'sta'){
 		$('#chart').empty();
 		$("#grid").show();
+		$("#editNutirent").show();
+		
 		
 	}
 }
