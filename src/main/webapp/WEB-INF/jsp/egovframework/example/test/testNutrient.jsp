@@ -198,9 +198,10 @@
 		console.log("json 변환: "+jsonObj );
 		$.ajax({ 
 			url :'dataEdit.do',
+			type: 'POST', 
 		    dataType:"json",
 		    data: jsonObj,
-		   // contentType : 'application/json; charset=UTF-8',
+		    //contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
 		    console.log("edit 완료");
 		    	//grid.readData(item);

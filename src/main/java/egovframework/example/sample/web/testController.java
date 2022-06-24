@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -493,9 +494,9 @@ public class testController {
 	
 	@RequestMapping("/dataEdit.do")
 	@ResponseBody
-	public String dataEdit(HttpServletRequest req) {
+	public String dataEdit(@RequestParam HashMap<String, Object> jsonObj) {
 		
-		String jsonObj = req.getParameter("jsonObj");
+		 
 		String result="1";
 		System.out.println("dataEdit 실행");
 		System.out.println( "수정 데이터: "+ jsonObj);
