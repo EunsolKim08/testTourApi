@@ -440,7 +440,15 @@ public class testController {
 			
 			JSONObject jsonObj=null ;
 			
-			for(int i = 0; i<10;i++) {
+			int cFlag = 0;
+			
+			if(jsonArr.size()>10) {
+				cFlag = 10;
+			}else {
+				cFlag = jsonArr.size();
+			}
+			
+			for(int i = 0; i<cFlag;i++) {
 				jsonObj = (JSONObject)jsonArr.get(i);
 				System.out.println((String)jsonObj.get("DESC_KOR"));
 			
@@ -452,7 +460,7 @@ public class testController {
 				nuDa4 += (String)jsonObj.get("NUTR_CONT4");
 				
 				
-				if(i < 9) {
+				if(i < cFlag-1) {
 					nuDa2+=",";
 					nuDa3+=",";
 					nuDa4+=",";
