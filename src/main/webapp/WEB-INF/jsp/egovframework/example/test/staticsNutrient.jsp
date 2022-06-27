@@ -12,15 +12,33 @@
 <meta charset="UTF-8">
 <title>영양성분 3가지방법 통계 분석</title>
 <script>
+var groupCd ="";
+var nutrientCd="";
+var searchWord ="";
 	function filterSearch(){
 		console.log("필터기준 조회");
 		
-		var groupCd = document.staticSearch.grpCd.value;
+		groupCd = document.staticSearch.grpCd.value;
 		console.log("그룹코드: " + groupCd );
-		var nutrientCd =  document.staticSearch.nCd.value;
+		nutrientCd =  document.staticSearch.nCd.value;
 		console.log("필수 기준 코드1: "+ nutrientCd);
-		var searchWord = document.staticSearch.searchWord.value;
+		searchWord = document.staticSearch.searchWord.value;
 		console.log("필수 기준 코드2: "+ searchWord);
+		
+		
+		if(groupCd=""){
+			alert("구분 코드를 선택해주세요.");
+			return false;
+		}
+		if(nutrientCd=""){
+			alert("필수기준 코드1을 선택해주세요. ");
+			return false;
+		}
+		if(searchWord=""){
+			alert("필수기준 코드2를 입력해주세요.");
+			return staticSearch.searchWord.value.focus();
+		}
+		
 		let obj={
 			groupCd : groupCd,
 			nutrientCd : nutrientCd,
