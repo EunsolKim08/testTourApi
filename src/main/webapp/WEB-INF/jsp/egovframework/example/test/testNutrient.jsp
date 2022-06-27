@@ -388,72 +388,74 @@ function changeVa(){
 			url :'getChartData.do',
 		    dataType:"json",
 		    data: obj,
-		    success: function(data){ 
-			    console.log(data);
-			    console.log(data.categories);
-			    chaData = data.categories;
-			    nuDa2 = data.nuDa2;
-			    nuDa3 = data.nuDa3;
-			    nuDa4 = data.nuDa4;
+		    success: function(cdata){ 
+			    console.log(cdata);
+			    console.log(cdata.categories);
+			    chaData = cdata.categories;
+			    nuDa2 = cdata.nuDa2;
+			    nuDa3 = cdata.nuDa3;
+			    nuDa4 = cdata.nuDa4;
 			    //console.log(data.array2.categories);
 			    console.log("chaData: "+chaData);
+			    
+				// console.log("chaData2: "+JSON.parse('["'+chaData+'"]'));
+				 const Chart = toastui.Chart;
+				 const el = document.getElementById('chart');
+					
+				// var datCa = JSON.parse(chaData);
+				console.log("####### : " + nuDa2)
+				 var cNuDa2 =  JSON.parse(nuDa2);
+				 var cNuDa3 =  JSON.parse(nuDa3);
+				 var cNuDa4 =  JSON.parse(nuDa4);
+				 //var datCa = JSON.parse('['+"1월", "2월", "3월"+']');
+				 var i = 0;
+				 var jsonRe="[";
+				const arr=chaData.split("/");
+				while(i < arr.length){
+					if( i != arr.length-1){
+						jsonRe +='"' +arr[i]+'",';
+					}else{
+						jsonRe +='"' +arr[i]+'"]';
+					}
+					i++;
+				}
+				
+				 
+				 console.log("파싱 준비: " + jsonRe);
+				
+				var datCa = JSON.parse(jsonRe);
+				var dataSe =  [
+				   {
+				       name: '탄수화물(g)',
+				       data: cNuDa2,
+				    },
+				    {
+				      name: '단백질(g)',
+				       data: cNuDa3,
+				     },
+				     {
+					    name: '지방(g)',
+					    data: cNuDa4,
+						 }
+					];
+					const data = {
+					  categories: datCa,
+					  series: dataSe,
+					};
+					const options = {
+					  chart: { width: 700, height: 400 },
+					};
+					const chart = Chart.barChart({ el, data, options });
 		    },
-		    error: function(data) {
+		    error: function(cdata) {
 		    	console.log("de"); 
 		    }
 		});
 		
-		
+		/* 
 		 $.when($.ajax("getChartData.do")).done(function(){
-			// console.log("chaData2: "+JSON.parse('["'+chaData+'"]'));
-			 const Chart = toastui.Chart;
-			 const el = document.getElementById('chart');
-				
-			// var datCa = JSON.parse(chaData);
-			console.log("####### : " + nuDa2)
-			 var cNuDa2 =  JSON.parse(nuDa2);
-			 var cNuDa3 =  JSON.parse(nuDa3);
-			 var cNuDa4 =  JSON.parse(nuDa4);
-			 //var datCa = JSON.parse('['+"1월", "2월", "3월"+']');
-			 var i = 0;
-			 var jsonRe="[";
-			const arr=chaData.split("/");
-			while(i < arr.length){
-				if( i != arr.length-1){
-					jsonRe +='"' +arr[i]+'",';
-				}else{
-					jsonRe +='"' +arr[i]+'"]';
-				}
-				i++;
-			}
-			
-			 
-			 console.log("파싱 준비: " + jsonRe);
-			
-			var datCa = JSON.parse(jsonRe);
-			var dataSe =  [
-			   {
-			       name: '탄수화물(g)',
-			       data: cNuDa2,
-			    },
-			    {
-			      name: '단백질(g)',
-			       data: cNuDa3,
-			     },
-			     {
-				    name: '지방(g)',
-				    data: cNuDa4,
-					 }
-				];
-				const data = {
-				  categories: datCa,
-				  series: dataSe,
-				};
-				const options = {
-				  chart: { width: 700, height: 400 },
-				};
-				const chart = Chart.barChart({ el, data, options });
-	     });
+		
+	     }); */
 	} //차트 선택시
 	else if(dataCh == 'sta'){
 		$('#chart').empty();
