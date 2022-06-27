@@ -1,51 +1,37 @@
 package egovframework.example.sample.web;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
-import javax.json.JsonException;
-import javax.json.JsonObject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.example.sample.service.impl.dataMapper;
-
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.io.BufferedReader;
-import java.io.IOException;
 
 @Controller
 public class testController {
@@ -333,8 +319,8 @@ public class testController {
 			StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
 		    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Tqi6GXzISVFFUWsPcky9vgkUk4M2XhuAByFsXN5adVLBkRL8ZLTVI1qQ%2Bzo3PVJeCXI5%2FZfhvuEPEFYjH4F0mg%3D%3D"); /*Service Key*/
 		    urlBuilder.append("&" + URLEncoder.encode("desc_kor","UTF-8") + "=" + URLEncoder.encode(searchValue, "UTF-8")); /*식품이름*/
-		    urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-		    // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
+		  //  urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+		    urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); /*한 페이지 결과 수*/
 		    urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default: xml*/
 		    
 		    if(companyName != "") {
@@ -366,7 +352,7 @@ public class testController {
 			List<NutrientDTO> insertList =  new ArrayList<>();
 			
 			try {
-				
+				System.out.println("result의 구조: " + result);
 				NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
 				insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
 				//deserializeNu.getBody().getItems();
@@ -383,8 +369,7 @@ public class testController {
 					dataMapper.insertData(insertList);
 					System.out.println("데이터 삽입 실행 완료");
 				}
-				//System.out.println("fResult: "+ fResult);
-				NutrientDTO innerClassPersonDto = objectMapper.readValue(result, NutrientDTO.class);
+			
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
@@ -446,6 +431,7 @@ public class testController {
 		JSONParser jsonParser = new JSONParser();
 	
 		try {
+	
 			json = objectMapper.writeValueAsString(selectItem);
 			
 			System.out.println("json: "+json);
@@ -454,7 +440,7 @@ public class testController {
 			
 			JSONObject jsonObj=null ;
 			
-			for(int i = 0; i<jsonArr.size();i++) {
+			for(int i = 0; i<10;i++) {
 				jsonObj = (JSONObject)jsonArr.get(i);
 				System.out.println((String)jsonObj.get("DESC_KOR"));
 			
@@ -466,7 +452,7 @@ public class testController {
 				nuDa4 += (String)jsonObj.get("NUTR_CONT4");
 				
 				
-				if(i < jsonArr.size()-1) {
+				if(i < 9) {
 					nuDa2+=",";
 					nuDa3+=",";
 					nuDa4+=",";
@@ -496,7 +482,7 @@ public class testController {
 		obj.put("categories", categories);
 		obj.put("nuDa2", nuDa2);
 		obj.put("nuDa3", nuDa3);
-		obj.put("nuDa4", "[30, 10, 4]");
+		obj.put("nuDa4", nuDa4);
 		result= obj.toJSONString();
 		
 		return result;
@@ -522,7 +508,7 @@ public class testController {
 			e.printStackTrace();
 		}
 		
-		decodeVal=decodeVal.replace("jsonData=[{", "[{");
+		decodeVal = decodeVal.replace("jsonData=[{", "[{");
 		decodeVal +=",\"pageNo\":\"1\",\"totalCount\":\"94\",\"numOfRows\":\"10\"}";
 		System.out.println("치환후 decodeVal: "+ decodeVal);
 		
@@ -551,20 +537,47 @@ public class testController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	
-		System.out.println("확인"+jsonObj.get("items").toString());
-		List<Items> itemList =  new ArrayList<>();
+		//System.out.println("확인"+jsonObj.get("items").toString());
+		List<Map<String, Object>> bodyList =  new ArrayList<>();
+		
+		
+		try {
+			Body desi = objectMapper.readValue(decodeVal, Body.class);
+			System.out.println(desi);
+			
+			bodyList = (List<Map<String, Object>>)desi.getItems();
+			System.out.println("bodyList: "+ bodyList);
+			//insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
+			for(int i = 0; i<bodyList.size();i++) {
+				LinkedHashMap<String, Object> lmap = (LinkedHashMap<String, Object>) bodyList.get(i);
+				//System.out.println("bodyList 각 요소: "+lmap);
+				//lmap.get("DESC_KOR");
+			}
+			
+			System.out.println("아이템 직렬화 제대로 실행");
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("아이템 직렬화로 읽기 중 오류");
+		}
+			
+		
+	
+		//jsonObj3.put("items", bodyList);
+	//	System.out.println("array 객체변환: "+jsonObj3.toString());
+	
 		
 		JSONArray items = (JSONArray)jsonObj.get("items");
+		//System.out.println("jsonArray: "+items);
 		JSONObject jsonObj2=null ;
 
 		for(int i = 0; i<items.size();i++) {
 			jsonObj2 = (JSONObject)items.get(i);
-			System.out.println((String)jsonObj2.get("DESC_KOR"));
-			System.out.println((String)jsonObj2.get("DESC_KOR").getClass().getName());
-			System.out.println("index1: "+ jsonObj2.get("IDX_NU"));
+			//System.out.println((String)jsonObj2.get("DESC_KOR"));
+			//System.out.println((String)jsonObj2.get("DESC_KOR").getClass().getName());
+			//System.out.println("index1: "+ jsonObj2.get("IDX_NU"));
 			long index2 = (long) jsonObj2.get("IDX_NU");
 			int index3 =(int)index2;
-			System.out.println("index3: "+index3);
+			//System.out.println("index3: "+index3);
 			
 			Items items2 = new Items();
 			
@@ -574,17 +587,44 @@ public class testController {
 			items2.setNUTR_CONT3((String)jsonObj2.get("NUTR_CONT3"));
 			items2.setNUTR_CONT4((String)jsonObj2.get("NUTR_CONT4"));
 			items2.setSERVING_WT((String)jsonObj2.get("SERVING_WT"));
-			System.out.println(items2.getNUTR_CONT1());
-			System.out.println(items2.getNUTR_CONT2());
-			System.out.println(items2.getNUTR_CONT3());
-			System.out.println(items2.getNUTR_CONT4());
-			System.out.println(items2.getSERVING_WT());
+			/*
+			 * System.out.println(items2.getNUTR_CONT1());
+			 * System.out.println(items2.getNUTR_CONT2());
+			 * System.out.println(items2.getNUTR_CONT3());
+			 * System.out.println(items2.getNUTR_CONT4());
+			 * System.out.println(items2.getSERVING_WT());
+			 */
 			dataMapper.updateData(items2);
 		}
 	
 		System.out.println("수정완료");
 		return result;
 	}
+	
+	@RequestMapping("/dataEdit2.do")
+	@ResponseBody
+	public String dataEdit2(@RequestBody String jsonData) throws JsonMappingException, JsonProcessingException  {
 		
+		String result="";
+		System.out.println("dateEdit2 실행");
+		System.out.println("jsonData는 "+jsonData);
+		
+		try {
+			jsonData = URLDecoder.decode(jsonData, "utf-8");
+			System.out.println("디코딩 문자: "+jsonData.toString());
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("디코딩중 에러발생");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+	
+		
+		return result;
+	}
+	
 	
 }

@@ -216,6 +216,30 @@
 		    }
 		});
 	}
+	function dataEdit2(){
+		console.log("데이터 수정222");
+		
+		var obj = grid.getModifiedRows().updatedRows;
+		var jsonObj= JSON.stringify(obj);
+		console.log("json 변환: "+jsonObj );
+		
+		$.ajax({ 
+			url :'dataEdit2.do',
+			type: 'POST', 
+		    dataType:"json",
+		    data: { 
+		    	jsonData: jsonObj,
+		    },
+		    contentType : 'application/json; charset=UTF-8',
+		    success: function(data){ 
+		    console.log("edit 완료");
+		    	alert('수정이 완료되었습니다.');
+		    },
+		    error: function(data) {
+		    console.log("edit 실패");
+		    }
+		});
+	}
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
 	<div>
@@ -249,6 +273,10 @@
 		<button type="button" id="editNutirent" name="searchNutirent" onclick="dataEdit()" 
 				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:100px;">수정하기</button>
 	</div>
+	<!-- <div style="margin-top:50px; margin-left:80%">
+		<button type="button" id="editNutirent2" name="searchNutirent2" onclick="dataEdit2()" 
+				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:100px;">수정하기2</button>
+	</div> -->
 	<div id="grid"></div>
 	<br/>
 	<br/>
@@ -382,6 +410,7 @@ function changeVa(){
 			 const el = document.getElementById('chart');
 				
 			// var datCa = JSON.parse(chaData);
+			console.log("####### : " + nuDa2)
 			 var cNuDa2 =  JSON.parse(nuDa2);
 			 var cNuDa3 =  JSON.parse(nuDa3);
 			 var cNuDa4 =  JSON.parse(nuDa4);
@@ -400,10 +429,7 @@ function changeVa(){
 			
 			 
 			 console.log("파싱 준비: " + jsonRe);
-			 var x = '["1월", "2월", "3월"]';
-			 console.log("x는 "+ x);
-			 var y = '['+ '"4월","5월","6월"' +']'; 
-			 console.log("y는 "+ y);
+			
 			var datCa = JSON.parse(jsonRe);
 			var dataSe =  [
 			   {
