@@ -21,6 +21,24 @@
 		console.log("필수 기준 코드1: "+ nutrientCd);
 		var searchWord = document.staticSearch.searchWord.value;
 		console.log("필수 기준 코드2: "+ searchWord);
+		let obj={
+			groupCd : groupCd,
+			nutrientCd : nutrientCd,
+			searchWord : searchWord
+		}
+		$.ajax({ 
+			url :'filterSearch.do',
+		    //dataType:"json",
+		    data : obj,
+		    success: function(data){ 
+		    	console.log("fS");
+		    	//item = data.body.items;
+		        //grid.resetData(item);
+		    },
+		    error: function(data) {
+		    	console.log("fE"); 
+		    }
+		});
 	}
 	function changeVa(){
 		console.log("데이터 출력 값 변경");
@@ -42,10 +60,10 @@
 			필수1:
 			<select name="nCd" style="font-size:20px; margin-right:20px;">
 				<option value="">--전체--</option>
-				<option value="N01">칼로리</option>
-				<option value="N02">탄수화물</option>
-				<option value="N03">단백질</option>
-				<option value="N04">지방</option>
+				<option value="N01">칼로리 기준 TOP5</option>
+				<option value="N02">탄수화물 기준 TOP5</option>
+				<option value="N03">단백질 기준 TOP5</option>
+				<option value="N04">지방  기준 TOP5</option>
 			</select>
 			필수2:
 			<input type="text" id="searchWord" name="searchWord" style="font-size:20px; margin-right:20px;">
@@ -61,5 +79,27 @@
 		<br/><br/>
 	</div>
 	<div id="grid"></div>
+	<script>
+	 var grid = new tui.Grid({
+ 		  el: document.getElementById('grid'),
+ 		  pagination:true,
+ 		  columns: [
+ 		    {
+ 		      header: '통계 구분',
+ 		      name: 'G_CD' 		      
+ 		    },
+ 		   {
+ 	 		      header: '통계 값',
+ 	 		      name: 'CD'
+ 	 		    },
+ 		    {
+ 			      header: '식품이름',
+ 			      name: 'DESC_KOR'
+ 			      
+ 			}
+ 		]
+ 	});
+	
+	</script>
 </body>
 </html>
