@@ -26,19 +26,6 @@ var searchWord ="";
 		console.log("필수 기준 코드2: "+ searchWord);
 		
 		
-		if(groupCd=""){
-			alert("구분 코드를 선택해주세요.");
-			return false;
-		}
-		if(nutrientCd=""){
-			alert("필수기준 코드1을 선택해주세요. ");
-			return false;
-		}
-		if(searchWord=""){
-			alert("필수기준 코드2를 입력해주세요.");
-			return staticSearch.searchWord.value.focus();
-		}
-		
 		let obj={
 			groupCd : groupCd,
 			nutrientCd : nutrientCd,
@@ -50,7 +37,8 @@ var searchWord ="";
 		    data : obj,
 		    success: function(data){ 
 		    	console.log("fS");
-		    	//item = data.body.items;
+		    	console.log(data);
+		    	//var item = data.body.items;
 		        //grid.resetData(item);
 		    },
 		    error: function(data) {
@@ -71,13 +59,13 @@ var searchWord ="";
 	| 필수입력<br/><br/>
 		<form name="staticSearch" id="staticSearch">
 			구분: 
-			<select name="grpCd" id="grpCd" style="font-size:20px; margin-right:20px;">
-				<option value="">-- 선택 --</option>
+			<select name="grpCd" id="grpCd" style="font-size:20px; margin-right:20px; text-align:center;">
+				<option value="">--- 선택 ---</option>
 				<option value="A0005">영양성분 검색</option>
 			</select>
 			필수1:
-			<select name="nCd" style="font-size:20px; margin-right:20px;">
-				<option value="">--전체--</option>
+			<select name="nCd" style="font-size:20px; margin-right:20px; text-align:center;">
+				<option value="">--- 전체 ---</option>
 				<option value="N01">칼로리 기준 TOP5</option>
 				<option value="N02">탄수화물 기준 TOP5</option>
 				<option value="N03">단백질 기준 TOP5</option>
