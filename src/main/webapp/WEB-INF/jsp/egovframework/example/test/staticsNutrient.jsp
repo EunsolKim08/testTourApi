@@ -47,8 +47,23 @@ var searchWord ="";
 		    }
 		});
 	}
+	var dataCh="";
 	function changeVa(){
 		console.log("데이터 출력 값 변경");
+		dataCh = document.frm.dataPrint.value;
+	
+		if(dataCh == 'cha'){
+			//$('#grid').empty();
+			console.log("차트설정");
+			console.log("데이터 선택 밴경: "+ dataCh);
+			
+			$("#grid").hide();
+		}else if(dataCh == 'sta'){
+			//$('#chart').empty();
+			$("#grid").show();
+			console.log("데이터 선택 밴경: "+ dataCh);
+			
+		}
 	}
 </script>
 </head>
@@ -81,7 +96,7 @@ var searchWord ="";
 		<form name="frm" id="frm">
 		| 데이터출력 &nbsp;
 			<input type="radio" name="dataPrint" value="sta" onchange="changeVa()" checked/>표
-			<input type="radio" name="dataPrint" value="sta" onchange="changeVa()" />차트
+			<input type="radio" name="dataPrint" value="cha" onchange="changeVa()" />차트
 		</form>
 		<br/><br/>
 	</div>
