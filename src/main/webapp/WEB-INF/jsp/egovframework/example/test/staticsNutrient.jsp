@@ -33,6 +33,7 @@ var searchWord ="";
 		}
 		$.ajax({ 
 			url :'filterSearch.do',
+			type: 'GET', 
 		    //dataType:"json",
 		    data : obj,
 		    success: function(data){ 

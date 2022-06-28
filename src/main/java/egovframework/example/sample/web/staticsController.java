@@ -31,7 +31,8 @@ public class staticsController {
 		return mv;
  }
 	
-	@RequestMapping(value = "/filterSearch.do")
+	@RequestMapping(value = "/filterSearch.do",
+			produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String filterSearch(String  groupCd, String nutrientCd, String searchWord) {
 		String result="1";
