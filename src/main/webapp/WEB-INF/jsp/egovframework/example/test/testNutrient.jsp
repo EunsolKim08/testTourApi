@@ -177,9 +177,9 @@
 		    success: function(data){ 
 		    	console.log("ds"); 
 		    	console.log(data);
-		    	console.log(data.items);
+		    	//console.log("데이터 형식 확인: "+ data.items);
 		    	item = data.items;
-		     grid.resetData(item);
+		        grid.resetData(item);
 		    	//grid.readData(item);
 		    },
 		    error: function(data) {

@@ -59,11 +59,16 @@ public class staticsController {
 		System.out.println( "사이즈: "+filterList.size());
 		
 		JSONObject obj = new JSONObject(); 
+		for(int i = 0; i<filterList.size();i++) {
+			System.out.print(filterList.get(i));
+			
+		}
+		
 		System.out.println(filterList); //값은 맞게옴.
 		obj.put("items", filterList);
 		System.out.println("실행");
 		
-		return obj.toString();
+		return obj.toJSONString();
 	}
 
 }

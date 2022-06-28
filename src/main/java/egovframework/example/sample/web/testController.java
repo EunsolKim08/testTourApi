@@ -391,6 +391,7 @@ public class testController {
 			System.out.println("json obj: "+obj);
 			
 			fResult= obj.toJSONString();
+			System.out.println("형식확인: "+ fResult);
 			
 		}
 		

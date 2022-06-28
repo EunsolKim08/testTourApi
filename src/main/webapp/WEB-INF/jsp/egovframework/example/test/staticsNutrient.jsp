@@ -17,7 +17,7 @@ var nutrientCd="";
 var searchWord ="";
 	function filterSearch(){
 		console.log("필터기준 조회");
-		
+		var item="";
 		groupCd = document.staticSearch.grpCd.value;
 		console.log("그룹코드: " + groupCd );
 		nutrientCd =  document.staticSearch.nCd.value;
@@ -34,13 +34,13 @@ var searchWord ="";
 		$.ajax({ 
 			url :'filterSearch.do',
 			type: 'GET', 
-		    //dataType:"json",
+		    dataType:"json",
 		    data : obj,
 		    success: function(data){ 
 		    	console.log("fS");
 		    	console.log(data);
-		    	//var item = data.body.items;
-		        //grid.resetData(item);
+		    	item = data.items;
+		        grid.resetData(item);
 		    },
 		    error: function(data) {
 		    	console.log("fE"); 
@@ -88,24 +88,23 @@ var searchWord ="";
 	<div id="grid"></div>
 	<script>
 	 var grid = new tui.Grid({
- 		  el: document.getElementById('grid'),
- 		  pagination:true,
- 		  columns: [
- 		    {
- 		      header: '통계 구분',
- 		      name: 'G_CD' 		      
- 		    },
- 		   {
- 	 		      header: '통계 값',
- 	 		      name: 'CD'
- 	 		    },
- 		    {
- 			      header: '식품이름',
- 			      name: 'DESC_KOR'
- 			      
- 			}
- 		]
- 	});
+		  el: document.getElementById('grid'),
+		  pagination:true,
+		  columns: [
+		    {
+		      header: '식품이름',
+		      name: 'DESC_KOR' 		      
+		    },
+		    {
+			      header: '통계구분',
+			      name: 'STA_KIND',			      
+			},
+		    {
+			      header: '통계값',
+			      name: 'STA_VALUE',			      
+			},
+			]
+	});
 	
 	</script>
 </body>
