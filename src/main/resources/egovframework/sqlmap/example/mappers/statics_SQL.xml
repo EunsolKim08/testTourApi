@@ -11,7 +11,17 @@
 	 	FROM CODE 
 	 	WHERE G_CD = #{G_CD} AND CD = #{CD}
 	</select>
-	<select id="filterData" resultType="hashMap" parameterType="hashMap">
+	<select id="filterData1" resultType="hashMap" parameterType="hashMap">
+	
+	SELECT 
+		*
+	FROM Nutrient n 
+		WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')
+	
+	ORDER by CAST(NUTR_CONT1  AS UNSIGNED)  DESC limit 0,5
+
+	</select>
+	<select id="filterData2" resultType="hashMap" parameterType="hashMap">
 	
 	SELECT 
 		*
@@ -19,6 +29,26 @@
 		WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')
 	
 	ORDER by CAST(NUTR_CONT2  AS UNSIGNED)  DESC limit 0,5
-	
+
 	</select>
+	<select id="filterData3" resultType="hashMap" parameterType="hashMap">
+	
+	SELECT 
+		*
+	FROM Nutrient n 
+		WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')
+	
+	ORDER by CAST(NUTR_CONT3  AS UNSIGNED)  DESC limit 0,5
+	</select>
+	<select id="filterData4" resultType="hashMap" parameterType="hashMap">
+	
+	SELECT 
+		*
+	FROM Nutrient n 
+		WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')
+	
+	ORDER by CAST(NUTR_CONT4  AS UNSIGNED)  DESC limit 0,5
+
+	</select>
+	
  </mapper>

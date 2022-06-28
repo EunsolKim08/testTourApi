@@ -54,18 +54,26 @@ public class staticsController {
 		map.put("DESC_KOR", searchWord);
 		
 		ArrayList<Items> filterList = null;
-		filterList = staticsMapper.filterData(map);
-		
-		System.out.println( "사이즈: "+filterList.size());
-		
-		JSONObject obj = new JSONObject(); 
-		for(int i = 0; i<filterList.size();i++) {
-			System.out.print(filterList.get(i));
-			
+		if(castId.equals("NUTR_CONT1")) {
+			filterList = staticsMapper.filterData1(map);
+		}else if(castId.equals("NUTR_CONT2")) {
+			filterList = staticsMapper.filterData2(map);
+		}else if(castId.equals("NUTR_CONT3")) {
+			filterList = staticsMapper.filterData3(map);
+		}else if(castId.equals("NUTR_CONT4")) {
+			filterList = staticsMapper.filterData4(map);
 		}
 		
-		System.out.println(filterList); //값은 맞게옴.
+		
+		JSONObject obj = new JSONObject(); 
+		
+		String convertResult="";		
+		
 		obj.put("items", filterList);
+		System.out.println(obj);
+		convertResult = obj.toString();
+		System.out.println("convertResult확인: "+convertResult);
+		
 		System.out.println("실행");
 		
 		return obj.toJSONString();

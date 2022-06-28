@@ -95,14 +95,24 @@ var searchWord ="";
 		      header: '식품이름',
 		      name: 'DESC_KOR' 		      
 		    },
-		    {
-			      header: '통계구분',
-			      name: 'STA_KIND',			      
-			},
-		    {
-			      header: '통계값',
-			      name: 'STA_VALUE',			      
-			},
+			 {
+			      header: '열량 (kcal)',
+			      name: 'NUTR_CONT1',			 
+			 },
+			 {
+			      header: '탄수화물 (g)',
+			      name: 'NUTR_CONT2',
+			  
+			 },
+			 {
+			      header: '단백질 (g)',
+			      name: 'NUTR_CONT3',
+			 },
+			 {
+			      header: '지방 (g)',
+			      name: 'NUTR_CONT4',
+			 },
+			 
 			]
 	});
 	
