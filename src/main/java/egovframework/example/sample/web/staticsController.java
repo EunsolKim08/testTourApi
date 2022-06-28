@@ -50,21 +50,13 @@ public class staticsController {
 		System.out.println(rdto.getCD_NAME());
 		String castId = rdto.getCD_NAME();
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("castId",castId);
+		map.put("CAST_ID",castId);
 		map.put("DESC_KOR", searchWord);
 		
 		ArrayList<Items> filterList = null;
-		if(castId.equals("NUTR_CONT1")) {
-			filterList = staticsMapper.filterData1(map);
-		}else if(castId.equals("NUTR_CONT2")) {
-			filterList = staticsMapper.filterData2(map);
-		}else if(castId.equals("NUTR_CONT3")) {
-			filterList = staticsMapper.filterData3(map);
-		}else if(castId.equals("NUTR_CONT4")) {
-			filterList = staticsMapper.filterData4(map);
-		}
 		
 		
+		filterList= staticsMapper.filterData(map);
 		JSONObject obj = new JSONObject(); 
 		
 		String convertResult="";		

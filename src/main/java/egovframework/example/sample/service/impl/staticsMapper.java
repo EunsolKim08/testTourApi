@@ -13,8 +13,6 @@ public interface staticsMapper {
 
 	public CodeDTO filtertCode(CodeDTO cdto);
 	
-	public ArrayList<Items> filterData1 (HashMap<String, Object> map);
-	public ArrayList<Items> filterData2 (HashMap<String, Object> map);
-	public ArrayList<Items> filterData3 (HashMap<String, Object> map);
-	public ArrayList<Items> filterData4 (HashMap<String, Object> map);
+	public ArrayList<Items> filterData (HashMap<String, Object> map);
+	
 }
