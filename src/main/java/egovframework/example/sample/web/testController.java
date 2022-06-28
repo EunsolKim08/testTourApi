@@ -456,9 +456,12 @@ public class testController {
 				String desc = (String)jsonObj.get("DESC_KOR");
 				//categories += " \"\r" + desc +"\"\r" ;
 				categories += (String)jsonObj.get("DESC_KOR");
-				nuDa2 += (String)jsonObj.get("NUTR_CONT2");
-				nuDa3 += (String)jsonObj.get("NUTR_CONT3");
-				nuDa4 += (String)jsonObj.get("NUTR_CONT4");
+				nuDa2 += jsonObj.get("NUTR_CONT2");
+				nuDa3 += jsonObj.get("NUTR_CONT3");
+				nuDa4 += jsonObj.get("NUTR_CONT4");
+				//nuDa2 += (String)jsonObj.get("NUTR_CONT2");
+				//nuDa3 += (String)jsonObj.get("NUTR_CONT3");
+				//nuDa4 += (String)jsonObj.get("NUTR_CONT4");
 				
 				
 				if(i < cFlag-1) {
@@ -578,23 +581,27 @@ public class testController {
 		JSONArray items = (JSONArray)jsonObj.get("items");
 		//System.out.println("jsonArray: "+items);
 		JSONObject jsonObj2=null ;
-
 		for(int i = 0; i<items.size();i++) {
 			jsonObj2 = (JSONObject)items.get(i);
 			//System.out.println((String)jsonObj2.get("DESC_KOR"));
 			//System.out.println((String)jsonObj2.get("DESC_KOR").getClass().getName());
 			//System.out.println("index1: "+ jsonObj2.get("IDX_NU"));
 			long index2 = (long) jsonObj2.get("IDX_NU");
+			
 			int index3 =(int)index2;
 			//System.out.println("index3: "+index3);
 			
 			Items items2 = new Items();
+			double nutr1 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT1"));
+			double nutr2 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT2"));
+			double nutr3 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT3"));
+			double nutr4 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT4"));
 			
 			items2.setIDX_NU(index3);
-			items2.setNUTR_CONT1((String)jsonObj2.get("NUTR_CONT1"));
-			items2.setNUTR_CONT2((String)jsonObj2.get("NUTR_CONT2"));
-			items2.setNUTR_CONT3((String)jsonObj2.get("NUTR_CONT3"));
-			items2.setNUTR_CONT4((String)jsonObj2.get("NUTR_CONT4"));
+			items2.setNUTR_CONT1(nutr1);
+			items2.setNUTR_CONT2(nutr2);
+			items2.setNUTR_CONT3(nutr3);
+			items2.setNUTR_CONT4(nutr4);
 			items2.setSERVING_WT((String)jsonObj2.get("SERVING_WT"));
 			/*
 			 * System.out.println(items2.getNUTR_CONT1());
