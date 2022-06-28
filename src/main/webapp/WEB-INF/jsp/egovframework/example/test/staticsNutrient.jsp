@@ -11,61 +11,7 @@
 <script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
 <meta charset="UTF-8">
 <title>영양성분 3가지방법 통계 분석</title>
-<script>
-var groupCd ="";
-var nutrientCd="";
-var searchWord ="";
-	function filterSearch(){
-		console.log("필터기준 조회");
-		var item="";
-		groupCd = document.staticSearch.grpCd.value;
-		console.log("그룹코드: " + groupCd );
-		nutrientCd =  document.staticSearch.nCd.value;
-		console.log("필수 기준 코드1: "+ nutrientCd);
-		searchWord = document.staticSearch.searchWord.value;
-		console.log("필수 기준 코드2: "+ searchWord);
-		
-		
-		let obj={
-			groupCd : groupCd,
-			nutrientCd : nutrientCd,
-			searchWord : searchWord
-		}
-		$.ajax({ 
-			url :'filterSearch.do',
-			type: 'GET', 
-		    dataType:"json",
-		    data : obj,
-		    success: function(data){ 
-		    	console.log("fS");
-		    	console.log(data);
-		    	item = data.items;
-		        grid.resetData(item);
-		    },
-		    error: function(data) {
-		    	console.log("fE"); 
-		    }
-		});
-	}
-	var dataCh="";
-	function changeVa(){
-		console.log("데이터 출력 값 변경");
-		dataCh = document.frm.dataPrint.value;
-	
-		if(dataCh == 'cha'){
-			//$('#grid').empty();
-			console.log("차트설정");
-			console.log("데이터 선택 밴경: "+ dataCh);
-			
-			$("#grid").hide();
-		}else if(dataCh == 'sta'){
-			//$('#chart').empty();
-			$("#grid").show();
-			console.log("데이터 선택 밴경: "+ dataCh);
-			
-		}
-	}
-</script>
+
 </head>
 <body>
 	<h2 style="margin:100px;">영양성분 3가지방법 통계 분석</h2>
@@ -130,7 +76,141 @@ var searchWord ="";
 			 
 			]
 	});
-	
 	</script>
+	<div id="chart" style="margin-left:100px;" ></div>
+<script>
+var groupCd ="";
+var nutrientCd="";
+var searchWord ="";
+	function filterSearch(){
+		console.log("필터기준 조회");
+		var item="";
+		groupCd = document.staticSearch.grpCd.value;
+		console.log("그룹코드: " + groupCd );
+		nutrientCd =  document.staticSearch.nCd.value;
+		console.log("필수 기준 코드1: "+ nutrientCd);
+		searchWord = document.staticSearch.searchWord.value;
+		console.log("필수 기준 코드2: "+ searchWord);
+		
+		
+		let obj={
+			groupCd : groupCd,
+			nutrientCd : nutrientCd,
+			searchWord : searchWord
+		}
+		$.ajax({ 
+			url :'filterSearch.do',
+			type: 'GET', 
+		    dataType:"json",
+		    data : obj,
+		    success: function(data){ 
+		    	console.log("fS");
+		    	console.log(data);
+		    	item = data.items;
+		        grid.resetData(item);
+		    },
+		    error: function(data) {
+		    	console.log("fE"); 
+		    }
+		});
+	}
+	var dataCh="";
+	function changeVa(){
+		console.log("데이터 출력 값 변경");
+		dataCh = document.frm.dataPrint.value;
+	
+		if(dataCh == 'cha'){
+			//$('#grid').empty();
+			console.log("차트설정");
+			console.log("데이터 선택 밴경: "+ dataCh);		
+			$("#grid").hide();
+			
+			let obj={
+					groupCd : groupCd,
+					nutrientCd : nutrientCd,
+					searchWord : searchWord
+				}
+			
+			$.ajax({ 
+				url :'filterChart.do',
+				type: 'GET', 
+			    dataType:"json",
+			    data : obj,
+			    success: function(cdata){ 
+			    	console.log("fS");
+			    	console.log(cdata);
+			    	//item = data.items;
+			       // grid.resetData(item);
+			       
+			       
+			    	 chaData = cdata.categories;
+					    nuDa2 = cdata.nuDa2;
+					    nuDa3 = cdata.nuDa3;
+					    nuDa4 = cdata.nuDa4;
+					    //console.log(data.array2.categories);
+					    console.log("chaData: "+chaData);
+					    
+						// console.log("chaData2: "+JSON.parse('["'+chaData+'"]'));
+						 const Chart = toastui.Chart;
+						 const el = document.getElementById('chart');
+							
+						// var datCa = JSON.parse(chaData);
+						console.log("####### : " + nuDa2)
+						 var cNuDa2 =  JSON.parse(nuDa2);
+						 var cNuDa3 =  JSON.parse(nuDa3);
+						 var cNuDa4 =  JSON.parse(nuDa4);
+						 //var datCa = JSON.parse('['+"1월", "2월", "3월"+']');
+						 var i = 0;
+						 var jsonRe="[";
+						const arr=chaData.split("/");
+						while(i < arr.length){
+							if( i != arr.length-1){
+								jsonRe +='"' +arr[i]+'",';
+							}else{
+								jsonRe +='"' +arr[i]+'"]';
+							}
+							i++;
+						}
+						
+						 
+						 console.log("파싱 준비: " + jsonRe);
+						
+						var datCa = JSON.parse(jsonRe);
+						var dataSe =  [
+						   {
+						       name: '탄수화물(g)',
+						       data: cNuDa2,
+						    },
+						    {
+						      name: '단백질(g)',
+						       data: cNuDa3,
+						     },
+						     {
+							    name: '지방(g)',
+							    data: cNuDa4,
+								 }
+							];
+							const data = {
+							  categories: datCa,
+							  series: dataSe,
+							};
+							const options = {
+							  chart: { width: 700, height: 400 },
+							};
+							const chart = Chart.barChart({ el, data, options });
+			       
+			    },
+			    error: function(cdata) {
+			    	console.log("fE"); 
+			    }
+			});
+		}else if(dataCh == 'sta'){
+			$('#chart').empty();
+			$("#grid").show();
+			console.log("데이터 선택 밴경: "+ dataCh);
+			
+		}
+	}
+</script>
 </body>
 </html>
