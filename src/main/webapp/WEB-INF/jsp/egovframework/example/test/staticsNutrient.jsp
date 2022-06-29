@@ -128,7 +128,8 @@ var searchWord ="";
 		if(dataCh == 'cha'){
 			//$('#grid').empty();
 			console.log("차트설정");
-			console.log("데이터 선택 밴경: "+ dataCh);		
+			console.log("데이터 선택 밴경: "+ dataCh);	
+			$('#chart').empty();
 			$("#grid").hide();
 			
 			let obj={
@@ -221,7 +222,6 @@ var searchWord ="";
 						  chart: { width: 700, height: 400 },
 						};
 						const chart = Chart.barChart({ el, data, options });
-
 			    },
 			    error: function(cdata) {
 			    	console.log("fE"); 
