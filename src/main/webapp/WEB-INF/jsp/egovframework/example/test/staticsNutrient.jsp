@@ -184,33 +184,24 @@ var searchWord ="";
 						 console.log("파싱 준비: " + jsonRe);
 						
 						var datCa = JSON.parse(jsonRe);
-						var dataSe =  [
-							{
-							       name: '칼로리',
-							       data: cNuDa1,
-							    },
-						    {
-						       name: '탄수화물(g)',
-						       data: cNuDa2,
-						    },
-						    {
-						      name: '단백질(g)',
-						       data: cNuDa3,
-						     },
-						     {
-							    name: '지방(g)',
-							    data: cNuDa4,
-							}
-						];
-							const data = {
-							  categories: datCa,
-							  series: dataSe,
-							};
-							const options = {
-							  chart: { width: 700, height: 400 },
-							};
-							const chart = Chart.barChart({ el, data, options });
-			       
+						var dataCa1 = '[';
+						var dataCa2 = "{name: '칼로리', data: cNuDa1,}," ;
+						var dataCa3 = "{ name: '탄수화물(g)', data: cNuDa2,},";
+						var dataCa4 = "{ name: '단백질(g)', data: cNuDa3,},";
+						var dataCa5      = "{ name: '지방(g)', data: cNuDa4,}";
+						var dataCa6 = "]";
+						
+						var x = ''.concat(dataCa1, dataCa2,dataCa3,dataCa4,dataCa5,dataCa6); 
+						var dataSe=eval(x);
+						const data = {
+						  categories: datCa,
+						  series: dataSe,
+						};
+						const options = {
+						  chart: { width: 700, height: 400 },
+						};
+						const chart = Chart.barChart({ el, data, options });
+
 			    },
 			    error: function(cdata) {
 			    	console.log("fE"); 
