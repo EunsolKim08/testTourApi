@@ -27,7 +27,7 @@
 			</select>
 			필수1:
 			<select name="nCd" style="font-size:20px; margin-right:20px; text-align:center;" onchange="changeVa()">
-				<option value="">--- 전체 ---</option>
+				<option value="N00">--- 전체 ---</option>
 				<option value="N01">칼로리 기준 TOP5</option>
 				<option value="N02">탄수화물 기준 TOP5</option>
 				<option value="N03">단백질 기준 TOP5</option>
@@ -193,7 +193,11 @@ var searchWord ="";
 						var dataCa3 = "{ name: '단백질(g)', data: cNuDa3,},";
 						var dataCa4      = "{ name: '지방(g)', data: cNuDa4,}";
 						
-						if(nutrientCd == 'N01'){
+						
+						if(nutrientCd == 'N00'){
+						    arrObj = ''.concat(dataCa0, dataCa1,dataCa2,dataCa3,dataCa4); 
+						}
+						else if(nutrientCd == 'N01'){
 							arrObj = dataCa0.concat(dataCa1);
 						}else if(nutrientCd == 'N02'){
 							arrObj = dataCa0.concat(dataCa2);
