@@ -11,7 +11,7 @@ import egovframework.example.sample.web.CodeDTO;
 @Mapper("staticsMapper")
 public interface staticsMapper {
 
-	public CodeDTO filtertCode(CodeDTO cdto);
+	public CodeDTO filterCode(CodeDTO cdto);
 	
 	public ArrayList<Items> filterData (HashMap<String, Object> map);
 	

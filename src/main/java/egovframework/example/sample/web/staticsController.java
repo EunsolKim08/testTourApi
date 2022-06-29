@@ -51,10 +51,11 @@ public class staticsController {
 		cdto.setG_CD(groupCd);
 		cdto.setCD(nutrientCd);
 		
-		rdto = staticsMapper.filtertCode(cdto);
+		rdto = staticsMapper.filterCode(cdto);
 		
 		System.out.println(rdto.getCD_NAME());
 		String castId = rdto.getCD_NAME();
+		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("CAST_ID",castId);
 		map.put("DESC_KOR", searchWord);
@@ -105,7 +106,7 @@ public class staticsController {
 		cdto.setG_CD(groupCd);
 		cdto.setCD(nutrientCd);
 		
-		rdto = staticsMapper.filtertCode(cdto);
+		rdto = staticsMapper.filterCode(cdto);
 		
 		System.out.println(rdto.getCD_NAME());
 		String castId = rdto.getCD_NAME();
@@ -113,7 +114,7 @@ public class staticsController {
 		map.put("CAST_ID",castId);
 		map.put("DESC_KOR", searchWord);
 		
-		rdto = staticsMapper.filtertCode(cdto);
+		rdto = staticsMapper.filterCode(cdto);
 		
 		ArrayList<Items> filterList = null;
 		

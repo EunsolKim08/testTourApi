@@ -5,11 +5,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="egovframework.example.sample.service.impl.staticsMapper">
-	<select id="filtertCode" resultType="egovframework.example.sample.web.CodeDTO" parameterType="egovframework.example.sample.web.CodeDTO">
+	<select id="filterCode" resultType="egovframework.example.sample.web.CodeDTO" parameterType="egovframework.example.sample.web.CodeDTO">
 	 SELECT
 	 	*
 	 	FROM CODE 
-	 	WHERE G_CD = #{G_CD} AND CD = #{CD}
+	 	WHERE G_CD = #{G_CD} AND CD = #{CD} AND CD_YN='Y'
 	</select>
 	<select id="filterData" resultType="hashMap" parameterType="hashMap">
 	

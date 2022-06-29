@@ -26,7 +26,7 @@
 				<option value="A0005">영양성분 검색</option>
 			</select>
 			필수1:
-			<select name="nCd" style="font-size:20px; margin-right:20px; text-align:center;">
+			<select name="nCd" style="font-size:20px; margin-right:20px; text-align:center;" onchange="changeVa()">
 				<option value="">--- 전체 ---</option>
 				<option value="N01">칼로리 기준 TOP5</option>
 				<option value="N02">탄수화물 기준 TOP5</option>
