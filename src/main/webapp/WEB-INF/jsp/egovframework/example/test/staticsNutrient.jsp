@@ -181,18 +181,34 @@ var searchWord ="";
 					}
 						
 						 
-						 console.log("파싱 준비: " + jsonRe);
+						console.log("파싱 준비: " + jsonRe);
 						
+						nutrientCd =  document.staticSearch.nCd.value;
 						var datCa = JSON.parse(jsonRe);
-						var dataCa1 = '[';
-						var dataCa2 = "{name: '칼로리', data: cNuDa1,}," ;
-						var dataCa3 = "{ name: '탄수화물(g)', data: cNuDa2,},";
-						var dataCa4 = "{ name: '단백질(g)', data: cNuDa3,},";
-						var dataCa5      = "{ name: '지방(g)', data: cNuDa4,}";
-						var dataCa6 = "]";
+						var dataCa0 = '[';
+						var arrObj;
+					
+						var dataCa1 = "{name: '칼로리', data: cNuDa1,}," ;
+						var dataCa2 = "{ name: '탄수화물(g)', data: cNuDa2,},";
+						var dataCa3 = "{ name: '단백질(g)', data: cNuDa3,},";
+						var dataCa4      = "{ name: '지방(g)', data: cNuDa4,}";
 						
-						var x = ''.concat(dataCa1, dataCa2,dataCa3,dataCa4,dataCa5,dataCa6); 
-						var dataSe=eval(x);
+						if(nutrientCd == 'N01'){
+							arrObj = dataCa0.concat(dataCa1);
+						}else if(nutrientCd == 'N02'){
+							arrObj = dataCa0.concat(dataCa2);
+						}else if(nutrientCd == 'N03'){
+							arrObj = dataCa0.concat(dataCa3);
+						}else if(nutrientCd == 'N04'){
+							arrObj = dataCa0.concat(dataCa4);
+						}
+						
+						
+						var dataCa5 = "]";
+						arrObj = arrObj.concat(dataCa5);
+						//var x = ''.concat(dataCa0, dataCa1,dataCa2,dataCa3,dataCa4,dataCa5); 
+						console.log( "x의 형태: "+ arrObj);
+						var dataSe=eval(arrObj);
 						const data = {
 						  categories: datCa,
 						  series: dataSe,
