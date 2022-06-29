@@ -85,6 +85,7 @@ public class staticsController {
 		String result="1";
 		String json="";
 		String categories="";
+		String nuDa1="[";
 		String nuDa2="[";
 		String nuDa3="[";
 		String nuDa4="[";
@@ -140,6 +141,7 @@ public class staticsController {
 					String desc = (String)jsonObj.get("DESC_KOR");
 					//categories += " \"\r" + desc +"\"\r" ;
 					categories += (String)jsonObj.get("DESC_KOR");
+					nuDa1 += jsonObj.get("NUTR_CONT1");
 					nuDa2 += jsonObj.get("NUTR_CONT2");
 					nuDa3 += jsonObj.get("NUTR_CONT3");
 					nuDa4 += jsonObj.get("NUTR_CONT4");
@@ -149,6 +151,7 @@ public class staticsController {
 					
 					
 					if(i < cFlag-1) {
+						nuDa1+=",";
 						nuDa2+=",";
 						nuDa3+=",";
 						nuDa4+=",";
@@ -156,6 +159,7 @@ public class staticsController {
 					}
 				}
 				categories +="";
+				nuDa1 +="]";
 				nuDa2 +="]";
 				nuDa3 +="]";
 				nuDa4 +="]";
@@ -164,9 +168,10 @@ public class staticsController {
 			 System.out.println("직렬화중 예외 발생"); 
 		 e.printStackTrace(); }
 		 
-		 
+		System.out.println("categories: " + categories);
 		JSONObject obj = new JSONObject(); 
 		obj.put("categories", categories);
+		obj.put("nuDa1", nuDa1);
 		obj.put("nuDa2", nuDa2);
 		obj.put("nuDa3", nuDa3);
 		obj.put("nuDa4", nuDa4);

@@ -118,7 +118,13 @@ var searchWord ="";
 	function changeVa(){
 		console.log("데이터 출력 값 변경");
 		dataCh = document.frm.dataPrint.value;
-	
+		groupCd = document.staticSearch.grpCd.value;
+		console.log("그룹코드: " + groupCd );
+		nutrientCd =  document.staticSearch.nCd.value;
+		console.log("필수 기준 코드1: "+ nutrientCd);
+		searchWord = document.staticSearch.searchWord.value;
+		console.log("필수 기준 코드2: "+ searchWord);
+		
 		if(dataCh == 'cha'){
 			//$('#grid').empty();
 			console.log("차트설정");
@@ -144,40 +150,46 @@ var searchWord ="";
 			       
 			       
 			    	 chaData = cdata.categories;
-					    nuDa2 = cdata.nuDa2;
-					    nuDa3 = cdata.nuDa3;
-					    nuDa4 = cdata.nuDa4;
-					    //console.log(data.array2.categories);
-					    console.log("chaData: "+chaData);
+			    	 nuDa1 = cdata.nuDa1;
+					 nuDa2 = cdata.nuDa2;
+					 nuDa3 = cdata.nuDa3;
+					 nuDa4 = cdata.nuDa4;
+					 //console.log(data.array2.categories);
+					 console.log("chaData: "+chaData);
 					    
-						// console.log("chaData2: "+JSON.parse('["'+chaData+'"]'));
-						 const Chart = toastui.Chart;
-						 const el = document.getElementById('chart');
+					// console.log("chaData2: "+JSON.parse('["'+chaData+'"]'));
+					 const Chart = toastui.Chart;
+					 const el = document.getElementById('chart');
 							
-						// var datCa = JSON.parse(chaData);
-						console.log("####### : " + nuDa2)
-						 var cNuDa2 =  JSON.parse(nuDa2);
-						 var cNuDa3 =  JSON.parse(nuDa3);
-						 var cNuDa4 =  JSON.parse(nuDa4);
-						 //var datCa = JSON.parse('['+"1월", "2월", "3월"+']');
-						 var i = 0;
-						 var jsonRe="[";
-						const arr=chaData.split("/");
-						while(i < arr.length){
-							if( i != arr.length-1){
-								jsonRe +='"' +arr[i]+'",';
-							}else{
-								jsonRe +='"' +arr[i]+'"]';
-							}
-							i++;
+					// var datCa = JSON.parse(chaData);
+					console.log("####### : " + nuDa2);
+					 var cNuDa1 =  JSON.parse(nuDa1);
+					 var cNuDa2 =  JSON.parse(nuDa2);
+					 var cNuDa3 =  JSON.parse(nuDa3);
+					 var cNuDa4 =  JSON.parse(nuDa4);
+					//var datCa = JSON.parse('['+"1월", "2월", "3월"+']');
+					 var i = 0;
+					 var jsonRe="[";
+					 const arr=chaData.split("/");
+					while(i < arr.length){
+						if( i != arr.length-1){
+							jsonRe +='"' +arr[i]+'",';
+						}else{
+							jsonRe +='"' +arr[i]+'"]';
 						}
+						i++;
+					}
 						
 						 
 						 console.log("파싱 준비: " + jsonRe);
 						
 						var datCa = JSON.parse(jsonRe);
 						var dataSe =  [
-						   {
+							{
+							       name: '칼로리',
+							       data: cNuDa1,
+							    },
+						    {
 						       name: '탄수화물(g)',
 						       data: cNuDa2,
 						    },
@@ -188,8 +200,8 @@ var searchWord ="";
 						     {
 							    name: '지방(g)',
 							    data: cNuDa4,
-								 }
-							];
+							}
+						];
 							const data = {
 							  categories: datCa,
 							  series: dataSe,
