@@ -34,7 +34,7 @@
 				<option value="N04">지방  기준 TOP 7</option>
 			</select>
 			필수2:
-			<input type="text" id="searchWord" name="searchWord" style="font-size:20px; margin-right:20px;">
+			<input type="text" id="searchWord" name="searchWord" onkeyup="filterSearch()" style="font-size:20px; margin-right:20px;">
 			<button type="button" style="font-size:20px;" onclick="filterSearch()">조회</button>
 		</form>
 	</div>
