@@ -28,10 +28,10 @@
 			필수1:
 			<select name="nCd" style="font-size:20px; margin-right:20px; text-align:center;" onchange="changeVa()">
 				<option value="N00">--- 전체 ---</option>
-				<option value="N01">칼로리 기준 TOP5</option>
-				<option value="N02">탄수화물 기준 TOP5</option>
-				<option value="N03">단백질 기준 TOP5</option>
-				<option value="N04">지방  기준 TOP5</option>
+				<option value="N01">칼로리 기준 TOP 7</option>
+				<option value="N02">탄수화물 기준 TOP 7</option>
+				<option value="N03">단백질 기준 TOP 7</option>
+				<option value="N04">지방  기준 TOP 7</option>
 			</select>
 			필수2:
 			<input type="text" id="searchWord" name="searchWord" style="font-size:20px; margin-right:20px;">
