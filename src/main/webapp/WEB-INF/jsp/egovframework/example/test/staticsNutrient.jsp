@@ -230,7 +230,7 @@ var searchWord ="";
 			    }
 			});
 		}else if(dataCh == 'sta'){
-			$('#chart').empty();
+			filterSearch();
 			$("#grid").show();
 			console.log("데이터 선택 밴경: "+ dataCh);
 			
