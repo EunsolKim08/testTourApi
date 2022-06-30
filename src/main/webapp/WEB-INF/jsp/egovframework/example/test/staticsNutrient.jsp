@@ -230,6 +230,8 @@ var searchWord ="";
 			    }
 			});
 		}else if(dataCh == 'sta'){
+			//$("#grid").empty();
+			$('#chart').empty();
 			filterSearch();
 			$("#grid").show();
 			console.log("데이터 선택 밴경: "+ dataCh);
