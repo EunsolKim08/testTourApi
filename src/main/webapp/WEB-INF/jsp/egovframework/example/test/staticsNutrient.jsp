@@ -189,23 +189,23 @@ var searchWord ="";
 						var dataCa0 = '[';
 						var arrObj;
 					
-						var dataCa1 = "{name: '칼로리', data: cNuDa1,}," ;
-						var dataCa2 = "{ name: '탄수화물(g)', data: cNuDa2,},";
-						var dataCa3 = "{ name: '단백질(g)', data: cNuDa3,},";
-						var dataCa4      = "{ name: '지방(g)', data: cNuDa4,}";
+						var dataCa1 = "{name: '칼로리(kcal)', data: cNuDa1," ;
+						var dataCa2 = "{ name: '탄수화물(g)', data: cNuDa2, ";
+						var dataCa3 = "{ name: '단백질(g)', data: cNuDa3,";
+						var dataCa4      = "{ name: '지방(g)', data: cNuDa4,";
 						
 						
 						if(nutrientCd == 'N00'){
-						    arrObj = ''.concat(dataCa0, dataCa1,dataCa2,dataCa3,dataCa4); 
+						    arrObj = ''.concat(dataCa0,dataCa1,"},",dataCa2,"},",dataCa3,"},",dataCa4,"}"); 
 						}
 						else if(nutrientCd == 'N01'){
-							arrObj = dataCa0.concat(dataCa1);
+							arrObj = dataCa0.concat(dataCa1, " colorByCategories: true},");
 						}else if(nutrientCd == 'N02'){
-							arrObj = dataCa0.concat(dataCa2);
+							arrObj = dataCa0.concat(dataCa2, "	colorByCategories: true},");
 						}else if(nutrientCd == 'N03'){
-							arrObj = dataCa0.concat(dataCa3);
+							arrObj = dataCa0.concat(dataCa3,"colorByCategories: true},");
 						}else if(nutrientCd == 'N04'){
-							arrObj = dataCa0.concat(dataCa4);
+							arrObj = dataCa0.concat(dataCa4,"colorByCategories: true},");
 						}
 						
 						
@@ -221,7 +221,9 @@ var searchWord ="";
 						const options = {
 						  chart: { width: 700, height: 400 },
 						};
+	
 						const chart = Chart.barChart({ el, data, options });
+						
 			    },
 			    error: function(cdata) {
 			    	console.log("fE"); 
