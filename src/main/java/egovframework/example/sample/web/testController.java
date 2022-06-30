@@ -352,22 +352,22 @@ public class testController {
 			List<NutrientDTO> insertList =  new ArrayList<>();
 			
 			try {
-				System.out.println("result의 구조: " + result);
+				//System.out.println("result의 구조: " + result);
 				NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
 				insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
 				//deserializeNu.getBody().getItems();
 				//System.out.println("직렬화: "+deserializeNu.toString());
-				System.out.println("********LIST  확인*******");
+				//System.out.println("********LIST  확인*******");
 				for(int i = 0;i<insertList.size();i++) {
-					System.out.println(insertList.get(i));
+					//System.out.println(insertList.get(i));
 				}
 				fResult = mapper.writeValueAsString(deserializeNu);
 				System.out.println("조회 x시 fResult: "+ fResult);
 				if(insertFlag == 0) {
 					//dataMapper.insertData((List<NutrientDTO>) deserializeNu);
-					System.out.println("데이터 삽입 실행 시작");
+					//System.out.println("데이터 삽입 실행 시작");
 					dataMapper.insertData(insertList);
-					System.out.println("데이터 삽입 실행 완료");
+					//System.out.println("데이터 삽입 실행 완료");
 				}
 			
 			} catch (JsonProcessingException e) {
@@ -376,22 +376,22 @@ public class testController {
 			JSONObject obj = new JSONObject();    
 			selectItem = dataMapper.selectData(items);
 			obj.put("items", selectItem);
-			System.out.println("json obj: "+obj);
+			//System.out.println("json obj: "+obj);
 			
 			fResult= obj.toJSONString();
 		}else {
 			System.out.println("데이터 조회결과 O.");
-			System.out.println("result: "+ result);
+		//	System.out.println("result: "+ result);
 			insertFlag = 1;
 			JSONObject obj = new JSONObject();                
 			//System.out.println(selectItem);
 			
 			//System.out.println(selectItem.get(0));
 			obj.put("items", selectItem);
-			System.out.println("json obj: "+obj);
+			//System.out.println("json obj: "+obj);
 			
 			fResult= obj.toJSONString();
-			System.out.println("형식확인: "+ fResult);
+			//System.out.println("형식확인: "+ fResult);
 			
 		}
 		
@@ -403,7 +403,6 @@ public class testController {
 	@ResponseBody
 	public String getChartData(String searchValue, String companyName) throws IOException{
 		
-		String result="1";
 		String json="";
 		String categories="";
 		String nuDa2="[";
@@ -451,7 +450,7 @@ public class testController {
 			
 			for(int i = 0; i<cFlag;i++) {
 				jsonObj = (JSONObject)jsonArr.get(i);
-				System.out.println((String)jsonObj.get("DESC_KOR"));
+			//	System.out.println((String)jsonObj.get("DESC_KOR"));
 			
 				String desc = (String)jsonObj.get("DESC_KOR");
 				//categories += " \"\r" + desc +"\"\r" ;
@@ -480,14 +479,14 @@ public class testController {
 			System.out.println("ArrayList직력화중 에러 발생");
 		}
 		
-		System.out.println("json: "+ json);
+	//	System.out.println("json: "+ json);
 		
 		JSONObject obj = new JSONObject(); 
 		
-		System.out.println("nuDa2: "+ nuDa2);
-		System.out.println("nuDa3: "+ nuDa3);
-		System.out.println("nuDa4: "+ nuDa4);
-		System.out.println("cate:" + categories);
+	//	System.out.println("nuDa2: "+ nuDa2);
+	//	System.out.println("nuDa3: "+ nuDa3);
+	//	System.out.println("nuDa4: "+ nuDa4);
+	//	System.out.println("cate:" + categories);
 		
 		//obj.put("categories", "[\r\n" + "  \"1월\",\r\n" + "  \"2월\",\r\n" + "  \"3월\",\r\n"+ "  \"4월\"\r\n"+ "]");
 		
@@ -495,6 +494,7 @@ public class testController {
 		obj.put("nuDa2", nuDa2);
 		obj.put("nuDa3", nuDa3);
 		obj.put("nuDa4", nuDa4);
+		String result="";
 		result= obj.toJSONString();
 		
 		return result;
@@ -508,12 +508,12 @@ public class testController {
 		String result="1";
 		String json="";
 		String decodeVal = "{\"items\":\r\n";
-		System.out.println("dataEdit 실행");
+		//System.out.println("dataEdit 실행");
 		
-		System.out.println( "수정 데이터: "+jsonData);
+	//	System.out.println( "수정 데이터: "+jsonData);
 		try {
 			decodeVal += URLDecoder.decode(jsonData, "utf-8");
-			System.out.println("디코딩 문자: "+decodeVal);
+		//	System.out.println("디코딩 문자: "+decodeVal);
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("디코딩중 에러발생");
 			// TODO Auto-generated catch block
@@ -522,13 +522,13 @@ public class testController {
 		
 		decodeVal = decodeVal.replace("jsonData=[{", "[{");
 		decodeVal +=",\"pageNo\":\"1\",\"totalCount\":\"94\",\"numOfRows\":\"10\"}";
-		System.out.println("치환후 decodeVal: "+ decodeVal);
+		//System.out.println("치환후 decodeVal: "+ decodeVal);
 		
 		
 		String orgCode  = decodeVal;
-		System.out.println("1");
+		//System.out.println("1");
 		JSONParser parser = new JSONParser();
-		System.out.println("2");
+		//System.out.println("2");
 		Object obj = null;
 		
 		try {
@@ -542,7 +542,7 @@ public class testController {
 			e.printStackTrace();
 		}
 		
-		System.out.println("3");
+		//System.out.println("3");
 		JSONObject jsonObj = (JSONObject) obj;
 		JSONArray jarray = new JSONArray();
 		
@@ -555,10 +555,10 @@ public class testController {
 		
 		try {
 			Body desi = objectMapper.readValue(decodeVal, Body.class);
-			System.out.println(desi);
+			//System.out.println(desi);
 			
 			bodyList = (List<Map<String, Object>>)desi.getItems();
-			System.out.println("bodyList: "+ bodyList);
+		//	System.out.println("bodyList: "+ bodyList);
 			//insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
 			for(int i = 0; i<bodyList.size();i++) {
 				LinkedHashMap<String, Object> lmap = (LinkedHashMap<String, Object>) bodyList.get(i);
@@ -566,7 +566,7 @@ public class testController {
 				//lmap.get("DESC_KOR");
 			}
 			
-			System.out.println("아이템 직렬화 제대로 실행");
+			//System.out.println("아이템 직렬화 제대로 실행");
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("아이템 직렬화로 읽기 중 오류");
@@ -603,13 +603,7 @@ public class testController {
 			items2.setNUTR_CONT3(nutr3);
 			items2.setNUTR_CONT4(nutr4);
 			items2.setSERVING_WT((String)jsonObj2.get("SERVING_WT"));
-			/*
-			 * System.out.println(items2.getNUTR_CONT1());
-			 * System.out.println(items2.getNUTR_CONT2());
-			 * System.out.println(items2.getNUTR_CONT3());
-			 * System.out.println(items2.getNUTR_CONT4());
-			 * System.out.println(items2.getSERVING_WT());
-			 */
+			
 			dataMapper.updateData(items2);
 		}
 	
@@ -622,8 +616,8 @@ public class testController {
 	public String dataEdit2(@RequestBody String jsonData) throws JsonMappingException, JsonProcessingException  {
 		
 		String result="";
-		System.out.println("dateEdit2 실행");
-		System.out.println("jsonData는 "+jsonData);
+		//System.out.println("dateEdit2 실행");
+		//System.out.println("jsonData는 "+jsonData);
 		
 		try {
 			jsonData = URLDecoder.decode(jsonData, "utf-8");

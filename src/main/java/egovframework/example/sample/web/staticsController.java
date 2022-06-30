@@ -53,7 +53,7 @@ public class staticsController {
 		
 		rdto = staticsMapper.filterCode(cdto);
 		
-		System.out.println(rdto.getCD_NAME());
+	//	System.out.println(rdto.getCD_NAME());
 		String castId = rdto.getCD_NAME();
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -69,9 +69,9 @@ public class staticsController {
 		String convertResult="";		
 		
 		obj.put("items", filterList);
-		System.out.println(obj);
+		//System.out.println(obj);
 		convertResult = obj.toString();
-		System.out.println("convertResult확인: "+convertResult);
+		//System.out.println("convertResult확인: "+convertResult);
 		
 		System.out.println("실행");
 		
@@ -108,7 +108,7 @@ public class staticsController {
 		
 		rdto = staticsMapper.filterCode(cdto);
 		
-		System.out.println(rdto.getCD_NAME());
+		//System.out.println(rdto.getCD_NAME());
 		String castId = rdto.getCD_NAME();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("CAST_ID",castId);
@@ -122,7 +122,7 @@ public class staticsController {
 		
 		 try { 
 			 json = objectMapper.writeValueAsString(filterList);
-			 System.out.println("char Json: "+ json); 
+			// System.out.println("char Json: "+ json); 
 			 jsonArr = (JSONArray)jsonParser.parse(json);
 				
 				JSONObject jsonObj=null ;
@@ -137,7 +137,7 @@ public class staticsController {
 				
 				for(int i = 0; i<cFlag;i++) {
 					jsonObj = (JSONObject)jsonArr.get(i);
-					System.out.println((String)jsonObj.get("DESC_KOR"));
+					//System.out.println((String)jsonObj.get("DESC_KOR"));
 				
 					String desc = (String)jsonObj.get("DESC_KOR");
 					//categories += " \"\r" + desc +"\"\r" ;
@@ -167,9 +167,10 @@ public class staticsController {
 		}
 		 catch(Exception e) {
 			 System.out.println("직렬화중 예외 발생"); 
-		 e.printStackTrace(); }
+		 e.printStackTrace(); 
+		 }
 		 
-		System.out.println("categories: " + categories);
+		// System.out.println("categories: " + categories);
 		JSONObject obj = new JSONObject(); 
 		obj.put("categories", categories);
 		obj.put("nuDa1", nuDa1);

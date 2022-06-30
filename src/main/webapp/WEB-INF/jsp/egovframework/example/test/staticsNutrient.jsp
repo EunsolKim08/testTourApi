@@ -79,9 +79,9 @@
 	</script>
 	<div id="chart" style="margin-left:100px;" ></div>
 <script>
-var groupCd ="";
-var nutrientCd="";
-var searchWord ="";
+	var groupCd ="";
+	var nutrientCd="";
+	var searchWord ="";
 	function filterSearch(){
 		console.log("필터기준 조회");
 		var item="";
