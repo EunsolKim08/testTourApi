@@ -246,9 +246,13 @@
 		console.log("sort 클릭 이벤트");
 		
 		if(sortCnt %2 == 0){
+			console.log(sortCnt);
 			sortFlag="ASC";
+			console.log(sortFlag);
 		}else{
+			console.log(sortCnt);
 			sortFlag="DESC";
+			console.log(sortFlag);
 		}
 		
 		let obj={
@@ -264,10 +268,14 @@
 			    data : obj,
 			    success: function(data){ 
 			    	console.log(data);
+			    	item = data.items;
+			        grid.resetData(item);
 			    	sortCnt++;
 			    },
 			    error: function(data) {
 			    	console.log("sortE"); 
+			    	//나중에는 성공했을때만 값 증가하게
+			    	sortCnt++;
 			    }
 			});
 	}

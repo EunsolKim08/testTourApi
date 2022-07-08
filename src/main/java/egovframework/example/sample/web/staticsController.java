@@ -197,23 +197,37 @@ public class staticsController {
 		cdto.setG_CD(groupCd);
 		cdto.setCD(nutrientCd);
 		
+		System.out.println("sortFlag: "+ sortFlag);
 		rdto = staticsMapper.filterCode(cdto);
 		
 		String castId = rdto.getCD_NAME();
 
 	    map.put("CAST_ID",castId);
 	    map.put("DESC_KOR", searchWord);
+	  
 	    map.put("SORT_FLAG", sortFlag);
 		
 		/* @cnt = 0 */
 		staticsMapper.setCntZero();
 		/* 기준에 따라 SORT_NU 부여*/
 		staticsMapper.updateSort(map);
+		
 		result= "1";
 		
+		ArrayList<Items> filterList = null;
 		
 		
-		return result;
+		filterList= staticsMapper.filterSortData(map);
+		JSONObject obj = new JSONObject(); 
+	
+		
+		obj.put("items", filterList);
+	
+		result = obj.toString();
+	
+		
+		return obj.toJSONString();
+		
 		
 	}
 	

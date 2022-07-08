@@ -19,4 +19,5 @@ public interface staticsMapper {
 	
 	public void updateSort(HashMap<String, Object> map);
 	
+	public ArrayList<Items> filterSortData (HashMap<String, Object> map);
 }
