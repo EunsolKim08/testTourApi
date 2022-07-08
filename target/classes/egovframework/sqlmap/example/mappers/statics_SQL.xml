@@ -48,6 +48,8 @@
 		*
 	FROM Nutrient n 
 		WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')	
-	ORDER by SORT_NU 
+	ORDER by
+		CASE WHEN #{SORT_FLAG} = 'ASC' THEN SORT_NU END ASC,
+		CASE WHEN #{SORT_FLAG} = 'DESC' THEN SORT_NU END DESC
 	</select>
  </mapper>
