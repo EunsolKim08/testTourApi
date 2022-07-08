@@ -195,13 +195,13 @@ public class staticsController {
 		CodeDTO rdto = new CodeDTO();
 		
 		cdto.setG_CD(groupCd);
-		cdto.setCD(nutrientCd);
+	//	cdto.setCD(nutrientCd);
 		
 		System.out.println("sortFlag: "+ sortFlag);
 		rdto = staticsMapper.filterCode(cdto);
 		
-		String castId = rdto.getCD_NAME();
-
+		// String castId = rdto.getCD_NAME();
+		String castId = nutrientCd;
 	    map.put("CAST_ID",castId);
 	    map.put("DESC_KOR", searchWord);
 	  
@@ -218,6 +218,7 @@ public class staticsController {
 		
 		
 		filterList= staticsMapper.filterSortData(map);
+		System.out.println("SELECT 매퍼 실행");
 		JSONObject obj = new JSONObject(); 
 	
 		

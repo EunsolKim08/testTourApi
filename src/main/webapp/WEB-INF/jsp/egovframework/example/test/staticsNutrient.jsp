@@ -74,10 +74,19 @@
 			 {
 			      header: '지방 (g)',
 			      name: 'NUTR_CONT4',
-			 },
-			 
-			]
+			 },	 
+		]
 	});
+	 grid.on('click', ev => {
+	      console.log('click!', ev);
+	      console.log(ev.columnName);
+	      console.log(ev.rowKey);
+	      
+	      if(ev.rowKey == null){
+	    	  console.log("header");
+	    	  sortVa(ev.columnName);
+	      }
+	  });
 	</script>
 	<div id="chart" style="margin-left:100px;" ></div>
 <script>
@@ -241,8 +250,8 @@
 		}
 	}
 	var sortCnt=0;
-	var sortFlag="";
-	function sortVa(){
+	var sortFlag="ASC";
+	function sortVa(columnName){
 		console.log("sort 클릭 이벤트");
 		
 		if(sortCnt %2 == 0){
@@ -254,10 +263,10 @@
 			sortFlag="DESC";
 			console.log(sortFlag);
 		}
-		
+		console.log("컬럼이름: "+ columnName);
 		let obj={
 				groupCd : groupCd,
-				nutrientCd : nutrientCd,
+				nutrientCd : columnName,
 				searchWord : searchWord,
 				sortFlag : sortFlag
 			}
@@ -275,7 +284,7 @@
 			    error: function(data) {
 			    	console.log("sortE"); 
 			    	//나중에는 성공했을때만 값 증가하게
-			    	sortCnt++;
+			    	//sortCnt++;
 			    }
 			});
 	}

@@ -48,6 +48,6 @@
 		*
 	FROM Nutrient n 
 		WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')	
-	ORDER BY SORT_NU  ASC
+	ORDER by SORT_NU 
 	</select>
  </mapper>
