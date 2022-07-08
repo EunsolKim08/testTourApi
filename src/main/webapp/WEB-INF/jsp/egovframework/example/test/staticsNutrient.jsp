@@ -43,9 +43,11 @@
 		| 데이터출력 &nbsp;
 			<input type="radio" name="dataPrint" value="sta" onchange="changeVa()" checked/>표
 			<input type="radio" name="dataPrint" value="cha" onchange="changeVa()" />차트
+			<input type ="button" value="sort 확인 버튼" onclick="sortVa()"/>
 		</form>
 		<br/><br/>
 	</div>
+	
 	<div id="grid"></div>
 	<script>
 	 var grid = new tui.Grid({
@@ -237,6 +239,37 @@
 			console.log("데이터 선택 밴경: "+ dataCh);
 			
 		}
+	}
+	var sortCnt=0;
+	var sortFlag="";
+	function sortVa(){
+		console.log("sort 클릭 이벤트");
+		
+		if(sortCnt %2 == 0){
+			sortFlag="ASC";
+		}else{
+			sortFlag="DESC";
+		}
+		
+		let obj={
+				groupCd : groupCd,
+				nutrientCd : nutrientCd,
+				searchWord : searchWord,
+				sortFlag : sortFlag
+			}
+			$.ajax({ 
+				url :'updateSort.do',
+				type: 'GET', 
+			    dataType:"json",
+			    data : obj,
+			    success: function(data){ 
+			    	console.log(data);
+			    	sortCnt++;
+			    },
+			    error: function(data) {
+			    	console.log("sortE"); 
+			    }
+			});
 	}
 </script>
 </body>

@@ -309,10 +309,8 @@ public class testController {
 		System.out.println(items.getDESC_KOR());
 		
 		selectItem = dataMapper.selectData(items);
-		System.out.println("조회완료");
 
 		if(selectItem.size()<1) {
-			System.out.println("데이터 조회결과 X.");
 			insertFlag = 0;
 			
 			ObjectMapper mapper = new ObjectMapper();
@@ -343,7 +341,6 @@ public class testController {
 		      while ((line = rd.readLine()) != null) {
 		          sb.append(line);
 		      }
-		    //System.out.println("sb: "+ sb); // 이거 자체가 파싱하는 객체인듯..
 			result = sb.toString();	
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -352,22 +349,12 @@ public class testController {
 			List<NutrientDTO> insertList =  new ArrayList<>();
 			
 			try {
-				//System.out.println("result의 구조: " + result);
 				NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
 				insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
-				//deserializeNu.getBody().getItems();
-				//System.out.println("직렬화: "+deserializeNu.toString());
-				//System.out.println("********LIST  확인*******");
-				for(int i = 0;i<insertList.size();i++) {
-					//System.out.println(insertList.get(i));
-				}
 				fResult = mapper.writeValueAsString(deserializeNu);
 				System.out.println("조회 x시 fResult: "+ fResult);
 				if(insertFlag == 0) {
-					//dataMapper.insertData((List<NutrientDTO>) deserializeNu);
-					//System.out.println("데이터 삽입 실행 시작");
 					dataMapper.insertData(insertList);
-					//System.out.println("데이터 삽입 실행 완료");
 				}
 			
 			} catch (JsonProcessingException e) {
@@ -376,27 +363,18 @@ public class testController {
 			JSONObject obj = new JSONObject();    
 			selectItem = dataMapper.selectData(items);
 			obj.put("items", selectItem);
-			//System.out.println("json obj: "+obj);
 			
 			fResult= obj.toJSONString();
 		}else {
 			System.out.println("데이터 조회결과 O.");
-		//	System.out.println("result: "+ result);
 			insertFlag = 1;
 			JSONObject obj = new JSONObject();                
-			//System.out.println(selectItem);
-			
-			//System.out.println(selectItem.get(0));
 			obj.put("items", selectItem);
-			//System.out.println("json obj: "+obj);
 			
 			fResult= obj.toJSONString();
-			//System.out.println("형식확인: "+ fResult);
-			
 		}
 		
 		return fResult;
-		//return result;
 	}
 	
 	@RequestMapping("/getChartData.do")

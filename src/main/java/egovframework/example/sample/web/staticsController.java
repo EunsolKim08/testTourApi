@@ -183,5 +183,39 @@ public class staticsController {
 		
 	}
 	
+	@RequestMapping(value = "/updateSort.do",
+			produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String updateSort(String  groupCd, String nutrientCd, String searchWord, String sortFlag) {
+		
+		String result="0";
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		CodeDTO cdto = new CodeDTO();
+		CodeDTO rdto = new CodeDTO();
+		
+		cdto.setG_CD(groupCd);
+		cdto.setCD(nutrientCd);
+		
+		rdto = staticsMapper.filterCode(cdto);
+		
+		String castId = rdto.getCD_NAME();
+
+	    map.put("CAST_ID",castId);
+	    map.put("DESC_KOR", searchWord);
+	    map.put("SORT_FLAG", sortFlag);
+		
+		/* @cnt = 0 */
+		staticsMapper.setCntZero();
+		/* 기준에 따라 SORT_NU 부여*/
+		staticsMapper.updateSort(map);
+		result= "1";
+		
+		
+		
+		return result;
+		
+	}
+	
 
 }

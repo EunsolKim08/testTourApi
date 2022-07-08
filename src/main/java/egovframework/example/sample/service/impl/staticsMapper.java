@@ -15,4 +15,8 @@ public interface staticsMapper {
 	
 	public ArrayList<Items> filterData (HashMap<String, Object> map);
 	
+	public void setCntZero();
+	
+	public void updateSort(HashMap<String, Object> map);
+	
 }
