@@ -38,16 +38,17 @@
 			<button type="button" style="font-size:20px;" onclick="filterSearch()">조회</button>
 		</form>
 	</div>
-	<div style="margin:100px; font-size:20px;">
+	<div style="margin-top:100px; margin-left:100px; margin-bottom:50px; font-size:20px;">
 		<form name="frm" id="frm">
 		| 데이터출력 &nbsp;
 			<input type="radio" name="dataPrint" value="sta" onchange="changeVa()" checked/>표
 			<input type="radio" name="dataPrint" value="cha" onchange="changeVa()" />차트
-			<input type ="button" value="sort 확인 버튼" onclick="sortVa()"/>
 		</form>
 		<br/><br/>
 	</div>
-	
+	<div style="margin-left:900px; margin-bottom:75px;">
+		<input type="button" value="엑셀 다운로드" onclick="excelDownload()" style="font-size:20px;"/>
+	</div>
 	<div id="grid"></div>
 	<script>
 	 var grid = new tui.Grid({
@@ -77,22 +78,41 @@
 			 },	 
 		]
 	});
-	 grid.on('click', ev => {
-	      console.log('click!', ev);
-	      console.log(ev.columnName);
-	      console.log(ev.rowKey);
-	      
+	 grid.on('click', ev => {	      
 	      if(ev.rowKey == null){
 	    	  console.log("header");
 	    	  sortVa(ev.columnName);
 	      }
 	  });
+	 
+	 function excelDownload(){
+		 console.log("엑셀 다운로드");
+		 console.log(dataObj);
+		 dataObj = JSON.stringify(dataObj);
+		 console.log(dataObj);
+		 let obj={
+					dataObj: dataObj
+			}
+		 $.ajax({ 
+				url :'excelDownload.do',
+				type: 'POST', 
+			    dataType:"json",
+			    data : obj,
+			    success: function(data){ 
+			    	console.log("다운로드 성공");
+			    },
+			    error: function(data) {
+			    	console.log("fE"); 
+			    }
+			});
+	 }
 	</script>
 	<div id="chart" style="margin-left:100px;" ></div>
 <script>
 	var groupCd ="";
 	var nutrientCd="";
 	var searchWord ="";
+	var dataObj ="";
 	function filterSearch(){
 		console.log("필터기준 조회");
 		var item="";
@@ -119,6 +139,11 @@
 		    	console.log(data);
 		    	item = data.items;
 		        grid.resetData(item);
+		        console.log("***********");
+		        console.log(data);
+		        dataObj = data;
+		        console.log(dataObj);
+		       // console.log("데이터 성공시: "+dataObj);
 		    },
 		    error: function(data) {
 		    	console.log("fE"); 
@@ -269,24 +294,22 @@
 				nutrientCd : columnName,
 				searchWord : searchWord,
 				sortFlag : sortFlag
-			}
-			$.ajax({ 
-				url :'updateSort.do',
-				type: 'GET', 
-			    dataType:"json",
-			    data : obj,
-			    success: function(data){ 
-			    	console.log(data);
-			    	item = data.items;
-			        grid.resetData(item);
-			    	sortCnt++;
-			    },
-			    error: function(data) {
-			    	console.log("sortE"); 
-			    	//나중에는 성공했을때만 값 증가하게
-			    	//sortCnt++;
-			    }
-			});
+		}
+		$.ajax({ 
+			url :'updateSort.do',
+			type: 'GET', 
+		    dataType:"json",
+		    data : obj,
+		    success: function(data){ 
+		    	console.log(data);
+		    	item = data.items;
+		        grid.resetData(item);
+		    	sortCnt++;
+		},
+		    error: function(data) {
+		    	console.log("sortE"); 
+		    }
+		});
 	}
 </script>
 </body>

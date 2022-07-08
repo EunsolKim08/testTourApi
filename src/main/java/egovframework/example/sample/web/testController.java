@@ -32,11 +32,15 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.example.sample.service.impl.dataMapper;
+import egovframework.example.sample.service.impl.staticsMapper;
 
 @Controller
 public class testController {
 	@Resource(name = "dataMapper")
 	dataMapper dataMapper;
+	
+	@Resource(name = "staticsMapper")
+	staticsMapper staticsMapper;
 	
 	@RequestMapping(value = "/testNutrient.do")
 	public ModelAndView testNutrient() {
@@ -610,9 +614,54 @@ public class testController {
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
 	
-		
 		return result;
 	}
+	@RequestMapping("/gridUpdateSort.do")
+	@ResponseBody
+	public String gridUpdateSort(String nutrientCd, String searchWord, String sortFlag) throws JsonMappingException, JsonProcessingException  {
+		
+		System.out.println("grid Update Sort 실행");
+		System.out.println("sortFlag: "+ sortFlag);
+		System.out.println("searchWord: " + searchWord);
+		System.out.println("nutrientCd: " + nutrientCd);
+		String result="0";
 	
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		CodeDTO cdto = new CodeDTO();
+		CodeDTO rdto = new CodeDTO();
+		
+		System.out.println("sortFlag: "+ sortFlag);
+		rdto = staticsMapper.filterCode(cdto);
+		
+		// String castId = rdto.getCD_NAME();
+		String castId = nutrientCd;
+	    map.put("CAST_ID",castId);
+	    map.put("DESC_KOR", searchWord);
+	  
+	    map.put("SORT_FLAG", sortFlag);
+		
+		/* @cnt = 0 */
+		staticsMapper.setCntZero();
+		/* 기준에 따라 SORT_NU 부여*/
+		staticsMapper.updateSort(map);
+		
+		result= "1";
+		
+		ArrayList<Items> filterList = null;
+		
+		
+		filterList= staticsMapper.filterSortData(map);
+		System.out.println("SELECT 매퍼 실행");
+		JSONObject obj = new JSONObject(); 
+	
+		System.out.println(filterList);
+		obj.put("items", filterList);
+		
+	
+		result = obj.toString();
+	
+		return obj.toJSONString();	
+	}
 	
 }

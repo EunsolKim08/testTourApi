@@ -3,13 +3,18 @@ package egovframework.example.sample.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +24,22 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.example.sample.service.impl.staticsMapper;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+
 
 @Controller
 public class staticsController {
@@ -226,11 +247,26 @@ public class staticsController {
 	
 		result = obj.toString();
 	
-		
-		return obj.toJSONString();
-		
-		
+		return obj.toJSONString();	
 	}
+	
+	@RequestMapping(value = "/excelDownload.do",
+			produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String excelDownload(@RequestBody String dataObj,  HttpServletRequest request, HttpServletResponse response) {
+		String result= "0";
+		
+		try {
+			dataObj = URLDecoder.decode(dataObj, "utf-8");
+		    System.out.println("디코딩 문자: "+dataObj);
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("디코딩중 에러발생");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	
 
 }

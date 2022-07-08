@@ -338,7 +338,50 @@
  			 
  			]
  	});
-	
+	 grid.on('click', ev => {	      
+	      if(ev.rowKey == null){
+	    	  console.log("header");
+	    	  sortVa(ev.columnName);
+	      }
+	  });
+	</script>
+	<script>
+	var sortCnt=0;
+	var sortFlag="ASC";
+	function sortVa(columnName){
+		console.log("sort 클릭 이벤트");
+		
+		if(sortCnt %2 == 0){
+			console.log(sortCnt);
+			sortFlag="ASC";
+			console.log(sortFlag);
+		}else{
+			console.log(sortCnt);
+			sortFlag="DESC";
+			console.log(sortFlag);
+		}
+		console.log("컬럼이름: "+ columnName);
+		let obj={
+				nutrientCd : columnName,
+				searchWord : searchValue,
+				sortFlag : sortFlag
+		}
+		$.ajax({ 
+			url :'gridUpdateSort.do',
+			type: 'GET', 
+		    dataType:"json",
+		    data : obj,
+		    success: function(data){ 
+		    	console.log(data);
+		    	item = data.items;
+		        grid.resetData(item);
+		    	sortCnt++;
+		},
+		    error: function(data) {
+		    	console.log("sortE"); 
+		    }
+		});
+	}
 	</script>
 </div>
 

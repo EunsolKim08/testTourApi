@@ -1,6 +1,7 @@
 package egovframework.example.sample.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
@@ -16,5 +17,7 @@ public interface dataMapper {
 	public void insertData(List<NutrientDTO> list);
 	
 	public void updateData(Items items);
+	
+	public ArrayList<Items> gridSortData (HashMap<String, Object> map);
 
 }
