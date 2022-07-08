@@ -664,4 +664,25 @@ public class testController {
 		return obj.toJSONString();	
 	}
 	
+	@RequestMapping(value = "/gridExcelDownload.do",
+			produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String gridExcelDownload(@RequestBody String dataObjStr) {
+		String result = "0";
+		String decodeVal="";
+		
+		try {
+			decodeVal += URLDecoder.decode(dataObjStr, "utf-8");
+		    System.out.println("디코딩 문자: "+decodeVal);
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("디코딩중 에러발생");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		decodeVal = decodeVal.replace("jsonData=", "");
+		System.out.println("치환: " + decodeVal);
+		return result;
+	}
+	
 }

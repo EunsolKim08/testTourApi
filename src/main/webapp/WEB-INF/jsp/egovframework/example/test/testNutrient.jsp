@@ -180,6 +180,7 @@
 		    	//console.log("데이터 형식 확인: "+ data.items);
 		    	item = data.items;
 		        grid.resetData(item);
+		        jsonObj=data;
 		    	//grid.readData(item);
 		    },
 		    error: function(data) {
@@ -271,8 +272,33 @@
 	<br/><hr/>
 	<div style="margin-top:50px; margin-left:80%">
 		<button type="button" id="editNutirent" name="searchNutirent" onclick="dataEdit()" 
-				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:100px;">수정하기</button>
+				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:50px;">수정하기</button>
+		<button type="button" id="editNutirent" name="searchNutirent" onclick="gridExcelDownload()" 
+				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:50px;">엑셀 다운로드</button>
 	</div>
+	<script>
+	 	var jsonObj="";
+		function gridExcelDownload(){
+			console.log("다운로드 클릭");
+			console.log(jsonObj);
+			var jsonObjStr= JSON.stringify(jsonObj);
+			$.ajax({ 
+				url :'gridExcelDownload.do',
+				type: 'POST', 
+			    dataType:"json",
+			    data: { 
+			    	jsonData: jsonObjStr,
+			    },
+			    contentType : 'application/json; charset=UTF-8',
+			    success: function(data){ 
+			    console.log("다운로드 완료");
+			    },
+			    error: function(data) {
+			    console.log("다운로드 실패");
+			    }
+			});
+		}
+	</script>
 	<!-- <div style="margin-top:50px; margin-left:80%">
 		<button type="button" id="editNutirent2" name="searchNutirent2" onclick="dataEdit2()" 
 				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:100px;">수정하기2</button>
@@ -375,6 +401,7 @@
 		    	console.log(data);
 		    	item = data.items;
 		        grid.resetData(item);
+		        jsonObj=data;
 		    	sortCnt++;
 		},
 		    error: function(data) {
