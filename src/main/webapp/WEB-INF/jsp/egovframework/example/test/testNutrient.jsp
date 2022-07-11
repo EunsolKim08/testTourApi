@@ -398,10 +398,12 @@
 		    dataType:"json",
 		    data : obj,
 		    success: function(data){ 
-		    	console.log(data);
 		    	item = data.items;
 		        grid.resetData(item);
-		        jsonObj=data;
+		        console.log(data);
+		        jsonObj= data;
+		        console.log("******");
+		        console.log(jsonObj);
 		    	sortCnt++;
 		},
 		    error: function(data) {

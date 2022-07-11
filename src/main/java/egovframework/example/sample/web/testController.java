@@ -498,7 +498,8 @@ public class testController {
 	@ResponseBody
 	public String dataEdit(@RequestBody String jsonData) throws JsonMappingException, JsonProcessingException  {
 		
-		 
+		System.out.println("데이터 수정 중");
+		
 		String result="1";
 		String json="";
 		String decodeVal = "{\"items\":\r\n";
@@ -570,34 +571,43 @@ public class testController {
 	
 		//jsonObj3.put("items", bodyList);
 	//	System.out.println("array 객체변환: "+jsonObj3.toString());
-	
+		System.out.println("1");
 		
 		JSONArray items = (JSONArray)jsonObj.get("items");
 		//System.out.println("jsonArray: "+items);
 		JSONObject jsonObj2=null ;
 		for(int i = 0; i<items.size();i++) {
 			jsonObj2 = (JSONObject)items.get(i);
+			System.out.println("2-1");
 			//System.out.println((String)jsonObj2.get("DESC_KOR"));
 			//System.out.println((String)jsonObj2.get("DESC_KOR").getClass().getName());
 			//System.out.println("index1: "+ jsonObj2.get("IDX_NU"));
 			long index2 = (long) jsonObj2.get("IDX_NU");
-			
 			int index3 =(int)index2;
 			//System.out.println("index3: "+index3);
 			
 			Items items2 = new Items();
+			System.out.println("2-2");
 			double nutr1 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT1"));
-			double nutr2 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT2"));
-			double nutr3 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT3"));
-			double nutr4 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT4"));
+			System.out.println("2-3");
+			System.out.println("nutr_cont2 class: "+jsonObj2.get("NUTR_CONT2").getClass());
 			
+			long nutr2 = (long) jsonObj2.get("NUTR_CONT2");
+			//double nutr2 = (double) jsonObj2.get("NUTR_CONT2");
+			System.out.println("2-4");
+			long nutr3 = (long) jsonObj2.get("NUTR_CONT3");
+			//double nutr3 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT3"));
+			System.out.println("2-5");
+			long nutr4 = (long) jsonObj2.get("NUTR_CONT4");
+			//double nutr4 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT4"));
+			System.out.println("2-6");
 			items2.setIDX_NU(index3);
 			items2.setNUTR_CONT1(nutr1);
-			items2.setNUTR_CONT2(nutr2);
-			items2.setNUTR_CONT3(nutr3);
-			items2.setNUTR_CONT4(nutr4);
+			items2.setNUTR_CONT2((double)nutr2);
+			items2.setNUTR_CONT3((double)nutr3);
+			items2.setNUTR_CONT4((double)nutr4);
 			items2.setSERVING_WT((String)jsonObj2.get("SERVING_WT"));
-			
+			System.out.println("3");
 			dataMapper.updateData(items2);
 		}
 	
@@ -740,13 +750,7 @@ public class testController {
 				data.put(num, new Object[]{DESC_KOR,SERVING_WT, NUTR_CONT1, NUTR_CONT2, NUTR_CONT3, NUTR_CONT4});
 			}
 		}
-		/*
-		 * data.put("1", new Object[]{"ID", "NAME", "PHONE_NUMBER"}); data.put("2", new
-		 * Object[]{"1", "cookie", "010-1111-1111"}); data.put("3", new Object[]{"2",
-		 * "sickBBang", "010-2222-2222"}); data.put("4", new Object[]{"3", "workingAnt",
-		 * "010-3333-3333"}); data.put("5", new Object[]{"4", "wow", "010-4444-4444"});
-		 */
-
+		
         // data에서 keySet를 가져온다. 이 Set 값들을 조회하면서 데이터들을 sheet에 입력한다.
         Set<String> keyset = data.keySet();
         int rownum = 0;
