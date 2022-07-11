@@ -199,16 +199,19 @@
 		console.log("json 변환: "+jsonObj );
 		var x= jsonObj.toString();
 		console.log(x);
+		// searchValue : searchValue
+		let editObj = {
+			jsonData: jsonObj,
 		
+		}
 		$.ajax({ 
 			url :'dataEdit.do',
 			type: 'POST', 
 		    dataType:"json",
-		    data: { 
-		    	jsonData: jsonObj,
-		    },
+		    data: editObj,
 		    contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
+		    console.log(data);
 		    console.log("edit 완료");
 		    	alert('수정이 완료되었습니다.');
 		    },
@@ -282,6 +285,7 @@
 			console.log("다운로드 클릭");
 			console.log(jsonObj);
 			var jsonObjStr= JSON.stringify(jsonObj);
+			console.log(jsonObjStr);
 			$.ajax({ 
 				url :'gridExcelDownload.do',
 				type: 'POST', 
@@ -292,6 +296,7 @@
 			    contentType : 'application/json; charset=UTF-8',
 			    success: function(data){ 
 			    console.log("다운로드 완료");
+			    console.log("data확인: "+ data);
 			    },
 			    error: function(data) {
 			    console.log("다운로드 실패");
@@ -428,8 +433,6 @@ function changeVa(){
 	
 	searchValue = formName;
 	companyName = company;
-	
-	
 	
 	let obj = {
 			searchValue : searchValue,

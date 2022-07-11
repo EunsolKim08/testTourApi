@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,6 +37,8 @@ import egovframework.example.sample.service.impl.staticsMapper;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -494,7 +497,9 @@ public class testController {
 		return result;
 	}
 	
-	@RequestMapping("/dataEdit.do")
+
+	@RequestMapping(value = "/dataEdit.do",
+	produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String dataEdit(@RequestBody String jsonData) throws JsonMappingException, JsonProcessingException  {
 		
@@ -505,6 +510,7 @@ public class testController {
 		String decodeVal = "{\"items\":\r\n";
 		//System.out.println("dataEdit 실행");
 		
+		//String jsonData = (String) editObj.get("jsonData");
 	//	System.out.println( "수정 데이터: "+jsonData);
 		try {
 			decodeVal += URLDecoder.decode(jsonData, "utf-8");
@@ -566,11 +572,7 @@ public class testController {
 			e.printStackTrace();
 			System.out.println("아이템 직렬화로 읽기 중 오류");
 		}
-			
 		
-	
-		//jsonObj3.put("items", bodyList);
-	//	System.out.println("array 객체변환: "+jsonObj3.toString());
 		System.out.println("1");
 		
 		JSONArray items = (JSONArray)jsonObj.get("items");
@@ -578,29 +580,21 @@ public class testController {
 		JSONObject jsonObj2=null ;
 		for(int i = 0; i<items.size();i++) {
 			jsonObj2 = (JSONObject)items.get(i);
-			System.out.println("2-1");
-			//System.out.println((String)jsonObj2.get("DESC_KOR"));
-			//System.out.println((String)jsonObj2.get("DESC_KOR").getClass().getName());
-			//System.out.println("index1: "+ jsonObj2.get("IDX_NU"));
 			long index2 = (long) jsonObj2.get("IDX_NU");
 			int index3 =(int)index2;
 			//System.out.println("index3: "+index3);
 			
 			Items items2 = new Items();
 			System.out.println("2-2");
+			System.out.println();
 			double nutr1 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT1"));
-			System.out.println("2-3");
-			System.out.println("nutr_cont2 class: "+jsonObj2.get("NUTR_CONT2").getClass());
+			//System.out.println("nutr_cont2 class: "+jsonObj2.get("NUTR_CONT2").getClass());
 			
 			long nutr2 = (long) jsonObj2.get("NUTR_CONT2");
 			//double nutr2 = (double) jsonObj2.get("NUTR_CONT2");
-			System.out.println("2-4");
 			long nutr3 = (long) jsonObj2.get("NUTR_CONT3");
-			//double nutr3 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT3"));
-			System.out.println("2-5");
 			long nutr4 = (long) jsonObj2.get("NUTR_CONT4");
-			//double nutr4 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT4"));
-			System.out.println("2-6");
+			
 			items2.setIDX_NU(index3);
 			items2.setNUTR_CONT1(nutr1);
 			items2.setNUTR_CONT2((double)nutr2);
@@ -610,7 +604,9 @@ public class testController {
 			System.out.println("3");
 			dataMapper.updateData(items2);
 		}
-	
+		Items items1 = new Items();
+	//	items1.setDESC_KOR(orgCode)
+		 //dataMapper.selectData(items1);
 		System.out.println("수정완료");
 		return result;
 	}
@@ -727,12 +723,13 @@ public class testController {
         XSSFSheet sheet = workbook.createSheet("Nutrient data");
 
         // Sheet를 채우기 위한 데이터들을 Map에 저장
-        Map<String, Object[]> data = new TreeMap<>();
+        Map<String, Object[]> data = new HashMap<>();
+        data.put("0", new Object[]{"식품이름","1회 제공량(g)", "칼로리(kcal)", "탄수화물(g)","단백질(g)","지방(g)"});
         
         for(int i = 0; i<bodyList.size();i++) {
 			LinkedHashMap<String, Object> lmap = (LinkedHashMap<String, Object>) bodyList.get(i);
 			//System.out.println("bodyList 각 요소: "+lmap);
-			System.out.println(lmap.get("DESC_KOR"));
+		//	System.out.println(lmap.get("DESC_KOR"));
 			//lmap.get("DESC_KOR");
 			String num="";
 			num = String.valueOf(i+1);
@@ -744,32 +741,26 @@ public class testController {
 			String NUTR_CONT3 =  String.valueOf(lmap.get("NUTR_CONT3"));
 			String NUTR_CONT4 =  String.valueOf(lmap.get("NUTR_CONT4"));
 			
-			if(num.equals("1")) {
-				data.put(num, new Object[]{"식품이름","1회 제공량(g)", "칼로리(kcal)", "탄수화물(g)","단백질(g)","지방(g)"});
-			}else {
-				data.put(num, new Object[]{DESC_KOR,SERVING_WT, NUTR_CONT1, NUTR_CONT2, NUTR_CONT3, NUTR_CONT4});
-			}
+			//num을 키값으로 Object 배열을 집어넣는다.
+			data.put(num, new Object[]{DESC_KOR,SERVING_WT, NUTR_CONT1, NUTR_CONT2, NUTR_CONT3, NUTR_CONT4});
 		}
-		
-        // data에서 keySet를 가져온다. 이 Set 값들을 조회하면서 데이터들을 sheet에 입력한다.
-        Set<String> keyset = data.keySet();
+    
+      
         int rownum = 0;
 
-        // 알아야할 점, TreeMap을 통해 생성된 keySet는 for를 조회시, 키값이 오름차순으로 조회된다.
-        for (String key : keyset) {
-            Row row = sheet.createRow(rownum++);
-            Object[] objArr = data.get(key);
-            int cellnum = 0;
-            for (Object obj : objArr) {
-                Cell cell = row.createCell(cellnum++);
-                if (obj instanceof String) {
-                    cell.setCellValue((String)obj);
-                } else if (obj instanceof Integer) {
-                    cell.setCellValue((Integer)obj);
-                }
-            }
-        }
-
+        //cell의 0번줄을 headr로.. 다른부분은 data값 가져옴.
+       for(int i = 0; i<= bodyList.size(); i++) {
+    	   String num =String.valueOf(i);
+    	   Row row = sheet.createRow(i);
+    	   
+    	   for(int j = 0; j<6;j++) {
+    		   Cell cell = row.createCell(j);
+    		   cell.setCellValue((String)data.get(num)[j]);
+    	   }
+       }
+        
+        
+        
         try {
             FileOutputStream out = new FileOutputStream(new File(filePath, fileNm));
             workbook.write(out);
