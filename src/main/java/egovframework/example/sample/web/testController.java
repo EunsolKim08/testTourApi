@@ -560,8 +560,10 @@ public class testController {
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
 		String searchVal = jsonObj.get("param").toString();
+		String sortFlag = jsonObj.get("sortFlag").toString();
 
 		System.out.println("***searchVal: "+searchVal);
+		System.out.println("***sortFlag: "+sortFlag);
 		List<Map<String, Object>> bodyList =  new ArrayList<>();
 	
 		
@@ -620,7 +622,16 @@ public class testController {
 		Items items1 = new Items();
 		items1.setDESC_KOR(searchVal);
 		System.out.println("수정완료");
-		ArrayList<Items> selectItem =  dataMapper.selectData(items1);
+		ArrayList<Items> selectItem =null;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(sortFlag.equals("DESC") || sortFlag.equals("ASC")) {
+			map.put("DESC_KOR", searchVal);
+			map.put("SORT_FLAG", sortFlag);
+			selectItem = staticsMapper.filterSortData(map);
+		}
+		else {
+			selectItem =  dataMapper.selectData(items1);
+		}
 		
 		JSONObject editObj = new JSONObject();                
 		editObj.put("items", selectItem);

@@ -196,7 +196,7 @@
 		var see = grid.getModifiedRows();
 		console.log(see);
 		console.log("수정된 부분: " + obj);
-		
+		console.log("flag: "+sortFlag);
 		jsonObj= JSON.stringify(obj);
 		console.log("json 변환: "+jsonObj );
 		var x= jsonObj.toString();
@@ -206,7 +206,8 @@
 		
 		let sendData = {
 				items : obj,
-				param : searchValue
+				param : searchValue,
+				sortFlag:sortFlag
 		}
 		
 		let sendJsonData = JSON.stringify(sendData);
@@ -383,9 +384,10 @@
 	</script>
 	<script>
 	var sortCnt=0;
-	var sortFlag="ASC";
+	var sortFlag="";
 	function sortVa(columnName){
 		console.log("sort 클릭 이벤트");
+		sortFlag="ASC";
 		
 		if(sortCnt %2 == 0){
 			console.log(sortCnt);
