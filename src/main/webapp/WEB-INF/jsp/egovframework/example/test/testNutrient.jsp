@@ -188,6 +188,7 @@
 		    }
 		});
 	}
+	var dddd="";
 	function dataEdit(){
 		console.log("데이터 수정");
 		
@@ -196,7 +197,7 @@
 		console.log(see);
 		console.log("수정된 부분: " + obj);
 		
-		var jsonObj= JSON.stringify(obj);
+		jsonObj= JSON.stringify(obj);
 		console.log("json 변환: "+jsonObj );
 		var x= jsonObj.toString();
 		console.log(x);
@@ -226,8 +227,9 @@
 		    console.log(data);
 		    console.log("edit 완료");
 		    	alert('수정이 완료되었습니다.');
-		    	 jsonObj= data;
 			     console.log("******edit");
+			   
+			     jsonObj=data;
 			     console.log(jsonObj);
 		    },
 		    error: function(data) {
@@ -235,30 +237,7 @@
 		    }
 		});
 	}
-	function dataEdit2(){
-		console.log("데이터 수정222");
-		
-		var obj = grid.getModifiedRows().updatedRows;
-		var jsonObj= JSON.stringify(obj);
-		console.log("json 변환: "+jsonObj );
-		
-		$.ajax({ 
-			url :'dataEdit2.do',
-			type: 'POST', 
-		    dataType:"json",
-		    data: { 
-		    	jsonData: jsonObj,
-		    },
-		    contentType : 'application/json; charset=UTF-8',
-		    success: function(data){ 
-		    console.log("edit 완료");
-		    	alert('수정이 완료되었습니다.');
-		    },
-		    error: function(data) {
-		    console.log("edit 실패");
-		    }
-		});
-	}
+
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
 	<div>
@@ -295,11 +274,11 @@
 				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:50px;">엑셀 다운로드</button>
 	</div>
 	<script>
-	 	var jsonObj="";
+	 	
 		function gridExcelDownload(){
 			console.log("***다운로드 클릭");
 			console.log(jsonObj);
-			
+	
 			var jsonObjStr= JSON.stringify(jsonObj);
 			console.log(jsonObjStr);
 			$.ajax({ 
