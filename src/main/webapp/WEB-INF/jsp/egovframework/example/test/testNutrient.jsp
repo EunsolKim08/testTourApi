@@ -226,6 +226,9 @@
 		    console.log(data);
 		    console.log("edit 완료");
 		    	alert('수정이 완료되었습니다.');
+		    	 jsonObj= data;
+			     console.log("******edit");
+			     console.log(jsonObj);
 		    },
 		    error: function(data) {
 		    console.log("edit 실패");
@@ -294,7 +297,7 @@
 	<script>
 	 	var jsonObj="";
 		function gridExcelDownload(){
-			console.log("다운로드 클릭");
+			console.log("***다운로드 클릭");
 			console.log(jsonObj);
 			var jsonObjStr= JSON.stringify(jsonObj);
 			console.log(jsonObjStr);
@@ -308,7 +311,7 @@
 			    contentType : 'application/json; charset=UTF-8',
 			    success: function(data){ 
 			    console.log("다운로드 완료");
-			    console.log("data확인: "+ data);
+			    console.log("*** 다운로드data확인: "+ data);
 			    },
 			    error: function(data) {
 			    console.log("다운로드 실패");

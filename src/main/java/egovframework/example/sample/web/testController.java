@@ -549,8 +549,10 @@ public class testController {
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	
-		//System.out.println("확인"+jsonObj.get("items").toString());
+		
+		String searchVal = jsonObj.get("param").toString();
+
+		System.out.println("***searchVal: "+searchVal);
 		List<Map<String, Object>> bodyList =  new ArrayList<>();
 	
 		
@@ -605,9 +607,14 @@ public class testController {
 			dataMapper.updateData(items2);
 		}
 		Items items1 = new Items();
-	//	items1.setDESC_KOR(orgCode)
-		 //dataMapper.selectData(items1);
+		items1.setDESC_KOR(searchVal);
 		System.out.println("수정완료");
+		ArrayList<Items> selectItem =  dataMapper.selectData(items1);
+		
+		JSONObject editObj = new JSONObject();                
+		editObj.put("items", selectItem);
+		result = editObj.toJSONString();
+		
 		return result;
 	}
 	
