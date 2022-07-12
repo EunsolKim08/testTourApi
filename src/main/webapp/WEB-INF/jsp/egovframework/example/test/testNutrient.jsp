@@ -228,7 +228,6 @@
 		    console.log("edit 완료");
 		    	alert('수정이 완료되었습니다.');
 			     console.log("******edit");
-			   
 			     jsonObj=data;
 			     console.log(jsonObj);
 		    },

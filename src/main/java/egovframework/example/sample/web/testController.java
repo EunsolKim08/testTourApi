@@ -585,7 +585,7 @@ public class testController {
 			System.out.println("아이템 직렬화로 읽기 중 오류");
 		}
 		
-		System.out.println("1");
+		//System.out.println("1");
 		
 		JSONArray items = (JSONArray)jsonObj.get("items");
 		//System.out.println("jsonArray: "+items);
@@ -594,25 +594,27 @@ public class testController {
 			jsonObj2 = (JSONObject)items.get(i);
 			long index2 = (long) jsonObj2.get("IDX_NU");
 			int index3 =(int)index2;
-			//System.out.println("index3: "+index3);
+		
 			
 			Items items2 = new Items();
-			System.out.println("2-2");
-			System.out.println();
+	
 			double nutr1 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT1"));
-			
-			long nutr2 = (long) jsonObj2.get("NUTR_CONT2");
+			System.out.println("1");
+			System.out.println(jsonObj2.get("NUTR_CONT2").getClass());
+			//long nutr2 = (long) jsonObj2.get("NUTR_CONT2");
+			String nutr2 = String.valueOf(jsonObj2.get("NUTR_CONT2"));
 			//double nutr2 = (double) jsonObj2.get("NUTR_CONT2");
-			long nutr3 = (long) jsonObj2.get("NUTR_CONT3");
-			long nutr4 = (long) jsonObj2.get("NUTR_CONT4");
-			
+			String nutr3 = String.valueOf(jsonObj2.get("NUTR_CONT3"));
+			String nutr4 = String.valueOf(jsonObj2.get("NUTR_CONT4"));
+			System.out.println("2");
 			items2.setIDX_NU(index3);
 			items2.setNUTR_CONT1(nutr1);
-			items2.setNUTR_CONT2((double)nutr2);
-			items2.setNUTR_CONT3((double)nutr3);
-			items2.setNUTR_CONT4((double)nutr4);
-			items2.setSERVING_WT((String)jsonObj2.get("SERVING_WT"));
 			System.out.println("3");
+			items2.setNUTR_CONT2(Double.parseDouble(nutr2));
+			items2.setNUTR_CONT3(Double.parseDouble(nutr3));
+			items2.setNUTR_CONT4(Double.parseDouble(nutr4));
+			items2.setSERVING_WT((String)jsonObj2.get("SERVING_WT"));
+			
 			dataMapper.updateData(items2);
 		}
 		Items items1 = new Items();
@@ -627,29 +629,7 @@ public class testController {
 		return result;
 	}
 	
-	@RequestMapping("/dataEdit2.do")
-	@ResponseBody
-	public String dataEdit2(@RequestBody String jsonData, String searchValue) throws JsonMappingException, JsonProcessingException  {
-		
-		String result="";
-		//System.out.println("dateEdit2 실행");
-		//System.out.println("jsonData는 "+jsonData);
-		
-		try {
-			jsonData = URLDecoder.decode(jsonData, "utf-8");
-			System.out.println("디코딩 문자: "+jsonData.toString());
-		} catch (UnsupportedEncodingException e) {
-			System.out.println("디코딩중 에러발생");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		
 	
-		return result;
-	}
 	@RequestMapping("/gridUpdateSort.do")
 	@ResponseBody
 	public String gridUpdateSort(String nutrientCd, String searchWord, String sortFlag) throws JsonMappingException, JsonProcessingException  {
@@ -718,7 +698,7 @@ public class testController {
 		
 		try {
 			decodeVal += URLDecoder.decode(dataObjStr, "utf-8");
-		    System.out.println("디코딩 문자: "+decodeVal);
+		   // System.out.println("디코딩 문자: "+decodeVal);
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("디코딩중 에러발생");
 			// TODO Auto-generated catch block
@@ -726,7 +706,7 @@ public class testController {
 		}
 		
 		decodeVal = decodeVal.replace("jsonData=", "");
-		System.out.println("치환: " + decodeVal);
+		//System.out.println("치환: " + decodeVal);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
