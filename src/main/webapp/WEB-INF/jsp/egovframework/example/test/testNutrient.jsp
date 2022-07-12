@@ -313,7 +313,8 @@
 			    success: function(data){ 
 			 
 			    	if( data == 200){
-			   		console.log("파일생성 완료");
+			   			console.log("파일생성 완료");
+			   			getFileDownload();
 			    	}
 			    },
 			    error: function(data) {
@@ -323,8 +324,10 @@
 		}
 		
 		function getFileDownload(){
-			     window.open("<c:url value='/downLoadFile.do'/>");
-			};
+			
+			var win = window.open("/test/downloadFile.do", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+		
+		}
 
 			
 	</script>
