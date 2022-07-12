@@ -299,6 +299,7 @@
 		function gridExcelDownload(){
 			console.log("***다운로드 클릭");
 			console.log(jsonObj);
+			
 			var jsonObjStr= JSON.stringify(jsonObj);
 			console.log(jsonObjStr);
 			$.ajax({ 
@@ -310,14 +311,22 @@
 			    },
 			    contentType : 'application/json; charset=UTF-8',
 			    success: function(data){ 
-			    console.log("다운로드 완료");
-			    console.log("*** 다운로드data확인: "+ data);
+			 
+			    	if( data == 200){
+			   		console.log("파일생성 완료");
+			    	}
 			    },
 			    error: function(data) {
 			    console.log("다운로드 실패");
 			    }
 			});
 		}
+		
+		function getFileDownload(){
+			     window.open("<c:url value='/downLoadFile.do'/>");
+			};
+
+			
 	</script>
 	<!-- <div style="margin-top:50px; margin-left:80%">
 		<button type="button" id="editNutirent2" name="searchNutirent2" onclick="dataEdit2()" 

@@ -1,8 +1,11 @@
 package egovframework.example.sample.web;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -16,12 +19,17 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,6 +51,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
@@ -694,9 +703,18 @@ public class testController {
 	@RequestMapping(value = "/gridExcelDownload.do",
 			produces = "application/text; charset=UTF-8")
 	@ResponseBody
-	public String gridExcelDownload(@RequestBody String dataObjStr) {
+	public String gridExcelDownload(@RequestBody String dataObjStr, HttpServletRequest request,HttpServletResponse response ) {
 		String result = "0";
-		String decodeVal="";
+	
+		makeGridExcel(dataObjStr);
+		
+		result = "200";
+		return result;
+	}
+	
+	public void makeGridExcel(String dataObjStr) {
+	
+	String decodeVal="";
 		
 		try {
 			decodeVal += URLDecoder.decode(dataObjStr, "utf-8");
@@ -775,8 +793,36 @@ public class testController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    
-		return result;
+		
 	}
+	
+	@RequestMapping(value = "/downloadFile.do")
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response, ModelMap model)  throws Exception{
+		
+		File uFile = new File(filePath,fileNm);
+		
+		int fSize = (int)uFile.length();
+		
+		 try {
+	        	String path = "C:\\poi_temp\\poi_making_file_test.xlsx"; // 경로에 접근할 때 역슬래시('\') 사용
+	        	// C:\\poi_temp
+	        	File file = new File(path);
+	        	response.setHeader("Content-Disposition", "attachment;filename=" + file.getName()); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+	        	
+	        	FileInputStream fileInputStream = new FileInputStream(path); // 파일 읽어오기 
+	        	OutputStream out = response.getOutputStream();
+	        	
+	        	int read = 0;
+	                byte[] buffer = new byte[1024];
+	                while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+	                    out.write(buffer, 0, read);
+	                }
+	                
+	        } catch (Exception e) {
+	            throw new Exception("download error");
+	        }
+	}
+	
+	
 	
 }
