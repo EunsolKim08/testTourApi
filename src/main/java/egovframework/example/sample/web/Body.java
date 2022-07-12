@@ -19,4 +19,5 @@ public class Body {
 	private String pageNo;
 	private String totalCount;
 	private String numOfRows;
+	private String param;
 }

@@ -195,15 +195,27 @@
 		var see = grid.getModifiedRows();
 		console.log(see);
 		console.log("수정된 부분: " + obj);
+		
 		var jsonObj= JSON.stringify(obj);
 		console.log("json 변환: "+jsonObj );
 		var x= jsonObj.toString();
 		console.log(x);
 		// searchValue : searchValue
-		let editObj = {
-			jsonData: jsonObj,
 		
+		
+		let sendData = {
+				items : obj,
+				param : searchValue
 		}
+		
+		let sendJsonData = JSON.stringify(sendData);
+		
+		let editObj = {
+			jsonData: sendJsonData
+		//searchValue : searchValue
+		} 
+		
+		//debugger;
 		$.ajax({ 
 			url :'dataEdit.do',
 			type: 'POST', 

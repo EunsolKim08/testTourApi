@@ -513,20 +513,21 @@ public class testController {
 		//String jsonData = (String) editObj.get("jsonData");
 	//	System.out.println( "수정 데이터: "+jsonData);
 		try {
-			decodeVal += URLDecoder.decode(jsonData, "utf-8");
+			decodeVal = URLDecoder.decode(jsonData, "utf-8");
 		//	System.out.println("디코딩 문자: "+decodeVal);
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("디코딩중 에러발생");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		decodeVal = decodeVal.replace("jsonData=[{", "[{");
-		decodeVal +=",\"pageNo\":\"1\",\"totalCount\":\"94\",\"numOfRows\":\"10\"}";
+		decodeVal = decodeVal.replace("jsonData=", "");
+		decodeVal = decodeVal.replace("}],", "}],");
+		//decodeVal +=",\"pageNo\":\"1\",\"totalCount\":\"94\",\"numOfRows\":\"10\"}";
 		//System.out.println("치환후 decodeVal: "+ decodeVal);
 		
 		
-		String orgCode  = decodeVal;
+		System.out.println("**************");
+		//System.out.println(decodeVal);
 		//System.out.println("1");
 		JSONParser parser = new JSONParser();
 		//System.out.println("2");
@@ -535,14 +536,13 @@ public class testController {
 		try {
 			//obj = parser.parse( strJson );
 			obj = parser.parse( decodeVal );
-			//JSONParser jsonParser = new JSONParser();
-			//JSONObject jsonObject = (JSONObject)jsonParser.parse(decodeVal);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			System.out.println("parser.pare 실행중 오류");
 			e.printStackTrace();
 		}
 		
+		System.out.println("****"+obj.toString());
 		//System.out.println("3");
 		JSONObject jsonObj = (JSONObject) obj;
 		JSONArray jarray = new JSONArray();
@@ -552,13 +552,14 @@ public class testController {
 	
 		//System.out.println("확인"+jsonObj.get("items").toString());
 		List<Map<String, Object>> bodyList =  new ArrayList<>();
-		
+	
 		
 		try {
 			Body desi = objectMapper.readValue(decodeVal, Body.class);
 			//System.out.println(desi);
 			
 			bodyList = (List<Map<String, Object>>)desi.getItems();
+			
 		//	System.out.println("bodyList: "+ bodyList);
 			//insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
 			for(int i = 0; i<bodyList.size();i++) {
@@ -588,7 +589,6 @@ public class testController {
 			System.out.println("2-2");
 			System.out.println();
 			double nutr1 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT1"));
-			//System.out.println("nutr_cont2 class: "+jsonObj2.get("NUTR_CONT2").getClass());
 			
 			long nutr2 = (long) jsonObj2.get("NUTR_CONT2");
 			//double nutr2 = (double) jsonObj2.get("NUTR_CONT2");
@@ -613,7 +613,7 @@ public class testController {
 	
 	@RequestMapping("/dataEdit2.do")
 	@ResponseBody
-	public String dataEdit2(@RequestBody String jsonData) throws JsonMappingException, JsonProcessingException  {
+	public String dataEdit2(@RequestBody String jsonData, String searchValue) throws JsonMappingException, JsonProcessingException  {
 		
 		String result="";
 		//System.out.println("dateEdit2 실행");
