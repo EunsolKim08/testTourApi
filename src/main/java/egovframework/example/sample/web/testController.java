@@ -57,6 +57,7 @@ import java.io.FileOutputStream;
 
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 
 @Controller
 public class testController {
@@ -86,8 +87,6 @@ public class testController {
 		System.out.println(companyName);
 		try {
 			info = getInfoService(searchValue,companyName);
-			//System.out.println("\n****************");
-			//System.out.println("string info: "+info);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -535,7 +534,7 @@ public class testController {
 		//System.out.println("치환후 decodeVal: "+ decodeVal);
 		
 		
-		System.out.println("**************");
+		//System.out.println("**************");
 		//System.out.println(decodeVal);
 		//System.out.println("1");
 		JSONParser parser = new JSONParser();
@@ -562,8 +561,6 @@ public class testController {
 		String searchVal = jsonObj.get("param").toString();
 		String sortFlag = jsonObj.get("sortFlag").toString();
 
-		System.out.println("***searchVal: "+searchVal);
-		System.out.println("***sortFlag: "+sortFlag);
 		List<Map<String, Object>> bodyList =  new ArrayList<>();
 	
 		
@@ -601,17 +598,15 @@ public class testController {
 			Items items2 = new Items();
 	
 			double nutr1 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT1"));
-			System.out.println("1");
-			System.out.println(jsonObj2.get("NUTR_CONT2").getClass());
+			
 			//long nutr2 = (long) jsonObj2.get("NUTR_CONT2");
 			String nutr2 = String.valueOf(jsonObj2.get("NUTR_CONT2"));
 			//double nutr2 = (double) jsonObj2.get("NUTR_CONT2");
 			String nutr3 = String.valueOf(jsonObj2.get("NUTR_CONT3"));
 			String nutr4 = String.valueOf(jsonObj2.get("NUTR_CONT4"));
-			System.out.println("2");
+			
 			items2.setIDX_NU(index3);
 			items2.setNUTR_CONT1(nutr1);
-			System.out.println("3");
 			items2.setNUTR_CONT2(Double.parseDouble(nutr2));
 			items2.setNUTR_CONT3(Double.parseDouble(nutr3));
 			items2.setNUTR_CONT4(Double.parseDouble(nutr4));
@@ -645,10 +640,6 @@ public class testController {
 	@ResponseBody
 	public String gridUpdateSort(String nutrientCd, String searchWord, String sortFlag) throws JsonMappingException, JsonProcessingException  {
 		
-		System.out.println("grid Update Sort 실행");
-		System.out.println("sortFlag: "+ sortFlag);
-		System.out.println("searchWord: " + searchWord);
-		System.out.println("nutrientCd: " + nutrientCd);
 		String result="0";
 	
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -680,7 +671,6 @@ public class testController {
 		System.out.println("SELECT 매퍼 실행");
 		JSONObject obj = new JSONObject(); 
 	
-		System.out.println(filterList);
 		obj.put("items", filterList);
 		
 	
@@ -691,12 +681,25 @@ public class testController {
 	
 	public static String filePath = "C:\\poi_temp";
 	public static String fileNm = "poi_making_file_test.xlsx";
+	
+	
+	/*파일 저장 랜덤 이름을 만든다.*/
+	public String randomNm() {
+		String randomName = "";
+		
+		randomName = UUID.randomUUID().toString()+".xlsx";;
+		
+		return randomName;
+	}
+	
+	
 	@RequestMapping(value = "/gridExcelDownload.do",
 			produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String gridExcelDownload(@RequestBody String dataObjStr, HttpServletRequest request,HttpServletResponse response, ModelMap model) throws Exception {
 		String result = "0";
-	
+		
+		fileNm = randomNm();
 		makeGridExcel(dataObjStr);
 		
 		result = "200";
