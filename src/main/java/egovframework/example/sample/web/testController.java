@@ -705,7 +705,12 @@ public class testController {
 		fileNm = randomNm();
 		makeGridExcel(dataObjStr);
 		
-		result = "200";
+		JSONObject obj = new JSONObject();
+		obj.put("result", 200);
+		obj.put("fileNm", fileNm);
+		
+		
+		result = obj.toJSONString();
 		return result;
 	}
 	

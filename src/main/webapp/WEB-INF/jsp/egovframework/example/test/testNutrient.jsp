@@ -291,19 +291,18 @@
 			    contentType : 'application/json; charset=UTF-8',
 			    success: function(data){ 
 			 
-			    	if( data == 200){
-			   			console.log("파일생성 완료");
-			   			getFileDownload();
+			    	if( data.result == 200){
+			   			console.log("파일생성 완료!");
+			   			getFileDownload(data.fileNm);
 			    	}
 			    },
 			    error: function(data) {
-			    console.log("파일생성 실패");
+			    console.log("파일생성 실패!");
 			    }
 			});
 		}
 		
-		function getFileDownload(){
-			
+		function getFileDownload(fileNm){
 			//var win = window.open("/test/downloadFile.do", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
 			 $.ajax({ 
 				url :'downloadFile.do',
@@ -311,15 +310,25 @@
 			    success: function(data){ 
 			    	//console.log(data);
 			 		console.log("다운로드 성공");
+			 		console.log(fileNm);
 			 		
-			 		 var bytes = new Uint8Array(data.FileContents);
-			         var blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-			         var downloadUrl = URL.createObjectURL(blob);
-			         var a = document.createElement("a");
-			         a.href = downloadUrl;
-			         a.download = "1ebe50a5-fbb5-4ffe-bfa2-367ae906eb64.xlsx";
-			         document.body.appendChild(a);
-			         a.click();
+			 		var blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+			 		console.log("blob: "+ blob);
+                    //Check the Browser type and download the File.
+                    var isIE = false || !!document.documentMode;
+                    if (isIE) {
+                        window.navigator.msSaveBlob(blob, fileNm);
+                    } else {
+                        var url = window.URL || window.webkitURL;
+                        link = url.createObjectURL(blob);
+                        var link2 = "http://localhost:8080/test/downloadFile.do";
+                        var a = $("<a />");
+                        a.attr("download", fileNm);
+                        a.attr("href", link2);
+                        $("body").append(a);
+                        a[0].click();
+                        $("body").remove(a);
+                    }
 			    },
 			    error: function(data) {
 			    	//console.log(data);
