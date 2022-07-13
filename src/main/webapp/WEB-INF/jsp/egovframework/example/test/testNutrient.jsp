@@ -304,38 +304,53 @@
 		
 		function getFileDownload(fileNm){
 			//var win = window.open("/test/downloadFile.do", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
-			 $.ajax({ 
-				url :'downloadFile.do',
-				type: 'POST', 
-			    success: function(data){ 
-			    	//console.log(data);
-			 		console.log("다운로드 성공");
-			 		console.log(fileNm);
-			 		
-			 		var blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-			 		console.log("blob: "+ blob);
-                    //Check the Browser type and download the File.
-                    var isIE = false || !!document.documentMode;
-                    if (isIE) {
-                        window.navigator.msSaveBlob(blob, fileNm);
-                    } else {
-                        var url = window.URL || window.webkitURL;
-                        link = url.createObjectURL(blob);
-                        var link2 = "http://localhost:8080/test/downloadFile.do";
-                        var a = $("<a />");
-                        a.attr("download", fileNm);
-                        a.attr("href", link2);
-                        $("body").append(a);
-                        a[0].click();
-                        $("body").remove(a);
-                    }
-			    },
-			    error: function(data) {
-			    	//console.log(data);
-			   		console.log("다운로드 실패");
-			    }
-			}); 
-		
+			
+			 var isIE = false || !!document.documentMode;
+             if (isIE) {
+                window.navigator.msSaveBlob(blob, fileNm);
+             } else {
+                var url = window.URL || window.webkitURL;
+                //왜 여기서 blob은 정상적으로 링크를 가져오지 못하는지
+               // link = url.createObjectURL(blob);
+                var link2 = "http://localhost:8080/test/downloadFile.do";
+                var a = $("<a />");
+                a.attr("download", fileNm);
+                a.attr("href", link2);
+                $("body").append(a);
+                a[0].click();
+                $("body").remove(a);
+             }
+                  /*   $.ajax({ 
+        				url :'downloadFile.do',
+        				type: 'POST', 
+        			    success: function(data){ 
+        			    	//console.log(data);
+        			 		console.log("다운로드 성공");
+        			 		console.log(fileNm);
+        			 		
+        			 		var blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        			 		
+                            var isIE = false || !!document.documentMode;
+                            if (isIE) {
+                                window.navigator.msSaveBlob(blob, fileNm);
+                            } else {
+                                var url = window.URL || window.webkitURL;
+                                //왜 여기서 blob은 정상적으로 링크를 가져오지 못하는지
+                                // link = url.createObjectURL(blob);
+                                var link2 = "http://localhost:8080/test/downloadFile.do";
+                                var a = $("<a />");
+                                a.attr("download", fileNm);
+                                a.attr("href", link2);
+                                $("body").append(a);
+                                a[0].click();
+                                $("body").remove(a);
+                            }
+        			    },
+        			    error: function(data) {
+        			    	//console.log(data);
+        			   		console.log("다운로드 실패");
+        			    }
+        			});  */
 		}
 
 			
