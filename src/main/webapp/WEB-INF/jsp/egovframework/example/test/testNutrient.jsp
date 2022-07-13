@@ -297,14 +297,35 @@
 			    	}
 			    },
 			    error: function(data) {
-			    console.log("다운로드 실패");
+			    console.log("파일생성 실패");
 			    }
 			});
 		}
 		
 		function getFileDownload(){
 			
-			var win = window.open("/test/downloadFile.do", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+			//var win = window.open("/test/downloadFile.do", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+			 $.ajax({ 
+				url :'downloadFile.do',
+				type: 'POST', 
+			    success: function(data){ 
+			    	//console.log(data);
+			 		console.log("다운로드 성공");
+			 		
+			 		 var bytes = new Uint8Array(data.FileContents);
+			         var blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+			         var downloadUrl = URL.createObjectURL(blob);
+			         var a = document.createElement("a");
+			         a.href = downloadUrl;
+			         a.download = "1ebe50a5-fbb5-4ffe-bfa2-367ae906eb64.xlsx";
+			         document.body.appendChild(a);
+			         a.click();
+			    },
+			    error: function(data) {
+			    	//console.log(data);
+			   		console.log("다운로드 실패");
+			    }
+			}); 
 		
 		}
 

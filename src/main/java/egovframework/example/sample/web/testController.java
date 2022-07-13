@@ -679,8 +679,10 @@ public class testController {
 		return obj.toJSONString();	
 	}
 	
+	/*원본 파일이 생성되는 폴더 경로*/
 	public static String filePath = "C:\\poi_temp";
-	public static String fileNm = "poi_making_file_test.xlsx";
+	/*원본 파일 이름*/
+	public static String fileNm = "poiData.xlsx";
 	
 	
 	/*파일 저장 랜덤 이름을 만든다.*/
@@ -699,6 +701,7 @@ public class testController {
 	public String gridExcelDownload(@RequestBody String dataObjStr, HttpServletRequest request,HttpServletResponse response, ModelMap model) throws Exception {
 		String result = "0";
 		
+		/*poi 엑셀 만들기 api가 호출될때 마다 고유이름 생성*/
 		fileNm = randomNm();
 		makeGridExcel(dataObjStr);
 		
@@ -793,6 +796,7 @@ public class testController {
 	@RequestMapping(value = "/downloadFile.do")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response, ModelMap model)  throws Exception{
 		
+		String result ="0";
 		File uFile = new File(filePath,fileNm);
 		
 		int fSize = (int)uFile.length();
@@ -811,11 +815,14 @@ public class testController {
 		                while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
 		                    out.write(buffer, 0, read);
 		                }
-		            
+		            out.close();
 		        } catch (Exception e) {
 		            throw new Exception("다운로드 실행 중 에러");
 		        }
 		}
+		result="200";
+		
+		//return result;
 	}
 	
 	
