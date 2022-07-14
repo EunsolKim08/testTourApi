@@ -201,8 +201,7 @@
 		console.log("json 변환: "+jsonObj );
 		var x= jsonObj.toString();
 		console.log(x);
-		// searchValue : searchValue
-		
+
 		
 		let sendData = {
 				items : obj,
@@ -214,7 +213,6 @@
 		
 		let editObj = {
 			jsonData: sendJsonData
-		//searchValue : searchValue
 		} 
 		
 		//debugger;
@@ -255,23 +253,100 @@
 			식품명
 			<input type="text" name="foodName" id="foodName" style="height:20px; width:100px; font-size:18px;"
 			/>
-			<button type="button" id="searchNutirent" name="searchNutirent" onclick="search()" 
+<!-- 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="search()" 
 				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api1 검색하기</button>
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="apiTest2()" 
 				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api2 검색하기</button> 
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="apiTest3()" 
-				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api3 </button>
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">api3 </button> -->
 			<button type="button" id="searchNutirent" name="searchNutirent" onclick="dataSearch()" 
-				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF;">데이터검색 </button>
+				style="font-size:20px; background-color:#5882FA; border-color:#5882FA; color:#FFFFFF; margin-left:20px;">데이터검색 </button>
 			</div>
 		</form>
 	</div>
-	<br/><hr/>
-	<div style="margin-top:50px; margin-left:80%">
-		<button type="button" id="editNutirent" name="searchNutirent" onclick="dataEdit()" 
-				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:50px;">수정하기</button>
-		<button type="button" id="editNutirent" name="searchNutirent" onclick="gridExcelDownload()" 
-				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:50px;">엑셀 다운로드</button>
+	<br/>
+	<script>
+		
+		function fileUpload(obj){
+			console.log("파일업로드");
+			console.log(obj);
+			var maxNum = 3;
+			var currentNum = obj.files.length;
+			var fileFlag="";
+			console.log("첨부된 파일 갯수: "+ currentNum);
+			
+			if(currentNum > maxNum){
+				alert("최대 3개까지만 첨부 가능합니다.");
+				fileFlag="false";
+				return false;
+			}
+			else{
+				for (var i = 0; i <currentNum ; i++) {
+			        const file = obj.files[i];
+			        // 첨부파일 검증
+			        if (validation(file)) {
+			        	console.log(i+ "번째 파일검증");
+			        	fileFlag="true";
+			        }else{
+			        	console.log(i+ "번째 파일검증");
+			        	fileFlag="false";
+			        	return false;
+			        }
+			  }
+			}
+			
+			if(fileFlag=="true"){
+				console.log("**파일첨부 true확인");
+				let obj = {
+						jsonData : 'aaaa',
+				}
+				$.ajax({ 
+					url :'uploadFile.do',
+				    dataType:"json",
+				    data: obj,
+				    success: function(data){ 
+				    	console.log("파일업로드 성공: "+data);
+				    	//console.log("데이터 형식 확인: "+ data.items);
+				    	//item = data.items;
+				        //grid.resetData(item);
+				        //jsonObj=data;
+				    	//grid.readData(item);
+				    },
+				    error: function(data) {
+				    	console.log("파일업로드 실패: "+data);
+				    }
+				});
+			}
+		}
+		
+		function validation(obj){
+			//json형식의 파일첨부를 위해서는 그냥 json이 아닌 application/json을 받아야함.
+		    const fileTypes = ['application/json'];
+		    console.log("파일 첨부형식: "+obj.type);
+		    
+		    if(obj.size > (1024 * 1024 * 5)){
+		    	 alert("최대 첨부 가능한 파일은 5MB입니다.");
+			     return false;
+		    }else if(!fileTypes.includes(obj.type)){
+		    	alert("json형식의 파일만 첨부 가능합니다.");
+		    }else{
+		    	console.log("파일크기: " + obj.size );
+		    	console.log("파일 형식 검증완료");
+		    	return true;
+		    }
+		}
+	</script>
+	<div>
+		| 데이터 입력<br/><br/><br/>
+		<form name="uploadJson" id="uploadJson" enctype="multipart/form-data" method="post">
+			<input type="file" style="font-size:20px;" onchange="fileUpload(this)" multiple >
+			<input type="button" style="font-size:20px;" value="전송">
+		</form>
+	</div>
+	
+	<div style="margin-top:50px; margin-left:800px; margin-bottom:100px;'">
+		<button type="button" style="font-size:20px;" onclick="dataEdit()" >수정하기</button>
+		<button type="button" style="font-size:20px;"  onclick="gridExcelDownload()" >엑셀 다운로드</button>
 	</div>
 	<script>
 	 	
@@ -303,14 +378,12 @@
 		}
 		
 		function getFileDownload(fileNm){
-			//var win = window.open("/test/downloadFile.do", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
-			
 			 var isIE = false || !!document.documentMode;
              if (isIE) {
                 window.navigator.msSaveBlob(blob, fileNm);
              } else {
                 var url = window.URL || window.webkitURL;
-                //왜 여기서 blob은 정상적으로 링크를 가져오지 못하는지
+          
                // link = url.createObjectURL(blob);
                 var link2 = "http://localhost:8080/test/downloadFile.do";
                 var a = $("<a />");
@@ -320,38 +393,9 @@
                 a[0].click();
                 $("body").remove(a);
              }
-                  /*   $.ajax({ 
-        				url :'downloadFile.do',
-        				type: 'POST', 
-        			    success: function(data){ 
-        			    	//console.log(data);
-        			 		console.log("다운로드 성공");
-        			 		console.log(fileNm);
-        			 		
-        			 		var blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-        			 		
-                            var isIE = false || !!document.documentMode;
-                            if (isIE) {
-                                window.navigator.msSaveBlob(blob, fileNm);
-                            } else {
-                                var url = window.URL || window.webkitURL;
-                                //왜 여기서 blob은 정상적으로 링크를 가져오지 못하는지
-                                // link = url.createObjectURL(blob);
-                                var link2 = "http://localhost:8080/test/downloadFile.do";
-                                var a = $("<a />");
-                                a.attr("download", fileNm);
-                                a.attr("href", link2);
-                                $("body").append(a);
-                                a[0].click();
-                                $("body").remove(a);
-                            }
-        			    },
-        			    error: function(data) {
-        			    	//console.log(data);
-        			   		console.log("다운로드 실패");
-        			    }
-        			});  */
 		}
+                
+		
 
 			
 	</script>

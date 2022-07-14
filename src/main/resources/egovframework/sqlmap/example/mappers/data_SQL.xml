@@ -79,6 +79,17 @@
 			END
 		) END DESC
     </select>
+    <insert id="fileUpload" parameterType="java.util.List">
+     	INSERT INTO JsonData
+     		(orginalName, saveName)
+      	VALUES
+      	<foreach collection="list" item="item" separator=",">
+	    (
+	        #{item.orginalName}
+	        , #{item.saveName}
+	   )
+	   </foreach>   
+    </insert>
 	
 
  </mapper>

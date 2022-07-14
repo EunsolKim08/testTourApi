@@ -7,6 +7,7 @@ import java.util.List;
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
 import egovframework.example.sample.web.Items;
+import egovframework.example.sample.web.JsonData;
 import egovframework.example.sample.web.NutrientDTO;
 
 @Mapper("dataMapper")
@@ -19,5 +20,7 @@ public interface dataMapper {
 	public void updateData(Items items);
 	
 	public ArrayList<Items> gridSortData (HashMap<String, Object> map);
+	
+	public void fileUpload(List<JsonData> list);
 
 }

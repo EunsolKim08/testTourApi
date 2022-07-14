@@ -46,6 +46,7 @@ import egovframework.example.sample.service.impl.staticsMapper;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -54,7 +55,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-
+import java.io.FileReader;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -80,9 +81,7 @@ public class testController {
 	@RequestMapping("/infoUrl.do")
 	@ResponseBody
 	public String searchTourInfo(String searchValue,  String companyName) {
-		
-		//System.out.println("infoUrl.do");
-		//System.out.println(searchValue);
+	
 		String info="";
 		System.out.println(companyName);
 		try {
@@ -303,13 +302,11 @@ public class testController {
 		NutrientDTO nutrientDto = null;
 	
 		String fResult="";
-		//HashMap<String, Object> hmap = new HashMap<String, Object>();
-		//hmap.put("sb", sb);
+		
 		try {
 			System.out.println("result: "+ result);
 			NutrientDTO deserializeNu = objectMapper.readValue(result, NutrientDTO.class);
 			
-			//System.out.println("직렬화: "+deserializeNu.toString());
 			fResult = mapper.writeValueAsString(deserializeNu);
 			System.out.println("fResult: "+ fResult);
 			NutrientDTO innerClassPersonDto = objectMapper.readValue(result, NutrientDTO.class);
@@ -455,18 +452,13 @@ public class testController {
 			
 			for(int i = 0; i<cFlag;i++) {
 				jsonObj = (JSONObject)jsonArr.get(i);
-			//	System.out.println((String)jsonObj.get("DESC_KOR"));
 			
 				String desc = (String)jsonObj.get("DESC_KOR");
-				//categories += " \"\r" + desc +"\"\r" ;
+				
 				categories += (String)jsonObj.get("DESC_KOR");
 				nuDa2 += jsonObj.get("NUTR_CONT2");
 				nuDa3 += jsonObj.get("NUTR_CONT3");
-				nuDa4 += jsonObj.get("NUTR_CONT4");
-				//nuDa2 += (String)jsonObj.get("NUTR_CONT2");
-				//nuDa3 += (String)jsonObj.get("NUTR_CONT3");
-				//nuDa4 += (String)jsonObj.get("NUTR_CONT4");
-				
+				nuDa4 += jsonObj.get("NUTR_CONT4");				
 				
 				if(i < cFlag-1) {
 					nuDa2+=",";
@@ -484,16 +476,7 @@ public class testController {
 			System.out.println("ArrayList직력화중 에러 발생");
 		}
 		
-	//	System.out.println("json: "+ json);
-		
 		JSONObject obj = new JSONObject(); 
-		
-	//	System.out.println("nuDa2: "+ nuDa2);
-	//	System.out.println("nuDa3: "+ nuDa3);
-	//	System.out.println("nuDa4: "+ nuDa4);
-	//	System.out.println("cate:" + categories);
-		
-		//obj.put("categories", "[\r\n" + "  \"1월\",\r\n" + "  \"2월\",\r\n" + "  \"3월\",\r\n"+ "  \"4월\"\r\n"+ "]");
 		
 		obj.put("categories", categories);
 		obj.put("nuDa2", nuDa2);
@@ -516,13 +499,9 @@ public class testController {
 		String result="1";
 		String json="";
 		String decodeVal = "{\"items\":\r\n";
-		//System.out.println("dataEdit 실행");
 		
-		//String jsonData = (String) editObj.get("jsonData");
-	//	System.out.println( "수정 데이터: "+jsonData);
 		try {
 			decodeVal = URLDecoder.decode(jsonData, "utf-8");
-		//	System.out.println("디코딩 문자: "+decodeVal);
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("디코딩중 에러발생");
 			// TODO Auto-generated catch block
@@ -530,19 +509,11 @@ public class testController {
 		}
 		decodeVal = decodeVal.replace("jsonData=", "");
 		decodeVal = decodeVal.replace("}],", "}],");
-		//decodeVal +=",\"pageNo\":\"1\",\"totalCount\":\"94\",\"numOfRows\":\"10\"}";
-		//System.out.println("치환후 decodeVal: "+ decodeVal);
-		
-		
-		//System.out.println("**************");
-		//System.out.println(decodeVal);
-		//System.out.println("1");
+	
 		JSONParser parser = new JSONParser();
-		//System.out.println("2");
 		Object obj = null;
 		
 		try {
-			//obj = parser.parse( strJson );
 			obj = parser.parse( decodeVal );
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -566,25 +537,17 @@ public class testController {
 		
 		try {
 			Body desi = objectMapper.readValue(decodeVal, Body.class);
-			//System.out.println(desi);
 			
 			bodyList = (List<Map<String, Object>>)desi.getItems();
 			
-		//	System.out.println("bodyList: "+ bodyList);
-			//insertList= (List<NutrientDTO>) deserializeNu.getBody().getItems();
 			for(int i = 0; i<bodyList.size();i++) {
 				LinkedHashMap<String, Object> lmap = (LinkedHashMap<String, Object>) bodyList.get(i);
-				//System.out.println("bodyList 각 요소: "+lmap);
-				//lmap.get("DESC_KOR");
 			}
 			
-			//System.out.println("아이템 직렬화 제대로 실행");
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("아이템 직렬화로 읽기 중 오류");
 		}
-		
-		//System.out.println("1");
 		
 		JSONArray items = (JSONArray)jsonObj.get("items");
 		//System.out.println("jsonArray: "+items);
@@ -598,10 +561,8 @@ public class testController {
 			Items items2 = new Items();
 	
 			double nutr1 = Double.parseDouble((String)jsonObj2.get("NUTR_CONT1"));
-			
-			//long nutr2 = (long) jsonObj2.get("NUTR_CONT2");
+		
 			String nutr2 = String.valueOf(jsonObj2.get("NUTR_CONT2"));
-			//double nutr2 = (double) jsonObj2.get("NUTR_CONT2");
 			String nutr3 = String.valueOf(jsonObj2.get("NUTR_CONT3"));
 			String nutr4 = String.valueOf(jsonObj2.get("NUTR_CONT4"));
 			
@@ -650,11 +611,9 @@ public class testController {
 		System.out.println("sortFlag: "+ sortFlag);
 		rdto = staticsMapper.filterCode(cdto);
 		
-		// String castId = rdto.getCD_NAME();
 		String castId = nutrientCd;
 	    map.put("CAST_ID",castId);
 	    map.put("DESC_KOR", searchWord);
-	  
 	    map.put("SORT_FLAG", sortFlag);
 		
 		/* @cnt = 0 */
@@ -694,7 +653,6 @@ public class testController {
 		return randomName;
 	}
 	
-	
 	@RequestMapping(value = "/gridExcelDownload.do",
 			produces = "application/text; charset=UTF-8")
 	@ResponseBody
@@ -714,13 +672,11 @@ public class testController {
 		return result;
 	}
 	
-	public void makeGridExcel(String dataObjStr) {
-	
+	public void makeGridExcel(String dataObjStr) {	
 	String decodeVal="";
 		
 		try {
 			decodeVal += URLDecoder.decode(dataObjStr, "utf-8");
-		   // System.out.println("디코딩 문자: "+decodeVal);
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("디코딩중 에러발생");
 			// TODO Auto-generated catch block
@@ -728,7 +684,6 @@ public class testController {
 		}
 		
 		decodeVal = decodeVal.replace("jsonData=", "");
-		//System.out.println("치환: " + decodeVal);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -748,6 +703,7 @@ public class testController {
 
         // 빈 Sheet를 생성
         XSSFSheet sheet = workbook.createSheet("Nutrient data");
+        XSSFCellStyle xstyle = workbook.createCellStyle();
 
         // Sheet를 채우기 위한 데이터들을 Map에 저장
         Map<String, Object[]> data = new HashMap<>();
@@ -755,9 +711,6 @@ public class testController {
         
         for(int i = 0; i<bodyList.size();i++) {
 			LinkedHashMap<String, Object> lmap = (LinkedHashMap<String, Object>) bodyList.get(i);
-			//System.out.println("bodyList 각 요소: "+lmap);
-		//	System.out.println(lmap.get("DESC_KOR"));
-			//lmap.get("DESC_KOR");
 			String num="";
 			num = String.valueOf(i+1);
 			
@@ -786,8 +739,6 @@ public class testController {
     	   }
        }
         
-        
-        
         try {
             FileOutputStream out = new FileOutputStream(new File(filePath, fileNm));
             workbook.write(out);
@@ -800,8 +751,6 @@ public class testController {
 	
 	@RequestMapping(value = "/downloadFile.do")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response, ModelMap model)  throws Exception{
-		
-		String result ="0";
 		File uFile = new File(filePath,fileNm);
 		
 		int fSize = (int)uFile.length();
@@ -825,9 +774,44 @@ public class testController {
 		            throw new Exception("다운로드 실행 중 에러");
 		        }
 		}
-		result="200";
 		
-		//return result;
+	}
+	
+	@RequestMapping(value = "/uploadFile.do")
+	@ResponseBody
+	public String uploadFile(String jsonData) {	
+		String result="0";
+		System.out.println("파일업로드 메소드실행");
+		System.out.println("파일업로드 명: "+ jsonData);
+		
+		result="200";
+		JSONObject  readFile = readJsonFile("신라면.json");
+		System.out.println("파일읽기: "+readFile);
+		
+		return result;
+	}
+	
+	public JSONObject readJsonFile(String fileName) {
+
+		JSONParser parser = new JSONParser();
+		String result="";
+		JSONObject jsonObject=null;
+
+		try {
+			FileReader reader = new FileReader("c:/jsonFile/"+ fileName);
+			Object obj = parser.parse(reader);
+			jsonObject = (JSONObject) obj;
+			
+			reader.close();
+			
+			result=jsonObject.toString();
+			
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return jsonObject;
+		
 	}
 	
 	
