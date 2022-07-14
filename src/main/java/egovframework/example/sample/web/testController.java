@@ -791,8 +791,8 @@ public class testController {
 		
 		if(uploadFlag == 1) {
 			/*파일 업로드가 성공햇다면 파일 불러오기*/
-			JSONObject  readFile = readJsonFile("초코케이크.json");
-			JSONObject  readFile2 = readJsonFile("딸기우유.json");
+			JSONObject  readFile = readJsonFile("초코케이크222.json");
+			JSONObject  readFile2 = readJsonFile("딸기우유22.json");
 			
 			String readTotalString ="";
 			
@@ -805,11 +805,6 @@ public class testController {
 		
 		return result;
 	}
-	
-	
-	
-	
-	
 	
 	
 	public JSONObject readJsonFile(String fileName) {
