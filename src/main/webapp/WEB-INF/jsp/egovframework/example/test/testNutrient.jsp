@@ -303,14 +303,17 @@
 				$.ajax({ 
 					url :'uploadFile.do',
 				    dataType:"json",
+				    contentType : 'application/json; charset=UTF-8',
 				    data: obj,
 				    success: function(data){ 
 				    	console.log("파일업로드 성공: "+data);
 				    	//console.log("데이터 형식 확인: "+ data.items);
-				    	//item = data.items;
-				        //grid.resetData(item);
-				        //jsonObj=data;
-				    	//grid.readData(item);
+				    	item = data.items;
+				    	var item2 = data.items2;
+				    	var item3 = data.items3;
+				        grid.resetData(item);
+				        setGridData2(item2);
+				       // setGridData3(item3);
 				    },
 				    error: function(data) {
 				    	console.log("파일업로드 실패: "+data);
@@ -318,7 +321,7 @@
 				});
 			}
 		}
-		
+	
 		function validation(obj){
 			//json형식의 파일첨부를 위해서는 그냥 json이 아닌 application/json을 받아야함.
 		    const fileTypes = ['application/json'];
@@ -404,6 +407,8 @@
 				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:100px;">수정하기2</button>
 	</div> -->
 	<div id="grid"></div>
+	<div id="grid2"></div>
+	<div id="grid3"></div>
 	<br/>
 	<br/>
 	
@@ -470,6 +475,132 @@
 	    	  sortVa(ev.columnName);
 	      }
 	  });
+	 
+	 
+	 
+	function setGridData2(data){
+			var grid2 = new tui.Grid({
+			  el: document.getElementById('grid2'),
+			  pagination:true,
+			  columns: [
+			  {
+				     header: '식품이름',
+				     name: 'DESC_KOR' 		      
+				},
+			 {
+				      header: '제조사',
+				      name: 'ANIMAL_PLANT'
+			 },
+			 {
+				      header: '1회제공량 (g)',
+				      name: 'SERVING_WT',
+				      editor: 'text',	      
+			},
+			 {
+			  header: '열량 (kcal)',
+			  name: 'NUTR_CONT1',
+			  sortable: true,
+			  sortingType: 'asc',
+			  editor: 'text',				 
+			 },
+			 {
+				      header: '탄수화물 (g)',
+				      name: 'NUTR_CONT2',
+				      sortable: true,
+				      sortingType: 'asc',
+				      editor: 'text',
+				      afterChange(ev) {
+			          console.log('After change:' + ev);
+				       },
+			 },
+			 {
+			     header: '단백질 (g)',
+			     name: 'NUTR_CONT3',
+			     sortable: true,
+			     sortingType: 'asc',
+			     editor: 'text'
+			},
+			 {
+			      header: '지방 (g)',
+			      name: 'NUTR_CONT4',
+			      sortable: true,
+			      sortingType: 'asc',
+			      editor: 'text'
+			 },
+			]
+			});
+				/*  grid.on('click', ev => {	      
+				      if(ev.rowKey == null){
+				    	  console.log("header");
+				    	  sortVa(ev.columnName);
+				      }
+				  }); */
+			console.log(data);
+			grid2.resetData(data);
+		}
+	
+	function setGridData3(data){
+		var grid3 = new tui.Grid({
+		  el: document.getElementById('grid3'),
+		  pagination:true,
+		  columns: [
+		  {
+			     header: '식품이름',
+			     name: 'DESC_KOR' 		      
+			},
+		 {
+			      header: '제조사',
+			      name: 'ANIMAL_PLANT'
+		 },
+		 {
+			      header: '1회제공량 (g)',
+			      name: 'SERVING_WT',
+			      editor: 'text',	      
+		},
+		 {
+		  header: '열량 (kcal)',
+		  name: 'NUTR_CONT1',
+		  sortable: true,
+		  sortingType: 'asc',
+		  editor: 'text',				 
+		 },
+		 {
+			      header: '탄수화물 (g)',
+			      name: 'NUTR_CONT2',
+			      sortable: true,
+			      sortingType: 'asc',
+			      editor: 'text',
+			      afterChange(ev) {
+		          console.log('After change:' + ev);
+			       },
+		 },
+		 {
+		     header: '단백질 (g)',
+		     name: 'NUTR_CONT3',
+		     sortable: true,
+		     sortingType: 'asc',
+		     editor: 'text'
+		},
+		 {
+		      header: '지방 (g)',
+		      name: 'NUTR_CONT4',
+		      sortable: true,
+		      sortingType: 'asc',
+		      editor: 'text'
+		 },
+		]
+		});
+			/*  grid.on('click', ev => {	      
+			      if(ev.rowKey == null){
+			    	  console.log("header");
+			    	  sortVa(ev.columnName);
+			      }
+			  }); */
+		console.log(data);
+		grid3.resetData(data);
+	}
+	 	
+	 	 // 
 	</script>
 	<script>
 	var sortCnt=0;

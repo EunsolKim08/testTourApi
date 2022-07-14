@@ -781,18 +781,38 @@ public class testController {
 	@ResponseBody
 	public String uploadFile(String jsonData) {	
 		String result="0";
+		int uploadFlag = 0;
 		System.out.println("파일업로드 메소드실행");
 		System.out.println("파일업로드 명: "+ jsonData);
 		
-		result="200";
-		JSONObject  readFile = readJsonFile("신라면.json");
-		System.out.println("파일읽기: "+readFile);
+		
+		/*파일 서버에 올리기*/
+		
+		
+		if(uploadFlag == 1) {
+			/*파일 업로드가 성공햇다면 파일 불러오기*/
+			JSONObject  readFile = readJsonFile("초코케이크.json");
+			JSONObject  readFile2 = readJsonFile("딸기우유.json");
+			
+			String readTotalString ="";
+			
+			JSONObject obj = new JSONObject();
+			obj.put("items", readFile.get("items"));
+			obj.put("items2", readFile2.get("items"));
+			
+			result= obj.toString();
+		}
 		
 		return result;
 	}
 	
+	
+	
+	
+	
+	
+	
 	public JSONObject readJsonFile(String fileName) {
-
 		JSONParser parser = new JSONParser();
 		String result="";
 		JSONObject jsonObject=null;
