@@ -826,16 +826,9 @@ public class testController {
 		  }			 
 		
 		 System.out.println("파일업로드 성공");
+	
+		result= obj.toJSONString();
 		
-		//if(uploadFlag == 0) {
-			/*파일 업로드가 성공햇다면 파일 불러오기*/
-			//JSONObject  readFile = readJsonFile("초코케이크.json");
-			JSONObject  readFile2 = readJsonFile("딸기우유.json");
-			String readTotalString ="";
-			
-			//obj.put("items2", readFile2.get("items"));
-			 result= obj.toJSONString();
-		//}
 		return result;
 	}
 	

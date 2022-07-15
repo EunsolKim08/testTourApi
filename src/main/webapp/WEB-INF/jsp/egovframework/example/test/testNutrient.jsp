@@ -368,11 +368,12 @@
 	<div id="grid3"></div>
 	<script>
 		var fileFlag="";
+		var currentNum;
 		function fileUpload(obj){
 			console.log("파일업로드");
 			console.log(obj);
 			var maxNum = 3;
-			var currentNum = obj.files.length;
+			currentNum = obj.files.length;
 			console.log("첨부된 파일 갯수: "+ currentNum);
 			
 			if(currentNum > maxNum){
@@ -444,15 +445,15 @@
 				    data: formData,
 				    success: function(data){ 
 				    	console.log("파일업로드 성공");
-				    	if(form.length == 1){
+				    	if(currentNum == 1){
 				    		item = data.items1;
 					    	grid.resetData(item);
-				    	}else if(form.length == 2){
+				    	}else if(currentNum == 2){
 				    		item = data.items1;
 					    	grid.resetData(item);
 					    	 var item2 = data.items2;				      
 					        setGridData2(item2); 
-				    	}else if(form.length == 3){
+				    	}else if(currentNum == 3){
 				    		item = data.items1;
 					    	grid.resetData(item);
 					    	 var item2 = data.items2;				      
