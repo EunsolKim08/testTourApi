@@ -363,7 +363,7 @@
 		<button type="button" id="editNutirent2" name="searchNutirent2" onclick="dataEdit2()" 
 				style="font-size:20px; background-color:#747474; border-color:#747474; color:#FFFFFF; margin-bottom:100px;">수정하기2</button>
 	</div> -->
-	<div id="grid"></div>
+	<div id="grid">	</div>
 	<div id="grid2"></div>
 	<div id="grid3"></div>
 	<script>
@@ -426,7 +426,7 @@
 			var formData = new FormData(form);
 			//var uploadFormData = new FormData();
 			//uploadFormData.append("file1", $("#file")[0].files[0]);
-			
+			console.log("form의 길이: "+form.length);
 			if(fileFlag=="true"){
 				console.log("**파일첨부 true확인");
 				let obj = {
@@ -444,17 +444,23 @@
 				    data: formData,
 				    success: function(data){ 
 				    	console.log("파일업로드 성공");
-				    	//console.log("데이터 형식 확인: "+ data.items);
-				    	console.log("데이터어어어11: "+data);
-				    	console.log("데이터어어어222: "+data.items1);
-				    	item = data.items1;
-				    	grid.resetData(item);
-				    
-				    	 var item2 = data.items2;				      
-				         setGridData2(item2); 
-				         
-				       //var item3 = data.items3;
-				       // setGridData3(item3);
+				    	if(form.length == 1){
+				    		item = data.items1;
+					    	grid.resetData(item);
+				    	}else if(form.length == 2){
+				    		item = data.items1;
+					    	grid.resetData(item);
+					    	 var item2 = data.items2;				      
+					        setGridData2(item2); 
+				    	}else if(form.length == 3){
+				    		item = data.items1;
+					    	grid.resetData(item);
+					    	 var item2 = data.items2;				      
+					        setGridData2(item2); 
+					        var item3 = data.items3;
+						     setGridData3(item3);
+				    	}
+				 
 				      alert("파일 업로드에 성공하셨습니다.");
 				    },
 				    error: function(data) {
