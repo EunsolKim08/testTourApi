@@ -783,45 +783,67 @@ public class testController {
 	private static final String fileUploadPath="c:/jsonFile/";
 	@RequestMapping(value = "/uploadFile.do")
 	@ResponseBody
-	public String uploadFile(MultipartHttpServletRequest request) {	
+	public String uploadFile(MultipartHttpServletRequest mtfRequest) {	
 		String result="0";
 		int uploadFlag = 0;
 		
 		System.out.println("1");
-		//MultipartHttpServletRequest mtfRequest = null;
-		// List<MultipartFile> fileList = mtfRequest.getFiles("file");
-		//MultipartHttpServletRequest multi = (MultipartHttpServletRequest) request;
+		List<MultipartFile> fileList = mtfRequest.getFiles("file");
+		String safeFile="";
+		 String ranFilename= "";
 		
-        //MultipartFile file = multi.getFile("file");
-
-		//System.out.println("파일리스트 사이즈: "+ file);
-		//System.out.println(fileList);
+		/*파일 서버에 올리기*/
+		 for (MultipartFile mf : fileList)
+		 {
+			 String originFileName = mf.getOriginalFilename(); //원본 파일 명 
+			 long fileSize = mf.getSize(); // 파일 사이즈
+			 System.out.println("originFileName : " + originFileName);
+			 System.out.println("fileSize : " + fileSize); 
+			 
+			 ranFilename=  System.currentTimeMillis() + originFileName;
+			 safeFile =fileUploadPath + ranFilename;
+			 System.out.println("파일이름: "+ranFilename);
 			
-		/*
-		 * for (MultipartFile mf : fileList) { String originFileName =
-		 * mf.getOriginalFilename(); // 원본 파일 명 long fileSize = mf.getSize(); // 파일 사이즈
-		 * System.out.println("originFileName : " + originFileName);
-		 * System.out.println("fileSize : " + fileSize); }
-		 */
+			 try {
+				 
+	             mf.transferTo(new File(safeFile));
+	       
+	         } catch (IllegalStateException e) {
+	        	 System.out.println("파일업로드 오류1");
+	             // TODO Auto-generated catch block
+	             e.printStackTrace();
+	         } catch (IOException e) {
+	             // TODO Auto-generated catch block
+	        	 System.out.println("파일업로드 오류2");
+	             e.printStackTrace();
+	         }
+
+		  }
+		 
+	
+		 JSONObject obj = new JSONObject();
+		 JSONObject  readFile = readJsonFile(ranFilename);
+         obj.put("items", readFile.get("items"));
+     	 result= obj.toString();
+     	 System.out.println(obj.toString());
 			 
 		
-		System.out.println("2222");
-		/*파일 서버에 올리기*/
-		
+		 System.out.println("파일업로드 성공");
+	
 		
 		//if(uploadFlag == 0) {
 			/*파일 업로드가 성공햇다면 파일 불러오기*/
-			JSONObject  readFile = readJsonFile("초코케이크.json");
+			//JSONObject  readFile = readJsonFile("초코케이크.json");
 			JSONObject  readFile2 = readJsonFile("딸기우유.json");
 			
 			String readTotalString ="";
 			
-			JSONObject obj = new JSONObject();
-			obj.put("items", readFile.get("items"));
-			obj.put("items2", readFile2.get("items"));
 			
-			result= obj.toString();
-			System.out.println(obj.toString());
+			
+			//obj.put("items2", readFile2.get("items"));
+			
+		
+		
 		//}
 		
 		return result;
