@@ -446,15 +446,14 @@
 				    	console.log("파일업로드 성공");
 				    	//console.log("데이터 형식 확인: "+ data.items);
 				    	console.log("데이터어어어11: "+data);
-				    	console.log("데이터어어어222: "+data.items);
-				    	item = data.items;
+				    	console.log("데이터어어어222: "+data.items1);
+				    	item = data.items1;
 				    	grid.resetData(item);
-				    	 //console.log(data);
-				    	 //console.log(item);
-				    	 //var item2 = data.items2;
-				    	//var item3 = data.items3;
-				      
-				         //setGridData2(item2); 
+				    
+				    	 var item2 = data.items2;				      
+				         setGridData2(item2); 
+				         
+				       //var item3 = data.items3;
 				       // setGridData3(item3);
 				      alert("파일 업로드에 성공하셨습니다.");
 				    },
@@ -463,12 +462,7 @@
 				    }
 				});
 			}
-		}
-	//	var x ='{"items":[{"IDX_NU":4131,"NUTR_CONT4":18,"ANIMAL_PLANT":"","SERVING_WT":"60","NUTR_CONT1":"300","NUTR_CONT2":19,"NUTR_CONT3":3,"DESC_KOR":"?????????","_attributes":{"checkDisabled":false,"rowNum":1,"checked":false,"disabled":false,"className":{"column":{},"row":[]}},"rowKey":0}],"items2":[{"IDX_NU":4132,"NUTR_CONT4":7.6,"ANIMAL_PLANT":"","SERVING_WT":"200","NUTR_CONT1":"300","NUTR_CONT2":40,"NUTR_CONT3":10,"DESC_KOR":"??&????","_attributes":{"checkDisabled":false,"rowNum":1,"checked":false,"disabled":false,"className":{"column":{},"row":[]}},"rowKey":0}]}';
-		
-		
-		//console.log(x);
-		
+		}		
 		</script>
 	<br/>
 	<br/>
