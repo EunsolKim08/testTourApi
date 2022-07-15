@@ -32,7 +32,10 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -776,23 +779,40 @@ public class testController {
 		}
 		
 	}
-	
+	/*파일을 업로드하는 path지정*/
+	private static final String fileUploadPath="c:/jsonFile/";
 	@RequestMapping(value = "/uploadFile.do")
 	@ResponseBody
-	public String uploadFile(String jsonData) {	
+	public String uploadFile(MultipartHttpServletRequest request) {	
 		String result="0";
 		int uploadFlag = 0;
-		System.out.println("파일업로드 메소드실행");
-		System.out.println("파일업로드 명: "+ jsonData);
 		
+		System.out.println("1");
+		//MultipartHttpServletRequest mtfRequest = null;
+		// List<MultipartFile> fileList = mtfRequest.getFiles("file");
+		//MultipartHttpServletRequest multi = (MultipartHttpServletRequest) request;
 		
+        //MultipartFile file = multi.getFile("file");
+
+		//System.out.println("파일리스트 사이즈: "+ file);
+		//System.out.println(fileList);
+			
+		/*
+		 * for (MultipartFile mf : fileList) { String originFileName =
+		 * mf.getOriginalFilename(); // 원본 파일 명 long fileSize = mf.getSize(); // 파일 사이즈
+		 * System.out.println("originFileName : " + originFileName);
+		 * System.out.println("fileSize : " + fileSize); }
+		 */
+			 
+		
+		System.out.println("2222");
 		/*파일 서버에 올리기*/
 		
 		
-		if(uploadFlag == 1) {
+		//if(uploadFlag == 0) {
 			/*파일 업로드가 성공햇다면 파일 불러오기*/
-			JSONObject  readFile = readJsonFile("초코케이크222.json");
-			JSONObject  readFile2 = readJsonFile("딸기우유22.json");
+			JSONObject  readFile = readJsonFile("초코케이크.json");
+			JSONObject  readFile2 = readJsonFile("딸기우유.json");
 			
 			String readTotalString ="";
 			
@@ -801,7 +821,8 @@ public class testController {
 			obj.put("items2", readFile2.get("items"));
 			
 			result= obj.toString();
-		}
+			System.out.println(obj.toString());
+		//}
 		
 		return result;
 	}
@@ -829,6 +850,37 @@ public class testController {
 		
 	}
 	
-	
-	
+	@RequestMapping(value = "/multipartUpload.do")
+	@ResponseBody
+	public String multipartUpload(MultipartHttpServletRequest request ) throws Exception {
+	    System.out.println("dddd");
+	 //   MultipartHttpServletRequest request = null;
+	    List<MultipartFile> fileList = request.getFiles("file2");
+	    System.out.println("dd222d");
+	    System.out.println("파일리스트: "+fileList);
+	   // String path = application.getRealPath("[경로]");
+	    
+	    File fileDir = new File(fileUploadPath);
+	    
+	    if (!fileDir.exists()) {
+	    	fileDir.mkdirs();
+	    }
+	    
+	    long time = System.currentTimeMillis();
+	    
+	    for (MultipartFile mf : fileList) {
+	    	System.out.println("3333");
+	    	String originFileName = mf.getOriginalFilename(); // 원본 파일 명
+	        String saveFileName = String.format("%d_%s", time, originFileName);
+	        System.out.println(originFileName);
+	        try {
+	        	// 파일생성
+	            mf.transferTo(new File(fileUploadPath, saveFileName));    		
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	   }
+		return "200";
+	}
+
 }

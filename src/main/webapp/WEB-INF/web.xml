@@ -25,6 +25,14 @@
 		<filter-name>HTMLTagFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+    <!-- <filter>
+        <filter-name>MultipartFilter</filter-name>
+        <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MultipartFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping> -->
 	
     
 	<context-param>
@@ -71,5 +79,4 @@
 		<error-code>500</error-code>
 		<location>/common/error.jsp</location>
 	</error-page>
-    
 </web-app>

@@ -201,7 +201,6 @@
 		console.log("json 변환: "+jsonObj );
 		var x= jsonObj.toString();
 		console.log(x);
-
 		
 		let sendData = {
 				items : obj,
@@ -235,7 +234,6 @@
 		    }
 		});
 	}
-
 	</script>
 	<!-- <button id="testbtn" onclick="testfun()">btn</button> -->
 	<div>
@@ -266,13 +264,12 @@
 	</div>
 	<br/>
 	<script>
-		
+		var fileFlag="";
 		function fileUpload(obj){
 			console.log("파일업로드");
 			console.log(obj);
 			var maxNum = 3;
 			var currentNum = obj.files.length;
-			var fileFlag="";
 			console.log("첨부된 파일 갯수: "+ currentNum);
 			
 			if(currentNum > maxNum){
@@ -295,31 +292,7 @@
 			  }
 			}
 			
-			if(fileFlag=="true"){
-				console.log("**파일첨부 true확인");
-				let obj = {
-						jsonData : 'aaaa',
-				}
-				$.ajax({ 
-					url :'uploadFile.do',
-				    dataType:"json",
-				    contentType : 'application/json; charset=UTF-8',
-				    data: obj,
-				    success: function(data){ 
-				    	console.log("파일업로드 성공: "+data);
-				    	//console.log("데이터 형식 확인: "+ data.items);
-				    	item = data.items;
-				    	var item2 = data.items2;
-				    	var item3 = data.items3;
-				        grid.resetData(item);
-				        setGridData2(item2);
-				       // setGridData3(item3);
-				    },
-				    error: function(data) {
-				    	console.log("파일업로드 실패: "+data);
-				    }
-				});
-			}
+		
 		}
 	
 		function validation(obj){
@@ -338,12 +311,92 @@
 		    	return true;
 		    }
 		}
+		function submitfile(){
+			console.log("파일첨부버튼 실행");
+			//debugger;
+		  	
+			/* var form2 = $('#uploadJson')[0].file.value;
+			console.log("form2: "+form2);
+			var form = $('#uploadJson')[0];
+			var formData = new FormData(form); */
+			
+			var uploadFormData = new FormData();
+			uploadFormData.append("file1", $("#file")[0].files[0]);
+			
+			if(fileFlag=="true"){
+				console.log("**파일첨부 true확인");
+				let obj = {
+						jsonData : 'aaaa',
+				}
+				$.ajax({ 
+					url :'uploadFile.do',
+					type:"POST",
+				    //dataType:"json",
+				    //contentType : 'application/json; charset=UTF-8',
+				    //enctype: 'multipart/form-data',  
+				    processData: false,    
+			        contentType: false,      
+			        //cache: false, 
+				    data: uploadFormData,
+				    success: function(data){ 
+				    	console.log("파일업로드 성공");
+				    	//console.log("데이터 형식 확인: "+ data.items);
+				    	 item = data.items;
+				    	 //console.log(data);
+				    	 //console.log(item);
+				    	 //var item2 = data.items2;
+				    	//var item3 = data.items3;
+				        //grid.resetData(item);
+				        //setGridData2(item2); 
+				       // setGridData3(item3);
+				    },
+				    error: function(data) {
+				       console.log("파일업로드 실패");
+				    }
+				});
+			}
+		}
+		var x ='{"items":[{"IDX_NU":4131,"NUTR_CONT4":18,"ANIMAL_PLANT":"","SERVING_WT":"60","NUTR_CONT1":"300","NUTR_CONT2":19,"NUTR_CONT3":3,"DESC_KOR":"?????????","_attributes":{"checkDisabled":false,"rowNum":1,"checked":false,"disabled":false,"className":{"column":{},"row":[]}},"rowKey":0}],"items2":[{"IDX_NU":4132,"NUTR_CONT4":7.6,"ANIMAL_PLANT":"","SERVING_WT":"200","NUTR_CONT1":"300","NUTR_CONT2":40,"NUTR_CONT3":10,"DESC_KOR":"??&????","_attributes":{"checkDisabled":false,"rowNum":1,"checked":false,"disabled":false,"className":{"column":{},"row":[]}},"rowKey":0}]}';
+		console.log(x);
+		
+		</script>
+	
+	<h1>실험</h1>
+	<script>
+	function test(){
+		var formData = new FormData($('#fileForm')[0]);
+		console.log("Test");
+		$.ajax({
+			type: "POST",
+			url :'multipartUpload.do',
+			enctype: 'multipart/form-data',	// 필수  
+			processData: false,    
+		    //contentType: false,      
+		    cache: false, 
+			success: function (result) {
+				console.log('성공');
+			
+			},
+			error: function (e) {
+				console.log('실패');
+			}
+		});
+		
+	}
 	</script>
+	<!-- <form id="fileForm" method="post" enctype="multipart/form-data">
+    	<input type="file" name="file2" multiple="true">
+    	<input type="button" value="버튼" onclick="test()">
+	</form> -->
+
+
+	<br/><br/><br/><br/><br/>
 	<div>
 		| 데이터 입력<br/><br/><br/>
+		<!-- multiple -->
 		<form name="uploadJson" id="uploadJson" enctype="multipart/form-data" method="post">
-			<input type="file" style="font-size:20px;" onchange="fileUpload(this)" multiple >
-			<input type="button" style="font-size:20px;" value="전송">
+			<input type="file" name="file" id="file" style="font-size:20px;" onchange="fileUpload(this)"  multiple>
+			<input type="button" style="font-size:20px;" value="전송" onclick="submitfile()">
 		</form>
 	</div>
 	
@@ -380,7 +433,7 @@
 			});
 		}
 		
-		function getFileDownload(fileNm){
+		function getFileDownload(fileNm){
 			 var isIE = false || !!document.documentMode;
              if (isIE) {
                 window.navigator.msSaveBlob(blob, fileNm);
@@ -399,7 +452,6 @@
 		}
                 
 		
-
 			
 	</script>
 	<!-- <div style="margin-top:50px; margin-left:80%">
@@ -767,12 +819,10 @@ function changeVa(){
 		
 	}
 }
-
 grid.on('editingFinish', ev => {
     console.log('editing key: ' + ev.rowKey);
     console.log('editing 컬럼명: ' + ev.columnName);
   });
-
 </script>
 
 

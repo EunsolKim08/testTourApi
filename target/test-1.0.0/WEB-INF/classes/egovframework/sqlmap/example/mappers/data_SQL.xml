@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="egovframework.example.sample.service.impl.dataMapper">
+	<resultMap id="testMap" type="egovframework.example.sample.web.Items">
+  		<result column="DESC_KOR" property="DESC_KOR" />
+  		<result column="NUTR_CONT1" property="NUTR_CONT1" />
+  		<result column="NUTR_CONT2" property="NUTR_CONT2" />
+	</resultMap>
+   <select id="selectData" resultType="hashMap" parameterType="egovframework.example.sample.web.Items">
+    SELECT
+    	*
+    	FROM
+    	Nutrient
+    WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')
+    </select>
+    
+    <insert id="insertData" parameterType="java.util.List">
+        INSERT INTO Nutrient
+	    (
+	      DESC_KOR
+	      , SERVING_WT
+	      , NUTR_CONT1
+	      , NUTR_CONT2
+	      , NUTR_CONT3
+	      , NUTR_CONT4
+	      , ANIMAL_PLANT
+	    )
+	    VALUES
+	    
+	    <foreach collection="list" item="item" separator=",">
+	    (
+	 
+	        #{item.DESC_KOR}
+	        , #{item.SERVING_WT}
+	        , #{item.NUTR_CONT1}
+	        , #{item.NUTR_CONT2}
+	        , #{item.NUTR_CONT3}
+	        , #{item.NUTR_CONT4}
+	        , #{item.ANIMAL_PLANT}
+	        )
+	    </foreach>   
+	    
+	</insert>
+	<update id="updateData"  parameterType="egovframework.example.sample.web.Items">
+    UPDATE Nutrient
+    
+		SET 
+		
+	SERVING_WT=#{SERVING_WT}, NUTR_CONT1=#{NUTR_CONT1}, 
+	NUTR_CONT2=#{NUTR_CONT2}, NUTR_CONT3=#{NUTR_CONT3}, 
+	NUTR_CONT4=#{NUTR_CONT4}
+	WHERE IDX_NU=#{IDX_NU}
+    </update>
+	<select id="gridSortData" resultType="hashMap" parameterType="hashMap">
+    SELECT
+    	*
+    	FROM
+    	Nutrient
+    WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')
+    ORDER by
+		CASE WHEN #{SORT_FLAG} = 'ASC' THEN (
+			CASE 
+				WHEN #{CAST_ID} = 'NUTR_CONT1' 	THEN NUTR_CONT1 
+				WHEN #{CAST_ID} = 'NUTR_CONT2' THEN NUTR_CONT2 
+				WHEN #{CAST_ID} = 'NUTR_CONT3' THEN NUTR_CONT3
+				WHEN #{CAST_ID} = 'NUTR_CONT4' THEN NUTR_CONT4  
+			END
+		) END ASC,
+		CASE WHEN #{SORT_FLAG} = 'DESC' THEN (
+			CASE 
+				WHEN #{CAST_ID} = 'NUTR_CONT1' 	THEN NUTR_CONT1 
+				WHEN #{CAST_ID} = 'NUTR_CONT2' THEN NUTR_CONT2 
+				WHEN #{CAST_ID} = 'NUTR_CONT3' THEN NUTR_CONT3
+				WHEN #{CAST_ID} = 'NUTR_CONT4' THEN NUTR_CONT4  
+			END
+		) END DESC
+    </select>
+    <insert id="fileUpload" parameterType="java.util.List">
+     	INSERT INTO JsonData
+     		(orginalName, saveName)
+      	VALUES
+      	<foreach collection="list" item="item" separator=",">
+	    (
+	        #{item.orginalName}
+	        , #{item.saveName}
+	   )
+	   </foreach>   
+    </insert>
+	
+
+ </mapper>

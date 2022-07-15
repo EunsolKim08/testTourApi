@@ -10,5 +10,6 @@
 	        </map>
 		</property>
 	</bean>
-	<!-- multipart 파일 첨부를 위한 설정 -->
+	
+	
 </beans>	

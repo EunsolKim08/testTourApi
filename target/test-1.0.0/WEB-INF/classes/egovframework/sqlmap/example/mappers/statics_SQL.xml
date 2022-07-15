@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="egovframework.example.sample.service.impl.staticsMapper">
+	<select id="filterCode" resultType="egovframework.example.sample.web.CodeDTO" parameterType="egovframework.example.sample.web.CodeDTO">
+	 SELECT
+	 	*
+	 	FROM CODE 
+	 	WHERE G_CD = #{G_CD} AND CD = #{CD} AND CD_YN='Y'
+	</select>
+	<select id="filterData" resultType="hashMap" parameterType="hashMap">
+	
+	SELECT 
+		*
+	FROM Nutrient n 
+		WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')	
+	ORDER by 
+		CASE 
+			WHEN #{CAST_ID} = 'NUTR_CONT0' THEN IDX_NU
+			WHEN #{CAST_ID} = 'NUTR_CONT1' THEN NUTR_CONT1 
+			WHEN #{CAST_ID} = 'NUTR_CONT2' THEN NUTR_CONT2 
+			WHEN #{CAST_ID} = 'NUTR_CONT3' THEN NUTR_CONT3
+			WHEN #{CAST_ID} = 'NUTR_CONT4' THEN NUTR_CONT4  
+		END DESC limit 0,7
+		
+	</select>
+	<update id="setCntZero">
+  	 SET @cnt = 0
+    </update>
+	
+	<update id="updateSort" parameterType="hashMap">
+  	 UPDATE Nutrient   AS N 
+ 		  SET N.SORT_NU  = @cnt := @cnt + 1
+		  WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')	
+	ORDER BY
+	CASE 
+			WHEN #{CAST_ID} = 'NUTR_CONT1' 	THEN NUTR_CONT1 
+			WHEN #{CAST_ID} = 'NUTR_CONT2' THEN NUTR_CONT2 
+			WHEN #{CAST_ID} = 'NUTR_CONT3' THEN NUTR_CONT3
+			WHEN #{CAST_ID} = 'NUTR_CONT4' THEN NUTR_CONT4  
+	END ASC	
+    </update>
+	<select id="filterSortData" resultType="hashMap" parameterType="hashMap">
+	SELECT 
+		*
+	FROM Nutrient n 
+		WHERE DESC_KOR LIKE CONCAT('%', #{DESC_KOR}, '%')	
+	ORDER by
+		CASE WHEN #{SORT_FLAG} = 'ASC' THEN SORT_NU END ASC,
+		CASE WHEN #{SORT_FLAG} = 'DESC' THEN SORT_NU END DESC
+	</select>
+ </mapper>
