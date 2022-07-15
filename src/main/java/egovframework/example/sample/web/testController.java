@@ -824,7 +824,7 @@ public class testController {
 		 JSONObject obj = new JSONObject();
 		 JSONObject  readFile = readJsonFile(ranFilename);
          obj.put("items", readFile.get("items"));
-     	 result= obj.toString();
+     	 result= obj.toJSONString();
      	 System.out.println(obj.toString());
 			 
 		

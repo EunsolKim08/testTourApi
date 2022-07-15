@@ -176,9 +176,10 @@
 		    data: obj,
 		    success: function(data){ 
 		    	console.log("ds"); 
-		    	console.log(data);
+		    	console.log("조회데이터 형식1: "+data);
 		    	//console.log("데이터 형식 확인: "+ data.items);
 		    	item = data.items;
+		    	console.log("조회데이터 형식2: "+item);
 		        grid.resetData(item);
 		        jsonObj=data;
 		    	//grid.readData(item);
@@ -263,106 +264,7 @@
 		</form>
 	</div>
 	<br/>
-	<script>
-		var fileFlag="";
-		function fileUpload(obj){
-			console.log("파일업로드");
-			console.log(obj);
-			var maxNum = 3;
-			var currentNum = obj.files.length;
-			console.log("첨부된 파일 갯수: "+ currentNum);
-			
-			if(currentNum > maxNum){
-				alert("최대 3개까지만 첨부 가능합니다.");
-				fileFlag="false";
-				return false;
-			}
-			else{
-				for (var i = 0; i <currentNum ; i++) {
-			        const file = obj.files[i];
-			        // 첨부파일 검증
-			        if (validation(file)) {
-			        	console.log(i+ "번째 파일검증");
-			        	fileFlag="true";
-			        }else{
-			        	console.log(i+ "번째 파일검증");
-			        	fileFlag="false";
-			        	return false;
-			        }
-			  }
-			}
-			
-		
-		}
 	
-		function validation(obj){
-			//json형식의 파일첨부를 위해서는 그냥 json이 아닌 application/json을 받아야함.
-		    const fileTypes = ['application/json'];
-		    console.log("파일 첨부형식: "+obj.type);
-		    
-		    if(obj.size > (1024 * 1024 * 5)){
-		    	 alert("최대 첨부 가능한 파일은 5MB입니다.");
-			     return false;
-		    }else if(!fileTypes.includes(obj.type)){
-		    	alert("json형식의 파일만 첨부 가능합니다.");
-		    }else{
-		    	console.log("파일크기: " + obj.size );
-		    	console.log("파일 형식 검증완료");
-		    	return true;
-		    }
-		}
-		function submitfile(){
-			console.log("파일첨부버튼 실행");
-			//debugger;
-		  	
-			/* var form2 = $('#uploadJson')[0].file.value;
-			console.log("form2: "+form2);
-			var form = $('#uploadJson')[0];
-			var formData = new FormData(form); */
-			var form = $('#uploadJson')[0];
-			var formData = new FormData(form);
-			//var uploadFormData = new FormData();
-			//uploadFormData.append("file1", $("#file")[0].files[0]);
-			
-			if(fileFlag=="true"){
-				console.log("**파일첨부 true확인");
-				let obj = {
-						jsonData : 'aaaa',
-				}
-				$.ajax({ 
-					url :'uploadFile.do',
-					type:"POST",
-				    //dataType:"json",
-				    //contentType : 'application/json; charset=UTF-8',
-				    //enctype: 'multipart/form-data',  
-				    processData: false,    
-			        contentType: false,      
-			        //cache: false, 
-				    data: formData,
-				    success: function(data){ 
-				    	console.log("파일업로드 성공");
-				    	//console.log("데이터 형식 확인: "+ data.items);
-				    	 item = data.items;
-				    	 //console.log(data);
-				    	 //console.log(item);
-				    	 var item2 = data.items2;
-				    	//var item3 = data.items3;
-				        //grid.resetData(item);
-				         setGridData2(item2); 
-				       // setGridData3(item3);
-				    },
-				    error: function(data) {
-				       console.log("파일업로드 실패");
-				    }
-				});
-			}
-		}
-		var x ='{"items":[{"IDX_NU":4131,"NUTR_CONT4":18,"ANIMAL_PLANT":"","SERVING_WT":"60","NUTR_CONT1":"300","NUTR_CONT2":19,"NUTR_CONT3":3,"DESC_KOR":"?????????","_attributes":{"checkDisabled":false,"rowNum":1,"checked":false,"disabled":false,"className":{"column":{},"row":[]}},"rowKey":0}],"items2":[{"IDX_NU":4132,"NUTR_CONT4":7.6,"ANIMAL_PLANT":"","SERVING_WT":"200","NUTR_CONT1":"300","NUTR_CONT2":40,"NUTR_CONT3":10,"DESC_KOR":"??&????","_attributes":{"checkDisabled":false,"rowNum":1,"checked":false,"disabled":false,"className":{"column":{},"row":[]}},"rowKey":0}]}';
-		
-		
-		console.log(x);
-		
-		</script>
 	
 	<h1>실험</h1>
 	<script>
@@ -464,6 +366,110 @@
 	<div id="grid"></div>
 	<div id="grid2"></div>
 	<div id="grid3"></div>
+	<script>
+		var fileFlag="";
+		function fileUpload(obj){
+			console.log("파일업로드");
+			console.log(obj);
+			var maxNum = 3;
+			var currentNum = obj.files.length;
+			console.log("첨부된 파일 갯수: "+ currentNum);
+			
+			if(currentNum > maxNum){
+				alert("최대 3개까지만 첨부 가능합니다.");
+				fileFlag="false";
+				return false;
+			}
+			else{
+				for (var i = 0; i <currentNum ; i++) {
+			        const file = obj.files[i];
+			        // 첨부파일 검증
+			        if (validation(file)) {
+			        	console.log(i+ "번째 파일검증");
+			        	fileFlag="true";
+			        }else{
+			        	console.log(i+ "번째 파일검증");
+			        	fileFlag="false";
+			        	return false;
+			        }
+			  }
+			}
+			
+		
+		}
+	
+		function validation(obj){
+			//json형식의 파일첨부를 위해서는 그냥 json이 아닌 application/json을 받아야함.
+		    const fileTypes = ['application/json'];
+		    console.log("파일 첨부형식: "+obj.type);
+		    
+		    if(obj.size > (1024 * 1024 * 5)){
+		    	 alert("최대 첨부 가능한 파일은 5MB입니다.");
+			     return false;
+		    }else if(!fileTypes.includes(obj.type)){
+		    	alert("json형식의 파일만 첨부 가능합니다.");
+		    }else{
+		    	console.log("파일크기: " + obj.size );
+		    	console.log("파일 형식 검증완료");
+		    	return true;
+		    }
+		}
+		function submitfile(){
+			console.log("파일첨부버튼 실행");
+			//debugger;
+		  	
+			/* var form2 = $('#uploadJson')[0].file.value;
+			console.log("form2: "+form2);
+			var form = $('#uploadJson')[0];
+			var formData = new FormData(form); */
+			var form = $('#uploadJson')[0];
+			var formData = new FormData(form);
+			//var uploadFormData = new FormData();
+			//uploadFormData.append("file1", $("#file")[0].files[0]);
+			
+			if(fileFlag=="true"){
+				console.log("**파일첨부 true확인");
+				let obj = {
+						jsonData : 'aaaa',
+				}
+				$.ajax({ 
+					url :'uploadFile.do',
+					type:"POST",
+				    dataType:"json",
+				    //contentType : 'application/json; charset=UTF-8',
+				    //enctype: 'multipart/form-data',  
+				    processData: false,    
+			        contentType: false,      
+			        //cache: false, 
+				    data: formData,
+				    success: function(data){ 
+				    	console.log("파일업로드 성공");
+				    	//console.log("데이터 형식 확인: "+ data.items);
+				    	console.log("데이터어어어11: "+data);
+				    	console.log("데이터어어어222: "+data.items);
+				    	item = data.items;
+				    	grid.resetData(item);
+				    	 //console.log(data);
+				    	 //console.log(item);
+				    	 //var item2 = data.items2;
+				    	//var item3 = data.items3;
+				      
+				         //setGridData2(item2); 
+				       // setGridData3(item3);
+				      alert("파일 업로드에 성공하셨습니다.");
+				    },
+				    error: function(data) {
+				       console.log("파일업로드 실패");
+				    }
+				});
+			}
+		}
+	//	var x ='{"items":[{"IDX_NU":4131,"NUTR_CONT4":18,"ANIMAL_PLANT":"","SERVING_WT":"60","NUTR_CONT1":"300","NUTR_CONT2":19,"NUTR_CONT3":3,"DESC_KOR":"?????????","_attributes":{"checkDisabled":false,"rowNum":1,"checked":false,"disabled":false,"className":{"column":{},"row":[]}},"rowKey":0}],"items2":[{"IDX_NU":4132,"NUTR_CONT4":7.6,"ANIMAL_PLANT":"","SERVING_WT":"200","NUTR_CONT1":"300","NUTR_CONT2":40,"NUTR_CONT3":10,"DESC_KOR":"??&????","_attributes":{"checkDisabled":false,"rowNum":1,"checked":false,"disabled":false,"className":{"column":{},"row":[]}},"rowKey":0}]}';
+		
+		
+		//console.log(x);
+		
+		</script>
 	<br/>
 	<br/>
 	
