@@ -397,7 +397,7 @@ public class testController {
 			insertFlag = 1;
 			JSONObject obj = new JSONObject();                
 			obj.put("items", selectItem);
-			
+			System.out.println("데이터 셀렉트: "+selectItem);
 			fResult= obj.toJSONString();
 		}
 		
@@ -786,14 +786,14 @@ public class testController {
 	public String uploadFile(MultipartHttpServletRequest mtfRequest) {	
 		String result="0";
 		int uploadFlag = 0;
-		
-		System.out.println("1");
+	
 		List<MultipartFile> fileList = mtfRequest.getFiles("file");
+	
 		String safeFile="";
 		String ranFilename= "";
 		int i=1;
 		JSONObject obj = new JSONObject();
-		 
+		boolean flag=false;
 		/*파일 서버에 올리기*/
 		for (MultipartFile mf : fileList)
 		{
@@ -807,6 +807,13 @@ public class testController {
 				 
 	             mf.transferTo(new File(safeFile));
 	    		 JSONObject  readFile = readJsonFile(ranFilename);
+	    		 
+	    		 flag = isJson(readFile.toString());
+	    		 System.out.println("boolean flag: "+flag);
+	    		 
+	    		 if(flag== false) {
+	    			 break;
+	    		 }
 	    		 System.out.println("readFile: "+readFile);
 	             obj.put("items"+i, readFile.get("items"));
 	             insertList = (List<NutrientDTO>)readFile.get("items");
@@ -823,8 +830,14 @@ public class testController {
 	             e.printStackTrace();
 	         }
 		  }			 
-	
-		result= obj.toJSONString();
+		
+		if(flag != false) {
+			result= obj.toJSONString();
+		}else {
+			result="UploadFalse";
+		}
+		
+		System.out.println("flag와 메세지: "+flag+" "+result );
 		
 		return result;
 	}
@@ -883,6 +896,54 @@ public class testController {
 	        }
 	   }
 		return "200";
+	}
+	
+	public boolean isJson(String json) {
+		boolean result = false;
+		String exp ="{\r\n"
+				+ "  \"param\": \"쿠키\",\r\n"
+				+ "  \"items\": [\r\n"
+				+ "    {\r\n"
+				+ "      \"IDX_NU\": 2341,\r\n"
+				+ "      \"NUTR_CONT4\": 32.1,\r\n"
+				+ "      \"ANIMAL_PLANT\": \"\",\r\n"
+				+ "      \"SORT_NU\": 76,\r\n"
+				+ "      \"SERVING_WT\": \"100\",\r\n"
+				+ "      \"NUTR_CONT1\": \"548\",\r\n"
+				+ "      \"NUTR_CONT2\": 55.8,\r\n"
+				+ "      \"NUTR_CONT3\": 7.8,\r\n"
+				+ "      \"sort\": 0,\r\n"
+				+ "      \"DESC_KOR\": \"쿠키,다크초콜릿마카다미아\",\r\n"
+				+ "      \"_attributes\": {\r\n"
+				+ "        \"checkDisabled\": false,\r\n"
+				+ "        \"rowNum\": 1,\r\n"
+				+ "        \"checked\": false,\r\n"
+				+ "        \"disabled\": false,\r\n"
+				+ "        \"className\": {\r\n"
+				+ "          \"column\": {},\r\n"
+				+ "          \"row\": []\r\n"
+				+ "        }\r\n"
+				+ "      },\r\n"
+				+ "      \"rowKey\": 0\r\n"
+				+ "    }\r\n"
+				+ "  ],\r\n"
+				+ "  \"sortFlag\": \"DESC\"\r\n"
+				+ "}}";
+		
+		JSONParser jsonParser = new JSONParser();
+		
+		try {
+			//JSONObject jsonObject = (JSONObject)jsonParser.parse(json);
+			JSONObject jsonObject = (JSONObject)jsonParser.parse(json);
+			result = true;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("json형식 확인 중 오류발생");
+		}
+		//JSONObject jsonObject = (JSONObject)jsonParser.parse(json);
+		
+		return result;
 	}
 
 }

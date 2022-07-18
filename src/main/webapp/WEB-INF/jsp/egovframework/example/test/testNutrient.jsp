@@ -431,35 +431,39 @@
 					url :'uploadFile.do',
 					type:"POST",
 				    dataType:"json",
-				    //contentType : 'application/json; charset=UTF-8',
-				    //enctype: 'multipart/form-data',  
 				    processData: false,    
 			        contentType: false,      
 			        //cache: false, 
 				    data: formData,
-				    success: function(data){ 
-				    	console.log("파일업로드 성공");
-				    	if(currentNum == 1){
-				    		item = data.items1;
-					    	grid.resetData(item);
-				    	}else if(currentNum == 2){
-				    		item = data.items1;
-					    	grid.resetData(item);
-					    	 var item2 = data.items2;				      
-					        setGridData2(item2); 
-				    	}else if(currentNum == 3){
-				    		item = data.items1;
-					    	grid.resetData(item);
-					    	 var item2 = data.items2;				      
-					        setGridData2(item2); 
-					        var item3 = data.items3;
-						     setGridData3(item3);
+				    success: function(data){
+				    	if(data != "UploadFalse"){
+					    	console.log("파일업로드 성공");
+					    	if(currentNum == 1){
+					    		item = data.items1;
+						    	grid.resetData(item);
+					    	}else if(currentNum == 2){
+					    		item = data.items1;
+						    	grid.resetData(item);
+						    	 var item2 = data.items2;				      
+						        setGridData2(item2); 
+					    	}else if(currentNum == 3){
+					    		item = data.items1;
+						    	grid.resetData(item);
+						    	 var item2 = data.items2;				      
+						        setGridData2(item2); 
+						        var item3 = data.items3;
+							     setGridData3(item3);
+				    		}
+					    	alert("파일 업로드에 성공하셨습니다.");
+				    	}else{
+				    		alert("파일속의 형식이 json 형식이 아닙니다.");
 				    	}
 				 
-				      alert("파일 업로드에 성공하셨습니다.");
+				     
 				    },
 				    error: function(data) {
-				       console.log("파일업로드 실패");
+				    	console.log(data);
+				    	alert("파일속의 형식이 json 형식이 아닙니다.\n 파일형식을 확인한 후 파일을 재첨부해주세요.");
 				    }
 				});
 			}
