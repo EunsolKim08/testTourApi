@@ -790,27 +790,27 @@ public class testController {
 		System.out.println("1");
 		List<MultipartFile> fileList = mtfRequest.getFiles("file");
 		String safeFile="";
-		 String ranFilename= "";
-		 int i=1;
-		 JSONObject obj = new JSONObject();
+		String ranFilename= "";
+		int i=1;
+		JSONObject obj = new JSONObject();
 		 
 		/*파일 서버에 올리기*/
-		 for (MultipartFile mf : fileList)
-		 {
-			 String originFileName = mf.getOriginalFilename(); //원본 파일 명 
-			 long fileSize = mf.getSize(); // 파일 사이즈
-			 System.out.println("originFileName : " + originFileName);
-			 System.out.println("fileSize : " + fileSize); 
-			 
+		for (MultipartFile mf : fileList)
+		{
+			String originFileName = mf.getOriginalFilename(); //원본 파일 명 
+		 	long fileSize = mf.getSize(); // 파일 사이즈
+		 	
 			 ranFilename=  System.currentTimeMillis() + originFileName;
 			 safeFile =fileUploadPath + ranFilename;
-			 System.out.println("파일이름: "+ranFilename);
-			 
+			 List<NutrientDTO> insertList = new ArrayList<NutrientDTO>();
 			 try {
 				 
 	             mf.transferTo(new File(safeFile));
 	    		 JSONObject  readFile = readJsonFile(ranFilename);
+	    		 System.out.println("readFile: "+readFile);
 	             obj.put("items"+i, readFile.get("items"));
+	             insertList = (List<NutrientDTO>)readFile.get("items");
+	             dataMapper.insertData(insertList);
 	         	 i++;
 	       
 	         } catch (IllegalStateException e) {
@@ -822,10 +822,7 @@ public class testController {
 	        	 System.out.println("파일업로드 오류2");
 	             e.printStackTrace();
 	         }
-
 		  }			 
-		
-		 System.out.println("파일업로드 성공");
 	
 		result= obj.toJSONString();
 		

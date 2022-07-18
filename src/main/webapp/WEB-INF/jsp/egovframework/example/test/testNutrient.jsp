@@ -290,7 +290,7 @@
 	}
 	</script>
 	<!-- <form id="fileForm" method="post" enctype="multipart/form-data">
-    	<input type="file" name="file2" multiple="true">
+    	<input type="file" name="file2" ="true">
     	<input type="button" value="버튼" onclick="test()">
 	</form> -->
 
@@ -374,11 +374,11 @@
 			console.log(obj);
 			var maxNum = 3;
 			currentNum = obj.files.length;
-			console.log("첨부된 파일 갯수: "+ currentNum);
 			
 			if(currentNum > maxNum){
 				alert("최대 3개까지만 첨부 가능합니다.");
 				fileFlag="false";
+				$("#file").val("");
 				return false;
 			}
 			else{
@@ -391,11 +391,11 @@
 			        }else{
 			        	console.log(i+ "번째 파일검증");
 			        	fileFlag="false";
+			        	$("#file").val("");
 			        	return false;
 			        }
 			  }
 			}
-			
 		
 		}
 	
@@ -417,16 +417,10 @@
 		}
 		function submitfile(){
 			console.log("파일첨부버튼 실행");
-			//debugger;
-		  	
-			/* var form2 = $('#uploadJson')[0].file.value;
-			console.log("form2: "+form2);
-			var form = $('#uploadJson')[0];
-			var formData = new FormData(form); */
+		
 			var form = $('#uploadJson')[0];
 			var formData = new FormData(form);
-			//var uploadFormData = new FormData();
-			//uploadFormData.append("file1", $("#file")[0].files[0]);
+			
 			console.log("form의 길이: "+form.length);
 			if(fileFlag=="true"){
 				console.log("**파일첨부 true확인");
