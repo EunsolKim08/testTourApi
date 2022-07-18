@@ -293,7 +293,7 @@
     	<input type="file" name="file2" ="true">
     	<input type="button" value="버튼" onclick="test()">
 	</form> -->
-
+	
 
 	<br/><br/><br/><br/><br/>
 	<div>
@@ -306,6 +306,9 @@
 	</div>
 	
 	<div style="margin-top:50px; margin-left:800px; margin-bottom:100px;'">
+		<button type="button" style="font-size:20px;" onclick="dataAdd()" >추가하기</button>
+		<button type="button" style="font-size:20px;" onclick="dateDelete()" >삭제하기</button>
+		<button type="button" style="font-size:20px;" onclick="dataSave()" >저장하기</button>
 		<button type="button" style="font-size:20px;" onclick="dataEdit()" >수정하기</button>
 		<button type="button" style="font-size:20px;"  onclick="gridExcelDownload()" >엑셀 다운로드</button>
 	</div>
@@ -436,34 +439,31 @@
 			        //cache: false, 
 				    data: formData,
 				    success: function(data){
-				    	if(data != "UploadFalse"){
-					    	console.log("파일업로드 성공");
-					    	if(currentNum == 1){
-					    		item = data.items1;
-						    	grid.resetData(item);
-					    	}else if(currentNum == 2){
-					    		item = data.items1;
-						    	grid.resetData(item);
-						    	 var item2 = data.items2;				      
-						        setGridData2(item2); 
-					    	}else if(currentNum == 3){
-					    		item = data.items1;
-						    	grid.resetData(item);
-						    	 var item2 = data.items2;				      
-						        setGridData2(item2); 
-						        var item3 = data.items3;
-							     setGridData3(item3);
-				    		}
-					    	alert("파일 업로드에 성공하셨습니다.");
-				    	}else{
-				    		alert("파일속의 형식이 json 형식이 아닙니다.");
+				    	console.log("파일업로드 성공");
+				    	if(currentNum == 1){
+				    		item = data.items1;
+					    	grid.resetData(item);
+				    	}else if(currentNum == 2){
+				    		item = data.items1;
+					    	grid.resetData(item);
+					    	 var item2 = data.items2;				      
+					        setGridData2(item2); 
+				    	}else if(currentNum == 3){
+				    		item = data.items1;
+					    	grid.resetData(item);
+					    	 var item2 = data.items2;				      
+					        setGridData2(item2); 
+					        var item3 = data.items3;
+						     setGridData3(item3);
 				    	}
-				 
-				     
+				      alert("파일 업로드에 성공하셨습니다.");
 				    },
 				    error: function(data) {
-				    	console.log(data);
-				    	alert("파일속의 형식이 json 형식이 아닙니다.\n 파일형식을 확인한 후 파일을 재첨부해주세요.");
+				    	 if(data.responseText == "UploadFalse"){ 
+				    		 alert("파일 내부의 형식이 json이 아닙니다.\n첨부파일을 확인해주세요.")
+				    		 $("#file").val("");
+				    	}
+					     else{ alert("파일업로드에 실패하였습니다.")}
 				    }
 				});
 			}
@@ -476,13 +476,37 @@
 	
 
 	<script>
+	var deleteArray = new Array();
+	function dataAdd(){
+		console.log("추가히기 버튼클릭");
+		grid.appendRow();
+	}
+	function dateDelete(){
+		console.log("삭제하기 버튼 클릭");
+		
+		console.log(deleteArray.length);
+		
+		for(var i = 0; i <deleteArray.length;i++){
+			grid.removeRow(deleteArray[i]);
+		}
+		
+	
+	}
+	function dataSave(){
+		///이 버튼 클릭시에만 ajax 통신함.
+		console.log("저장히기버튼 클릭");
+		var obj = grid.getModifiedRows();
+		console.log(obj);
+	}
 	 var grid = new tui.Grid({
  		  el: document.getElementById('grid'),
  		  pagination:true,
+ 		 rowHeaders: ['checkbox'],
  		  columns: [
  		    {
  		      header: '식품이름',
- 		      name: 'DESC_KOR' 		      
+ 		      name: 'DESC_KOR',
+ 		      editor: 'text',
  		    },
  		   {
  	 		      header: '제조사',
@@ -530,12 +554,31 @@
  			]
  	});
 	 grid.on('click', ev => {	      
-	      if(ev.rowKey == null){
+		 console.log(ev);
+		
+		 console.log("****"+grid.el.firstChild)
+	      if(ev.rowKey == null && ev.columnName!= "_checked"){
 	    	  console.log("header");
 	    	  sortVa(ev.columnName);
 	      }
+	      if(ev.columnName == "_checked"){
+	    	  console.log("확인.............!!!!");
+	    	  console.log(ev);
+	    	  console.log("컬럼: "+ ev.rowKey);
+	    	 findIdx(ev.rowKey);
+	    	 console.log("deleteArray: " + deleteArray);
+	    	 console.log("컬럼: "+ ev.instance.el.firstElementChild);
+	      }
 	  });
-	 
+	
+	function findIdx(rowKey){
+		 console.log("rowKey: "+rowKey);
+		 deleteArray.push(rowKey);
+		 /*시각적으로 해당 row를 삭제함.*/
+		 //grid.removeRow(rowKey);
+		 //grid.refreshLayout();
+		 
+	 }
 	 
 	 
 	function setGridData2(data){

@@ -809,12 +809,11 @@ public class testController {
 	    		 JSONObject  readFile = readJsonFile(ranFilename);
 	    		 
 	    		 flag = isJson(readFile.toString());
-	    		 System.out.println("boolean flag: "+flag);
 	    		 
 	    		 if(flag== false) {
 	    			 break;
 	    		 }
-	    		 System.out.println("readFile: "+readFile);
+	    	//	 System.out.println("readFile: "+readFile);
 	             obj.put("items"+i, readFile.get("items"));
 	             insertList = (List<NutrientDTO>)readFile.get("items");
 	             dataMapper.insertData(insertList);
@@ -837,7 +836,6 @@ public class testController {
 			result="UploadFalse";
 		}
 		
-		System.out.println("flag와 메세지: "+flag+" "+result );
 		
 		return result;
 	}
@@ -942,6 +940,15 @@ public class testController {
 			System.out.println("json형식 확인 중 오류발생");
 		}
 		//JSONObject jsonObject = (JSONObject)jsonParser.parse(json);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/getDeleteData.do")
+	@ResponseBody
+	public String getDeleteData() {
+		
+		String result="";
 		
 		return result;
 	}
