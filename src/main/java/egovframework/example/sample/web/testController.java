@@ -954,9 +954,11 @@ public class testController {
 			/*json Data 가공*/
 			jsonData = URLDecoder.decode(jsonData, "utf-8");
 			jsonData = jsonData.replace("jsonData=", "");
-			//createdRows
+			
 			JSONObject jsonObject = (JSONObject)jsonParser.parse(jsonData);
 			JSONArray deletedRows = (JSONArray)jsonObject.get("deletedRows");
+			JSONArray createdRows = (JSONArray)jsonObject.get("createdRows");
+			
 			JSONObject jsonObj=null ;
 			Items items = new Items();
 			
@@ -966,6 +968,12 @@ public class testController {
 				dataMapper.deleteData(items);
 				
 			}
+			
+			/*삽입 메서드 실행*/
+			List<NutrientDTO> insertList =  new ArrayList<>();
+			insertList = (List<NutrientDTO>)createdRows;
+			dataMapper.insertData(insertList);
+			
 		
 		}catch(Exception e) {
 			e.printStackTrace();
