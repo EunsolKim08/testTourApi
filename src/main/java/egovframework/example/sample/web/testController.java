@@ -962,18 +962,21 @@ public class testController {
 			JSONObject jsonObj=null ;
 			Items items = new Items();
 			
-			for(int i = 0; i<deletedRows.size() ;i ++) {
-				jsonObj = (JSONObject)deletedRows.get(i);
-				items.setIDX_NU(Integer.parseInt(jsonObj.get("IDX_NU").toString()));
-				dataMapper.deleteData(items);
-				
+			if(deletedRows.size() >0) {
+				for(int i = 0; i<deletedRows.size() ;i ++) {
+					jsonObj = (JSONObject)deletedRows.get(i);
+					items.setIDX_NU(Integer.parseInt(jsonObj.get("IDX_NU").toString()));
+					dataMapper.deleteData(items);
+					
+				}
 			}
 			
-			/*삽입 메서드 실행*/
-			List<NutrientDTO> insertList =  new ArrayList<>();
-			insertList = (List<NutrientDTO>)createdRows;
-			dataMapper.insertData(insertList);
-			
+			if(createdRows.size() > 0) {
+				/*삽입 메서드 실행*/
+				List<NutrientDTO> insertList =  new ArrayList<>();
+				insertList = (List<NutrientDTO>)createdRows;
+				dataMapper.insertData(insertList);
+			}
 		
 		}catch(Exception e) {
 			e.printStackTrace();
