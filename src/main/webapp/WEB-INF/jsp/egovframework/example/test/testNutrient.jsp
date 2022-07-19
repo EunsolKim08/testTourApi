@@ -483,7 +483,6 @@
 	}
 	function dateDelete(){
 		console.log("삭제하기 버튼 클릭");
-		console.log(deleteArray.length);
 		
 		for(var i = 0; i <deleteArray.length;i++){
 			grid.removeRow(deleteArray[i]);
@@ -492,6 +491,7 @@
 	
 	}
 	function dataSave(){
+		console.log(deleteArray);
 		///이 버튼 클릭시에만 ajax 통신함.
 		console.log("저장히기버튼 클릭");
 		var obj = grid.getModifiedRows();
@@ -505,11 +505,11 @@
 		    },
 		    contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
-		 		console.log("저장하기에 성공하셨습니다.");
 		 		alert("저장하기에 성공하셨습니다.");
+		 		/*저장하기에 성공 후 삭제 array 날리기*/
+		 		deleteArray = [];
 		    },
 		    error: function(data) {
-		    	console.log("저장하기에 실패하셨습니다.");
 		    	alert("저장하기에 실패하셨습니다.");
 		    }
 		});
@@ -517,7 +517,7 @@
 	 var grid = new tui.Grid({
  		  el: document.getElementById('grid'),
  		  pagination:true,
- 		 rowHeaders: ['checkbox'],
+ 		  rowHeaders: ['rowNum','checkbox'],
  		  columns: [
  		    {
  		      header: '식품이름',
@@ -570,22 +570,33 @@
  			]
  	});
 	 grid.on('click', ev => {	      
-		 console.log(ev);
-		
-		 console.log("****"+grid.el.firstChild)
 	      if(ev.rowKey == null && ev.columnName!= "_checked"){
 	    	  console.log("header");
 	    	  sortVa(ev.columnName);
 	      }
-	      if(ev.columnName == "_checked"){
-	    	  console.log("확인.............!!!!");
-	    	  console.log(ev.instance.el);
-	    	  console.log("컬럼: "+ ev.rowKey);
-	    	 findIdx(ev.rowKey);
-	    	
-	      }
 	  });
-	
+	 grid.on('check', ev => {
+   	  	 console.log("컬럼: "+ ev.rowKey);
+   	  	 findIdx(ev.rowKey);	
+   	  	 console.log("***check**");
+   	  	 console.log(deleteArray);
+	});
+	grid.on('uncheck', ev => {
+   	  	 console.log("컬럼: "+ ev.rowKey);
+   	  	 deleteArray.splice(ev.rowKey,1);		 
+   	     console.log("***unCheck**");
+   	  	 console.log(deleteArray);
+   	  	 //findIdx(ev.rowKey);	 
+	});
+	grid.on('checkAll', ev => {
+   	  	 for(var i = 0; i<grid.getRowCount() ; i++){
+   	  		 findIdx(i);
+   	  	 }		 
+	});
+	grid.on('uncheckAll', ev => {
+		console.log("hi"); 
+		deleteArray = [];
+	});
 	function findIdx(rowKey){
 		 console.log("rowKey: "+rowKey);
 		 deleteArray.push(rowKey);		 		 

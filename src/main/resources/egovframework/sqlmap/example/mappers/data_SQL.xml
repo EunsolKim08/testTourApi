@@ -92,10 +92,7 @@
     </insert>
     
     <delete id="deleteData" parameterType="egovframework.example.sample.web.Items">
-    	Delete 	
-    		FROM
-    	Nutrient
-    		WHERE IDX_NU= #{IDX_NU} 
+    	DELETE FROM Nutrient WHERE IDX_NU=#{IDX_NU}
     </delete>
 	
 
