@@ -477,16 +477,22 @@
 
 	<script>
 	var deleteArray = new Array();
+	var deleteArray2 = new Array();
+	var arrayObj ={};
 	function dataAdd(){
 		console.log("추가히기 버튼클릭");
 		grid.appendRow();
 	}
 	function dateDelete(){
 		console.log("삭제하기 버튼 클릭");
-		
-		for(var i = 0; i <deleteArray.length;i++){
-			grid.removeRow(deleteArray[i]);
+		for (var key in arrayObj) {
+			 // console.log("key " + key + " has value " + arrayObj[key]);
+			  grid.removeRow(arrayObj[key]);
 		}
+	
+		/* for(var i = 0; i <deleteArray.length;i++){
+			grid.removeRow(deleteArray[i]);
+		} */
 		grid.refreshLayout();
 	
 	}
@@ -580,12 +586,15 @@
    	  	 findIdx(ev.rowKey);	
    	  	 console.log("***check**");
    	  	 console.log(deleteArray);
+   	  	 console.log(arrayObj);
 	});
 	grid.on('uncheck', ev => {
    	  	 console.log("컬럼: "+ ev.rowKey);
    	  	 deleteArray.splice(ev.rowKey,1);		 
    	     console.log("***unCheck**");
    	  	 console.log(deleteArray);
+   	 	 delete arrayObj[ev.rowKey];
+   	 	 console.log(arrayObj);
    	  	 //findIdx(ev.rowKey);	 
 	});
 	grid.on('checkAll', ev => {
@@ -597,9 +606,13 @@
 		console.log("hi"); 
 		deleteArray = [];
 	});
+
 	function findIdx(rowKey){
-		 console.log("rowKey: "+rowKey);
-		 deleteArray.push(rowKey);		 		 
+		 deleteArray.push(rowKey);	
+		 console.log("rowKey: "+ rowKey);
+		 var x = rowKey;
+		 console.log(x);
+		 arrayObj[rowKey] = rowKey;
 	 }
 	 
 	 
