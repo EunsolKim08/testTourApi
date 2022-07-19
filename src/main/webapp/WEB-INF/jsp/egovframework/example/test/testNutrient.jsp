@@ -476,8 +476,6 @@
 	
 
 	<script>
-	var deleteArray = new Array();
-	var deleteArray2 = new Array();
 	var arrayObj ={};
 	function dataAdd(){
 		console.log("추가히기 버튼클릭");
@@ -489,15 +487,10 @@
 			 // console.log("key " + key + " has value " + arrayObj[key]);
 			  grid.removeRow(arrayObj[key]);
 		}
-	
-		/* for(var i = 0; i <deleteArray.length;i++){
-			grid.removeRow(deleteArray[i]);
-		} */
 		grid.refreshLayout();
 	
 	}
 	function dataSave(){
-		console.log(deleteArray);
 		///이 버튼 클릭시에만 ajax 통신함.
 		console.log("저장히기버튼 클릭");
 		var obj = grid.getModifiedRows();
@@ -512,8 +505,8 @@
 		    contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
 		 		alert("저장하기에 성공하셨습니다.");
-		 		/*저장하기에 성공 후 삭제 array 날리기*/
-		 		deleteArray = [];
+		 		/*저장하기에 성공 후 삭제 arrayObj 날리기*/
+		 		 arrayObj ={};
 		    },
 		    error: function(data) {
 		    	alert("저장하기에 실패하셨습니다.");
@@ -585,14 +578,10 @@
    	  	 console.log("컬럼: "+ ev.rowKey);
    	  	 findIdx(ev.rowKey);	
    	  	 console.log("***check**");
-   	  	 console.log(deleteArray);
    	  	 console.log(arrayObj);
 	});
 	grid.on('uncheck', ev => {
-   	  	 console.log("컬럼: "+ ev.rowKey);
-   	  	 deleteArray.splice(ev.rowKey,1);		 
    	     console.log("***unCheck**");
-   	  	 console.log(deleteArray);
    	 	 delete arrayObj[ev.rowKey];
    	 	 console.log(arrayObj);
    	  	 //findIdx(ev.rowKey);	 
@@ -608,10 +597,6 @@
 	});
 
 	function findIdx(rowKey){
-		 deleteArray.push(rowKey);	
-		 console.log("rowKey: "+ rowKey);
-		 var x = rowKey;
-		 console.log(x);
 		 arrayObj[rowKey] = rowKey;
 	 }
 	 
