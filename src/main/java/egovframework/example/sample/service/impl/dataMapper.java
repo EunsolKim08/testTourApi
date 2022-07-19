@@ -22,5 +22,7 @@ public interface dataMapper {
 	public ArrayList<Items> gridSortData (HashMap<String, Object> map);
 	
 	public void fileUpload(List<JsonData> list);
+	
+	public void deleteData(Items itmes);
 
 }

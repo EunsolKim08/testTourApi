@@ -176,10 +176,10 @@
 		    data: obj,
 		    success: function(data){ 
 		    	console.log("ds"); 
-		    	console.log("조회데이터 형식1: "+data);
+		    	//console.log("조회데이터 형식1: "+data);
 		    	//console.log("데이터 형식 확인: "+ data.items);
 		    	item = data.items;
-		    	console.log("조회데이터 형식2: "+item);
+		    	//console.log("조회데이터 형식2: "+item);
 		        grid.resetData(item);
 		        jsonObj=data;
 		    	//grid.readData(item);
@@ -483,20 +483,34 @@
 	}
 	function dateDelete(){
 		console.log("삭제하기 버튼 클릭");
-		
 		console.log(deleteArray.length);
 		
 		for(var i = 0; i <deleteArray.length;i++){
 			grid.removeRow(deleteArray[i]);
 		}
-		
+		grid.refreshLayout();
 	
 	}
 	function dataSave(){
 		///이 버튼 클릭시에만 ajax 통신함.
 		console.log("저장히기버튼 클릭");
 		var obj = grid.getModifiedRows();
-		console.log(obj);
+		obj = JSON.stringify(obj);
+		$.ajax({ 
+			url :'getSaveData.do',
+			type: 'POST', 
+		    dataType:"json",
+		    data: { 
+		    	jsonData: obj,
+		    },
+		    contentType : 'application/json; charset=UTF-8',
+		    success: function(data){ 
+		 		console.log("저장하기에 성공하셨습니다.");
+		    },
+		    error: function(data) {
+		    	console.log("저장하기에 실패하셨습니다.");
+		    }
+		});
 	}
 	 var grid = new tui.Grid({
  		  el: document.getElementById('grid'),
@@ -563,21 +577,16 @@
 	      }
 	      if(ev.columnName == "_checked"){
 	    	  console.log("확인.............!!!!");
-	    	  console.log(ev);
+	    	  console.log(ev.instance.el);
 	    	  console.log("컬럼: "+ ev.rowKey);
 	    	 findIdx(ev.rowKey);
-	    	 console.log("deleteArray: " + deleteArray);
-	    	 console.log("컬럼: "+ ev.instance.el.firstElementChild);
+	    	
 	      }
 	  });
 	
 	function findIdx(rowKey){
 		 console.log("rowKey: "+rowKey);
-		 deleteArray.push(rowKey);
-		 /*시각적으로 해당 row를 삭제함.*/
-		 //grid.removeRow(rowKey);
-		 //grid.refreshLayout();
-		 
+		 deleteArray.push(rowKey);		 		 
 	 }
 	 
 	 

@@ -944,11 +944,33 @@ public class testController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/getDeleteData.do")
+	@RequestMapping(value = "/getSaveData.do")
 	@ResponseBody
-	public String getDeleteData() {
+	public String getSaveData(@RequestBody String jsonData) {
 		
-		String result="";
+		String result="1";
+		JSONParser jsonParser = new JSONParser();
+		try {
+			/*json Data 가공*/
+			jsonData = URLDecoder.decode(jsonData, "utf-8");
+			jsonData = jsonData.replace("jsonData=", "");
+			//createdRows
+			JSONObject jsonObject = (JSONObject)jsonParser.parse(jsonData);
+			JSONArray deletedRows = (JSONArray)jsonObject.get("deletedRows");
+			JSONObject jsonObj=null ;
+			Items items = new Items();
+			
+			for(int i = 0; i<deletedRows.size() ;i ++) {
+				jsonObj = (JSONObject)deletedRows.get(i);
+				items.setIDX_NU(Integer.parseInt(jsonObj.get("IDX_NU").toString()));
+				dataMapper.deleteData(items);
+				
+			}
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		return result;
 	}
