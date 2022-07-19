@@ -216,10 +216,7 @@
 						}
 						i++;
 					}
-						
-						 
-						console.log("파싱 준비: " + jsonRe);
-						
+					
 						nutrientCd =  document.staticSearch.nCd.value;
 						var datCa = JSON.parse(jsonRe);
 						var dataCa0 = '[';
@@ -247,7 +244,6 @@
 						
 						var dataCa5 = "]";
 						arrObj = arrObj.concat(dataCa5);
-						//var x = ''.concat(dataCa0, dataCa1,dataCa2,dataCa3,dataCa4,dataCa5); 
 						console.log( "x의 형태: "+ arrObj);
 						var dataSe=eval(arrObj);
 						const data = {

@@ -26,6 +26,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -33,6 +34,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -42,6 +44,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 
 import egovframework.example.sample.service.impl.dataMapper;
 import egovframework.example.sample.service.impl.staticsMapper;
@@ -947,13 +950,12 @@ public class testController {
 	@RequestMapping(value = "/getSaveData.do")
 	@ResponseBody
 	public String getSaveData(@RequestBody String jsonData) {
-		
 		String result="1";
 		JSONParser jsonParser = new JSONParser();
 		try {
 			/*json Data 가공*/
 			jsonData = URLDecoder.decode(jsonData, "utf-8");
-			jsonData = jsonData.replace("jsonData=", "");
+			//jsonData = jsonData.replace("jsonData=", "");
 			
 			JSONObject jsonObject = (JSONObject)jsonParser.parse(jsonData);
 			JSONArray deletedRows = (JSONArray)jsonObject.get("deletedRows");
@@ -977,11 +979,26 @@ public class testController {
 				insertList = (List<NutrientDTO>)createdRows;
 				dataMapper.insertData(insertList);
 			}
-		
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	@RequestMapping(value = "/getSaveData2.do", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String getSaveData2(@RequestBody String obj) {
 		
+		String result="1";
+	
+		System.out.println("실행222: "+ obj);
+		try {
+			obj = URLDecoder.decode(obj, "utf-8");
+			System.out.println(obj);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return result;
 	}

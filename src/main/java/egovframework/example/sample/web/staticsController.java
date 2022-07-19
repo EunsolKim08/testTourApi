@@ -74,7 +74,6 @@ public class staticsController {
 		
 		rdto = staticsMapper.filterCode(cdto);
 		
-	//	System.out.println(rdto.getCD_NAME());
 		String castId = rdto.getCD_NAME();
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -90,11 +89,7 @@ public class staticsController {
 		String convertResult="";		
 		
 		obj.put("items", filterList);
-		//System.out.println(obj);
 		convertResult = obj.toString();
-		//System.out.println("convertResult확인: "+convertResult);
-		
-		System.out.println("실행");
 		
 		return obj.toJSONString();
 	}
@@ -118,9 +113,6 @@ public class staticsController {
 		JSONArray jsonArr = new JSONArray();
 		JSONParser jsonParser = new JSONParser();
 		
-		
-		System.out.println("차트 그룹코드: "+ groupCd+", 필수선택 코드1: "+nutrientCd +"필수선택 코드2: " +searchWord);
-		
 		CodeDTO cdto = new CodeDTO();
 		CodeDTO rdto = new CodeDTO();
 		
@@ -129,7 +121,6 @@ public class staticsController {
 		
 		rdto = staticsMapper.filterCode(cdto);
 		
-		//System.out.println(rdto.getCD_NAME());
 		String castId = rdto.getCD_NAME();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("CAST_ID",castId);
@@ -143,7 +134,6 @@ public class staticsController {
 		
 		 try { 
 			 json = objectMapper.writeValueAsString(filterList);
-			// System.out.println("char Json: "+ json); 
 			 jsonArr = (JSONArray)jsonParser.parse(json);
 				
 				JSONObject jsonObj=null ;
@@ -158,19 +148,14 @@ public class staticsController {
 				
 				for(int i = 0; i<cFlag;i++) {
 					jsonObj = (JSONObject)jsonArr.get(i);
-					//System.out.println((String)jsonObj.get("DESC_KOR"));
-				
+			
 					String desc = (String)jsonObj.get("DESC_KOR");
-					//categories += " \"\r" + desc +"\"\r" ;
+					
 					categories += (String)jsonObj.get("DESC_KOR");
 					nuDa1 += jsonObj.get("NUTR_CONT1");
 					nuDa2 += jsonObj.get("NUTR_CONT2");
 					nuDa3 += jsonObj.get("NUTR_CONT3");
-					nuDa4 += jsonObj.get("NUTR_CONT4");
-					//nuDa2 += (String)jsonObj.get("NUTR_CONT2");
-					//nuDa3 += (String)jsonObj.get("NUTR_CONT3");
-					//nuDa4 += (String)jsonObj.get("NUTR_CONT4");
-					
+					nuDa4 += jsonObj.get("NUTR_CONT4");				
 					
 					if(i < cFlag-1) {
 						nuDa1+=",";
@@ -191,7 +176,6 @@ public class staticsController {
 		 e.printStackTrace(); 
 		 }
 		 
-		// System.out.println("categories: " + categories);
 		JSONObject obj = new JSONObject(); 
 		obj.put("categories", categories);
 		obj.put("nuDa1", nuDa1);

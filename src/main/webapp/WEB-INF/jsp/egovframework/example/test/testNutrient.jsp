@@ -265,8 +265,6 @@
 	</div>
 	<br/>
 	
-	
-	<h1>실험</h1>
 	<script>
 	function test(){
 		var formData = new FormData($('#fileForm')[0]);
@@ -478,11 +476,9 @@
 	<script>
 	var arrayObj ={};
 	function dataAdd(){
-		console.log("추가히기 버튼클릭");
 		grid.appendRow();
 	}
 	function dateDelete(){
-		console.log("삭제하기 버튼 클릭");
 		for (var key in arrayObj) {
 			 // console.log("key " + key + " has value " + arrayObj[key]);
 			  grid.removeRow(arrayObj[key]);
@@ -491,17 +487,22 @@
 	
 	}
 	function dataSave(){
-		///이 버튼 클릭시에만 ajax 통신함.
+		///저장 버튼 클릭시에만 ajax 통신함.
 		console.log("저장히기버튼 클릭");
 		var obj = grid.getModifiedRows();
 		obj = JSON.stringify(obj);
+		console.log("obj: " + obj);
+		let test={
+				obj :obj
+		}
 		$.ajax({ 
 			url :'getSaveData.do',
 			type: 'POST', 
 		    dataType:"json",
-		    data: { 
+		  /*   data: { 
 		    	jsonData: obj,
-		    },
+		    },   */
+		    data: obj,
 		    contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
 		 		alert("저장하기에 성공하셨습니다.");
@@ -584,7 +585,6 @@
    	     console.log("***unCheck**");
    	 	 delete arrayObj[ev.rowKey];
    	 	 console.log(arrayObj);
-   	  	 //findIdx(ev.rowKey);	 
 	});
 	grid.on('checkAll', ev => {
    	  	 for(var i = 0; i<grid.getRowCount() ; i++){
@@ -592,7 +592,6 @@
    	  	 }		 
 	});
 	grid.on('uncheckAll', ev => {
-		console.log("hi"); 
 		deleteArray = [];
 	});
 
