@@ -506,9 +506,11 @@
 		    contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
 		 		console.log("저장하기에 성공하셨습니다.");
+		 		alert("저장하기에 성공하셨습니다.");
 		    },
 		    error: function(data) {
 		    	console.log("저장하기에 실패하셨습니다.");
+		    	alert("저장하기에 실패하셨습니다.");
 		    }
 		});
 	}
