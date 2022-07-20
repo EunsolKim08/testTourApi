@@ -333,6 +333,7 @@ public class testController {
 		String fResult="1";
 		
 		ArrayList<Items> selectItem = null;
+		List<Items> list;
 		Items items = new Items();
 		
 		items.setDESC_KOR(searchValue);
@@ -1002,5 +1003,16 @@ public class testController {
 		
 		return result;
 	}
-
+	@RequestMapping(value = "/getSaveData3.do", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String getSaveData3(@RequestBody Product test) {
+		
+		String result="1";
+	
+		System.out.println("실행333: "+ test);
+	
+		
+		return result;
+	}
+	
 }

@@ -486,25 +486,56 @@
 		grid.refreshLayout();
 	
 	}
+	function test(){
+		var array = new Array();
+		
+		for(var i = 0 ; i<10; i++){
+			var map = new Object();
+			map.id="product_"+i;
+			map.data=100;
+			array.push(map);
+		}
+		let test = {
+			id :"1234",
+		}
+		console.log(JSON.stringify(test));
+		console.log("실행");
+        $.ajax({			
+        	type:'POST',	
+        	url:"getSaveData3.do",		
+        	data: JSON.stringify(test),			
+        	dataType: "json",		
+        	contentType : 'application/json; charset=UTF-8',
+        	cache:false,
+        	success : function(data) {
+        		alert(data);
+        		//location.href="/boardList";		
+        	},		
+        	error: function(data) {			
+        		alert("실패");
+        	}	
+        	}
+        );
+       
+	}
 	function dataSave(){
 		///저장 버튼 클릭시에만 ajax 통신함.
 		console.log("저장히기버튼 클릭");
 		var obj = grid.getModifiedRows();
+		/*값 추가가 필요할때는 그 obj 자체의 객체에 key값으로 value를 추가한다.*/
+		//obj["test"] = "testCase";
 		obj = JSON.stringify(obj);
 		console.log("obj: " + obj);
-		let test={
-				obj :obj
-		}
+	
 		$.ajax({ 
 			url :'getSaveData.do',
 			type: 'POST', 
-		    dataType:"json",
-		  /*   data: { 
-		    	jsonData: obj,
-		    },   */
-		    data: obj,
+		    dataType:"text",
+		    //data: JSON.stringify(param),
+		   data: obj,
 		    contentType : 'application/json; charset=UTF-8',
 		    success: function(data){ 
+		    	console.log(data);
 		 		alert("저장하기에 성공하셨습니다.");
 		 		/*저장하기에 성공 후 삭제 arrayObj 날리기*/
 		 		 arrayObj ={};

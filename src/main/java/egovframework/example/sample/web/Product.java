@@ -9,10 +9,8 @@ import lombok.ToString;
 @ToString
 @Data
 @NoArgsConstructor
-public class JsonData {
-	
-	//String orginalName;
-	//String saveName;
-	List<createdRows> createdRows;
-	List<deletedRows> deletedRows;
+public class Product {
+	private String id;
+	private int data;
+
 }
