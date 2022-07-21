@@ -8,7 +8,7 @@
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
 <link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />
-<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
+<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script> 
 <meta charset="UTF-8">
 <title>영양성분 3가지방법 통계 분석</title>
 
