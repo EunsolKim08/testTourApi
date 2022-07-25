@@ -371,8 +371,6 @@
 		var fileFlag="";
 		var currentNum;
 		function fileUpload(obj){
-			console.log("파일업로드");
-			console.log(obj);
 			var maxNum = 3;
 			currentNum = obj.files.length;
 			
@@ -387,10 +385,8 @@
 			        const file = obj.files[i];
 			        // 첨부파일 검증
 			        if (validation(file)) {
-			        	console.log(i+ "번째 파일검증");
 			        	fileFlag="true";
 			        }else{
-			        	console.log(i+ "번째 파일검증");
 			        	fileFlag="false";
 			        	$("#file").val("");
 			        	return false;
@@ -399,26 +395,19 @@
 			}
 		
 		}
-	
 		function validation(obj){
 			//json형식의 파일첨부를 위해서는 그냥 json이 아닌 application/json을 받아야함.
-		    const fileTypes = ['application/json'];
-		    console.log("파일 첨부형식: "+obj.type);
-		    
+		    const fileTypes = ['application/json'];		    
 		    if(obj.size > (1024 * 1024 * 5)){
 		    	 alert("최대 첨부 가능한 파일은 5MB입니다.");
 			     return false;
 		    }else if(!fileTypes.includes(obj.type)){
 		    	alert("json형식의 파일만 첨부 가능합니다.");
 		    }else{
-		    	console.log("파일크기: " + obj.size );
-		    	console.log("파일 형식 검증완료");
 		    	return true;
 		    }
 		}
 		function submitfile(){
-			console.log("파일첨부버튼 실행");
-		
 			var form = $('#uploadJson')[0];
 			var formData = new FormData(form);
 			
